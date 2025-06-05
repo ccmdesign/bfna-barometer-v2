@@ -3,7 +3,14 @@
     <p class="h3 text-align:center">The site will spotlight trending transatlantic topics and find potential alignment between the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states.</p>
   </bar-section>
   
-  <bar-map-section id="map" />
+  <ccm-tabs :tabs="tabs" centered> <!-- TODO: had to use the ccmTabs components because the barTabs didn't properly inherit the slots and functionality-->
+    <template #regions>
+      <bar-map-section id="map" />
+    </template>
+    <template #topics>
+      <bar-topics-section />
+    </template>
+  </ccm-tabs>
 
   <bar-section>
     <div class="switcher">
@@ -30,7 +37,10 @@
 </template>
 
 <script setup>
-
+const tabs = [
+  { label: 'Regions', slot: 'regions', count: 0, class: '' },
+  { label: 'Topics', slot: 'topics', count: 0, class: '' },
+]
 </script>
 
 <style scoped>
