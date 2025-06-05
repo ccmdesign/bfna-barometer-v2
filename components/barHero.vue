@@ -10,7 +10,7 @@
 
       <div class="cluster">
         <bar-button variant="primary" color="white">Start Now</bar-button>
-        <bar-button variant="secondary" color="white-faded">Watch Video</bar-button>
+        <bar-button variant="secondary" color="white-alpha-10">Watch Video</bar-button>
       </div>
     </div>
   </ccm-hero>
