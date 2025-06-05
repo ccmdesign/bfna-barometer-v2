@@ -1,9 +1,8 @@
 <template>
   <ccm-master-grid>
-    <ccm-topbar id="topbar" />
-    <ccm-hero id="hero" />
+    <bar-hero id="hero" />
     <slot />
-    <ccm-footer id="footer" />
+    <bar-footer id="footer" />
   </ccm-master-grid>
 </template>
 
@@ -14,7 +13,7 @@
 }
 
 #hero {
-  grid-row: 1 / 5;
+  grid-row: 1 / 3;
   z-index: 1;
 }
 
