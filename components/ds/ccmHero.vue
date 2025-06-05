@@ -1,6 +1,8 @@
 <template>
-  <div class="footer | subgrid">
-    <h1>Footer</h1>
+  <div class="hero | subgrid">
+    <slot>
+      <h1>Hero</h1>
+    </slot>
   </div>
 </template>
 
@@ -9,10 +11,9 @@
 </script>
 
 <style scoped>
-.footer {
-  background-color: green;
+.hero {
+  background-color: yellow;
   display: grid;
   grid-column: full-start / full-end;
-  z-index: 1;
 }
 </style>
