@@ -2,16 +2,17 @@
   <ccm-hero class="hero">
     <bar-topbar id="topbar" />
     <div class="hero-content">
-      
-      <h3>Welcome to the</h3>
-      <h1>Transatlantic Barometer</h1>
-      
-      <p>This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
+      <slot>
+        <h3>Welcome to the</h3>
+        <h1>Transatlantic Barometer</h1>
+        
+        <p>This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
 
-      <div class="cluster">
-        <bar-button variant="primary" color="white">Start Now</bar-button>
-        <bar-button variant="secondary" color="white-alpha-10">Watch Video</bar-button>
-      </div>
+        <div class="cluster">
+          <bar-button variant="primary" color="white">Start Now</bar-button>
+          <bar-button variant="secondary" color="white-alpha-10">Watch Video</bar-button>
+        </div>
+      </slot>
     </div>
   </ccm-hero>
 </template>

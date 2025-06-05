@@ -22,6 +22,10 @@
   /* data-split - isso é um modifier do cluster, que empurra os elementos para o lado oposto do parent */
   [split-left] { margin-left: auto; }
   [split-right] { margin-right: auto; }
+
+  &[centered] {
+    justify-content: center;
+  }
 }
 
 .center {

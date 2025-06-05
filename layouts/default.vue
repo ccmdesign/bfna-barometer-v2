@@ -1,6 +1,6 @@
 <template>
   <ccm-master-grid>
-    <bar-hero id="hero" />
+    
     <slot />
     <bar-footer id="footer" />
   </ccm-master-grid>
