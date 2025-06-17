@@ -7,7 +7,7 @@
   --body-font: "trade-gothic-next", sans-serif;
   --body-font-weight: 400;
   --body-font-style: normal;
-  --font-family-icon: "Material Icons Outlined";
+  /* --font-family-icon: "Material Icons Outlined"; */
 }
 
 :root {
@@ -49,26 +49,7 @@
 }
 
 /* Buttons */
-:root {
-  --button-border-radius: 80px;
-  
-  --button-padding-block-xs: var(--space-2xs);
-  --button-padding-inline-xs: var(--space-xs);
-  
-  --button-padding-block-s: var(--space-xs);
-  --button-padding-inline-s: var(--space-s);
-  
-  --button-padding-block-m: var(--space-s);
-  --button-padding-inline-m: var(--space-l);
-  
-  --button-padding-block-l: var(--space-m);
-  --button-padding-inline-l: var(--space-xl);
 
-  --button-padding-block-xl: var(--space-l);
-  --button-padding-inline-xl: var(--space-2xl);
-
-
-}
 
 
 
@@ -83,7 +64,8 @@
   /* --_input-border-color-focus: var(--base-color-40-tint); */
   /* --_input-background-color: var(--base-color-07-tint); */
   /* --_input-color: var(--base-color); */
-  --_input-border-radius: 80px;
+  
+  --button-border-radius: 80px;
 
   /* Multiselect */
   /* --_multiselect-padding-block: var(--_input-padding-block);
