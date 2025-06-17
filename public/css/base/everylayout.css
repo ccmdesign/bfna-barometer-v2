@@ -12,6 +12,9 @@
   margin-block-start: var(--_stack-space, 1.5rem);
 }
 
+.stack [split-up] { margin-block-start: max(var(--_stack-space), auto); }
+.stack [split-down] { margin-block-end: max(var(--_stack-space), auto); }
+
 .cluster {
   display: flex;
   flex-wrap: wrap;

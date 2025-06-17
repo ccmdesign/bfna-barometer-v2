@@ -3,10 +3,16 @@
   --white-hsl: 255, 100%, 100%;
   --black-hsl: 0, 0%, 3%;
 
-  --base-hsl: var(--black-hsl);   /* black */   
+  --base-hsl: 199, 86%, 8%;   /* black */   
+  --accent-hsl: 30, 100%, 60%; /* orange */
+
+
+
+
+
   --primary-hsl: 45, 100%, 50%;   /* yellow */
   --secondary-hsl: 0, 84%, 34%;   /* red */
-  --accent-hsl: var(--black-hsl); /* black */
+  
 
   --red-hsl: 352, 59%, 55%;
   --yellow-hsl: 36 83%, 61%;

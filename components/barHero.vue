@@ -1,8 +1,8 @@
 <template>
   <ccm-hero class="hero">
     <bar-topbar id="topbar" />
-    <div class="hero-content">
-      <slot>
+    <div class="hero-content | stack">
+      <slot name="column_left">
         <h3>Welcome to the</h3>
         <h1>Transatlantic Barometer</h1>
         
@@ -13,6 +13,7 @@
           <bar-button variant="secondary" color="white-alpha-10">Watch Video</bar-button>
         </div>
       </slot>
+      <slot name="column_right"></slot>
     </div>
   </ccm-hero>
 </template>
@@ -21,7 +22,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .hero {
   background-color: var(--base-color);
   display: grid;

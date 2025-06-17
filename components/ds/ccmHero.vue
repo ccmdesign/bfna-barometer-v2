@@ -1,9 +1,9 @@
 <template>
-  <div class="hero | subgrid">
+  <ccm-base-section class="hero | subgrid">
     <slot>
       <h1>Hero</h1>
     </slot>
-  </div>
+  </ccm-base-section>
 </template>
 
 <script setup>
@@ -12,8 +12,9 @@
 
 <style scoped>
 .hero {
-  background-color: yellow;
   display: grid;
   grid-column: full-start / full-end;
+  
+  background-color: var(--base-color) !important;
 }
 </style>

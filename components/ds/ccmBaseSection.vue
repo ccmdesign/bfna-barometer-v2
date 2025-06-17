@@ -1,5 +1,5 @@
 <template>
-  <section class="base-section | subgrid" :background-color="backgroundColor" >
+  <section class="base-section | subgrid" :background-color="backgroundColor" :size="size">
     <slot />
   </section>
 </template>
@@ -10,8 +10,10 @@ const props = defineProps({
     type: String,
     default: 'white'
   },
-
-  
+  size: {
+    type: String,
+    default: 'm'
+  }
 })
 </script>
 
@@ -27,8 +29,33 @@ const props = defineProps({
 }
 
 .base-section {
-  padding-block: var(--base-padding-block);
+  padding-block: var(--_section-padding);
 }
+
+.base-section[size="s"] { 
+  --_section-padding: var(--space-s); 
+}
+
+.base-section[size="m"] { 
+  --_section-padding: var(--space-m); 
+}
+
+.base-section[size="l"] { 
+  --_section-padding: var(--space-l); 
+}
+
+.base-section[size="xl"] { 
+  --_section-padding: var(--space-xl); 
+}
+
+.base-section[size="2xl"] { 
+  --_section-padding: var(--space-2xl); 
+}
+
+.base-section[size="3xl"] { 
+  --_section-padding: var(--space-3xl); 
+}
+
 
 
 

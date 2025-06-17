@@ -1,6 +1,6 @@
 @layer typography {
   :root {
-    font-family: "trade-gothic-next", sans-serif;
+    font-family: var(--body-font);
     font-optical-sizing: auto;
     font-weight: var(--body-font-weight);
     font-style: var(--body-font-style);
@@ -25,38 +25,38 @@
   .h5,
   h6,
   .h6 {
-    font-family: "trade-gothic-next", sans-serif;
+    font-family: var(--body-font);
     margin-block: 0;
   }
 
   h1,
   .h1 {
-    font-size: var(--size-4);
+    font-size: var(--size-5);
     font-weight: 600;
   }
   h2,
   .h2 {
-    font-size: var(--size-1);
+    font-size: var(--size-4);
     font-weight: 500;
   }
   h3,
   .h3 {
-    font-size: var(--size-1);
+    font-size: var(--size-3);
     font-weight: 500;
   }
   h4,
   .h4 {
-    font-size: var(--size-0);
+    font-size: var(--size-2);
     font-weight: 500;
   }
   h5,
   .h5 {
-    font-size: var(--size-0);
+    font-size: var(--size-1);
     font-weight: 500;
   }
   h6,
   .h6 {
-    font-size: var(--size--1);
+    font-size: var(--size-0);
     font-weight: 500;
     text-transform: uppercase;
   }

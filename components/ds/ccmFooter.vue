@@ -1,9 +1,9 @@
 <template>
-  <div class="footer | subgrid">
+  <ccm-base-section class="footer | subgrid">
     <slot>
       <h1>Footer</h1>
     </slot>
-  </div>
+  </ccm-base-section>
 </template>
 
 <script setup>

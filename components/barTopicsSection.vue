@@ -38,7 +38,7 @@
 .topics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--space-s);
+  gap: var(--base-gutter);
 }
 
 .topic-card {
