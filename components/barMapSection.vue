@@ -10,7 +10,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .map-section {
   grid-column: content-start / content-end;
   display: grid;

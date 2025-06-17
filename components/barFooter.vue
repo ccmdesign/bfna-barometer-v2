@@ -17,7 +17,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .footer-content {
   
   @media (min-width: 768px) {

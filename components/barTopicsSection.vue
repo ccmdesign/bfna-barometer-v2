@@ -26,7 +26,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .topics-section {
   grid-column: content-start / content-end;
 }
