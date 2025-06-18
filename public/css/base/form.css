@@ -1,0 +1,26 @@
+input[type="text"],
+input[type="email"] {
+  border-radius: 80px;
+  border: 1px solid var(--base-color-70-tint);
+  padding: var(--space-xs) var(--space-s);
+  background-color: transparent;
+  color: var(--white-color);
+  font-size: var(--size-1);
+  font-weight: 100;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+input::placeholder {
+  color: var(--base-color-70-tint);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--base-color-40-tint);
+  box-shadow: var(--box-shadow-s);
+}

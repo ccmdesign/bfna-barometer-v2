@@ -87,7 +87,7 @@
 .switcher {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--base-gutter);
+  gap: var(--_switcher-gap, var(--base-gutter));
 }
 
 .switcher > * {

@@ -1,25 +1,25 @@
-.text-align\:left { text-align: left;}
-.text-align\:center { text-align: center;}
-.text-align\:right { text-align: right;}
+.text-align\:left { text-align: left !important; }
+.text-align\:center { text-align: center !important; }
+.text-align\:right { text-align: right !important; }
 
-.justify-content\:center { justify-content: center; }
-.justify-content\:start { justify-content: start; }
-.justify-content\:end { justify-content: end; }
-.justify-content\:between { justify-content: space-between; }
-.justify-content\:around { justify-content: space-around; }
-.justify-content\:evenly { justify-content: space-evenly; }
+.justify-content\:center { justify-content: center !important; }
+.justify-content\:start { justify-content: start !important; }
+.justify-content\:end { justify-content: end !important; }
+.justify-content\:between { justify-content: space-between !important; }
+.justify-content\:around { justify-content: space-around !important; }
+.justify-content\:evenly { justify-content: space-evenly !important; }
 
-.align-items\:center { align-items: center; }
-.align-items\:start { align-items: start; }
-.align-items\:end { align-items: end; }
-.align-items\:baseline { align-items: baseline; }
-.align-items\:stretch { align-items: stretch; }
+.align-items\:center { align-items: center !important; }
+.align-items\:start { align-items: start !important; }
+.align-items\:end { align-items: end !important; }
+.align-items\:baseline { align-items: baseline !important; }
+.align-items\:stretch { align-items: stretch !important; }
 
-.align-self\:center { align-self: center; }
-.align-self\:start { align-self: start; }
-.align-self\:end { align-self: end; }
-.align-self\:baseline { align-self: baseline; }
-.align-self\:stretch { align-self: stretch; }
+.align-self\:center { align-self: center !important; }
+.align-self\:start { align-self: start !important; }
+.align-self\:end { align-self: end !important; }
+.align-self\:baseline { align-self: baseline !important; }
+.align-self\:stretch { align-self: stretch !important; }
 
 .padding-block\:3xs { padding-block: var(--space-3xs); }
 .padding-block\:2xs { padding-block: var(--space-2xs); }

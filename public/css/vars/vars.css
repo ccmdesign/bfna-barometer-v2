@@ -15,8 +15,8 @@
   --link-color: var(--base-color);
   --base-gutter: var(--space-s);
 
-  /* --base-padding-block: var(--space-s);
-  --base-padding-inline: var(--space-l); */
+  --base-padding-block: var(--space-s);
+  --base-padding-inline: var(--space-l);
   
   /* --base-separator: 1px solid var(--base-color-10-tint); */
   /* --base-separator-dark: 1px solid var(--base-color-80-tint); */
@@ -55,17 +55,20 @@
 
 /* Inputs */
 :root {
-  /* --_input-font-size: var(--size-0); */
-  /* --_input-padding-block: calc(var(--space-xs) + var(--_input-border-width)); */
-  /* --_input-padding-inline: var(--space-s); */
-  /* --_input-border-width: 1px; */
-  /* --_input-border-style: solid; */
-  /* --_input-border-color: var(--base-color-20-tint); */
-  /* --_input-border-color-focus: var(--base-color-40-tint); */
-  /* --_input-background-color: var(--base-color-07-tint); */
-  /* --_input-color: var(--base-color); */
-  
   --button-border-radius: 80px;
+  
+  /* --_input-font-size: var(--size-0);
+  --_input-padding-block: calc(var(--space-xs) + var(--_input-border-width));
+  --_input-padding-inline: var(--space-s);
+  --_input-border-width: 1px;
+  --_input-border-style: solid;
+  --_input-border-color: var(--base-color-20-tint);
+  --_input-border-color-focus: var(--base-color-40-tint);
+  --_input-background-color: var(--base-color-07-tint);
+  --_input-color: var(--base-color);
+  --_input-border-radius: var(--button-border-radius); */
+  
+  
 
   /* Multiselect */
   /* --_multiselect-padding-block: var(--_input-padding-block);
