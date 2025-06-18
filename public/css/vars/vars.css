@@ -33,9 +33,9 @@
 :root {
   --border: 2px solid currentColor;
 
-  /* --border-radius-s: 4px;
+  --border-radius-s: 4px;
   --border-radius-m: 8px;
-  --border-radius-l: 12px; */
+  --border-radius-l: 12px;
 
   --box-shadow-inset: inset rgba(0, 0, 0, 0.03) 0px 0px 4px 0px;
 
