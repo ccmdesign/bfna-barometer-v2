@@ -31,11 +31,11 @@
 
 /* Effects */
 :root {
-  /* --border: 2px solid currentColor;
+  --border: 2px solid currentColor;
 
-  --border-radius-s: 4px;
+  /* --border-radius-s: 4px;
   --border-radius-m: 8px;
-  --border-radius-l: 12px;
+  --border-radius-l: 12px; */
 
   --box-shadow-inset: inset rgba(0, 0, 0, 0.03) 0px 0px 4px 0px;
 
@@ -44,8 +44,8 @@
   --box-shadow-m: rgba(0, 0, 0, 0.03) 0px 3px 4px 0px, rgba(0, 0, 0, 0.03) 0px 0px 4px 0px, rgba(0, 0, 0, 0.03) 0px 0px 8px 0px,
     rgba(0, 0, 0, 0.035) 0px 0px 16px 0px;
 
-  --box-shadow-l: rgba(0, 0, 0, 0.03) 0px 3px 4px 0px, rgba(0, 0, 0, 0.03) 0px 0px 4px 0px, rgba(0, 0, 0, 0.03) 0px 0px 8px 0px,
-    rgba(0, 0, 0, 0.05) 0px 0px 16px 0px, rgba(0, 0, 0, 0.035) 0px 0px 32px 0px; */
+  --box-shadow-l: rgba(0, 0, 0, 0.03) 0px 3px 4px 0px, 
+    rgba(0, 0, 0, 0.05) 0px 0px 16px 0px, rgba(0, 0, 0, 0.035) 0px 0px 32px 0px;
 }
 
 /* Buttons */

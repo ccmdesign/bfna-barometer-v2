@@ -241,6 +241,10 @@ const componentEl = computed(() => el.value || defaultEl.value)
   line-height: 0;
 }
 
+.button:has(.icon:only-child) {
+  padding-inline: var(--button-padding-block);
+}
+
 .button:has(.icon:first-child) {
   padding-left: calc(var(--_button-padding-inline) * .7);
 }

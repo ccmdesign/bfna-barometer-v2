@@ -1,6 +1,6 @@
 <template>
   <div class="flag" :country="country">
-    <img :src="`https://flagcdn.com/${country}.svg`" width="100" :alt="countryName">
+    <img :src="`https://flagcdn.com/${country}.svg`" :alt="countryName">
   </div>
 </template>
 
@@ -19,7 +19,12 @@ const countryName = computed(() => getCountryName(props.country))
 
 <style scoped>
 .flag {
-  width: 100px;
-  height: auto;
+  width: auto;
+  box-shadow: var(--box-shadow-l);
+  border-radius: var(--border-radius-m);
+  overflow: hidden;
+  padding: var(--space-3xs);
+  background-color: var(--white-color);
+  
 }
 </style>
