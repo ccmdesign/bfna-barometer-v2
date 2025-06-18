@@ -47,6 +47,8 @@ const activeTab = ref(0)
 
 .ccm-tabs__tabs {
   cursor: pointer;
+  
+  
   background-color: transparent;
   margin-inline: var(--space-2xs);
   --_cluster-space: var(--space-m);
@@ -58,12 +60,23 @@ const activeTab = ref(0)
 
 .tab-button {
   transition: all 0.2s ease-in-out;
+  line-height: 180%;
+  letter-spacing: -1%;
+  font-size: var(--size-2);
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  text-decoration: none;
 }
 
 .tab-button__count {
 }
 
 .tab-button.active {
+  font-weight: 700;
   position: relative;
 
   &::after {
@@ -72,8 +85,8 @@ const activeTab = ref(0)
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 2px;
-    background-color: var(--white-color);
+    height: 4px;
+    background-color: var(--accent-color);
   }
 }
 

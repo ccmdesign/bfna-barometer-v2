@@ -205,7 +205,7 @@ const componentEl = computed(() => el.value || defaultEl.value)
 }
 
 .button[variant="primary"][color="accent"] { 
-  --_button-text-color: var(--white-color); 
+  --_button-text-color: var(--base-color); 
   --_button-border-color: var(--accent-color);
   --_button-background-color: var(--accent-color);
 }
@@ -214,6 +214,26 @@ const componentEl = computed(() => el.value || defaultEl.value)
   --_button-text-color: var(--white-color); 
   --_button-border-color: transparent;
   --_button-background-color: var(--white-color-10-alpha);
+}
+
+.button[variant="primary"][color="white"] { 
+  --_button-text-color: var(--base-color); 
+  --_button-border-color: var(--base-color);
+  --_button-background-color: var(--white-color);
+}
+
+.button[variant="link"][color="white"] {
+  --_button-text-color: var(--white-color);
+  --_button-border-color: transparent;
+  --_button-background-color: transparent;
+  --_button-font-weight: 600;
+}
+
+.button[variant="link"][color="base"] {
+  --_button-text-color: var(--base-color);
+  --_button-border-color: var(--base-color);
+  --_button-background-color: transparent;
+  --_button-font-weight: 600;
 }
 
 .button .icon {
