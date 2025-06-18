@@ -9,6 +9,12 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+:deep(a) {
+  color: var(--base-color-70-tint);
+}
 
+:deep(a:hover) {
+  color: var(--white-color);
+}
 </style>
