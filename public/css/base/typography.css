@@ -33,20 +33,19 @@
   .h1 {
     font-size: var(--size-5);
     font-weight: 600;
+    line-height: 110%;
   }
   h2,
   .h2 {
     font-size: var(--size-4);
     font-weight: 500;
+    line-height: 110%;
   }
-
-  
-
-
 
   h3,
   .h3 {
     font-size: var(--size-3);
+    line-height: 110%;
     
   }
 

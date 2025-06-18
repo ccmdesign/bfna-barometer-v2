@@ -2,7 +2,7 @@
   <bar-hero id="hero" />
   
   <bar-section>
-    <p class="h3 text-align:center">The site will spotlight trending transatlantic topics and find potential alignment between the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states.</p>
+    <p class="highlight | text-align:center">The site will spotlight trending transatlantic topics and find potential alignment between the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states.</p>
   </bar-section>
   
   <ccm-tabs :tabs="tabs" centered> <!-- TODO: had to use the ccmTabs components because the barTabs didn't properly inherit the slots and functionality-->
@@ -55,5 +55,14 @@ const tabs = [
 }
 .homepage__related-projects {
   --_stack-space: var(--space-2xs);
+}
+
+.highlight {
+  font-size: var(--size-2);
+  line-height: 150%;
+  letter-spacing: -1%;
+  font-weight: 300;
+  max-width: 65ch;
+  margin-inline: auto;
 }
 </style>
