@@ -9,8 +9,8 @@
         <p>This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
 
         <div class="cluster">
-          <bar-button variant="primary" color="white">Start Now</bar-button>
-          <bar-button variant="secondary" color="white-alpha-10">Watch Video</bar-button>
+          <bar-button variant="primary" color="white"><span>Start Now</span><span class="icon">download</span></bar-button>
+          <bar-button variant="primary" color="faded"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
         </div>
       </slot>
       <slot name="column_right"></slot>
