@@ -17,7 +17,7 @@
           </div>
         </slot>
       </div>
-      <div class="hero-content__inner | stack">
+      <div class="hero-content__inner | stack | padding-block:m">
         <slot name="column_right"></slot>
       </div>
     </div>
@@ -49,8 +49,8 @@
 
   --_stack-space: var(--space-m);
 
-  hgroup {
-    --_stack-space: var(--space-3xs);
+  :deep(hgroup) {
+    --_stack-space: var(--space-2xs);
   }
 }
 

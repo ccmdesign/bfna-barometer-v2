@@ -1,20 +1,18 @@
 <template>
   <bar-hero>
-    <div class="switcher">
-      <div class="section-panel">
+    <template #column_left>
+      <hgroup class="stack">
         <h3>Governance & Democracy</h3>
         <h1>Democracy</h1>
         <p>Statements compiled in May 2025</p>
         <p>The transatlantic alliance is built on a foundation of shared democratic values. In recent years, transatlantic partners have experienced both democratic backsliding and increased democratization.</p>
         <p>Hungarian democracy has eroded to such an extent that the European Parliament declared in 2022 that it is no longer a “full democracy”. At the same time, Poland’s new government has committed to strengthening democratic institutions after years of backsliding under the former PiS-led government, showing a potential path forward for other transatlantic partners facing democratic decline. This indicator focuses on three key aspects of democratic health: electoral fairness, press freedom, and judicial independence.</p>
         <p>These measures are supplemented by assessments of the state of democracy in each Barometer country, sourced from the Regimes of the World dataset included in the Varieties of Democracy Institute’s yearly reports. One challenge in measuring an ever-evolving topic such as democracy is the lag between reported data and changes in government administration or policies. Some datasets used in this indicator are updated through 2023 or 2024, meaning more recent events may not be fully reflected in their scores. However, in combination with cited news articles, these datasets provide a clear snapshot of the state of democracy in each Barometer country.</p>
-      </div>
-      <div class="section-panel">
-        <div class="aux-card">
-          <h3>Video</h3>
-        </div>
-      </div>
-    </div>
+      </hgroup>
+    </template>
+    <template #column_right>
+      <img src="/assets/video-thumbnail.png" alt="Video thumbnail">
+    </template>
   </bar-hero>
 
   <bar-section>
