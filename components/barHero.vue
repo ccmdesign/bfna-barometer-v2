@@ -36,4 +36,8 @@
 
   color: var(--white-color);
 }
+
+.hero {
+  padding-block: var(--space-xs) var(--space-2xl);
+}
 </style>

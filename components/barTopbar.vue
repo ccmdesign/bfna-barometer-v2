@@ -1,14 +1,18 @@
 <template>
   <ccm-topbar class="topbar">
-    <h1 class="h2"><nuxt-link to="/">Transatlantic Barometer</nuxt-link></h1>
+    <h1 unstyled><nuxt-link to="/" title="Transatlantic Barometer"><img src="/assets/barometer-logo.svg" alt="Transatlantic Barometer" /></nuxt-link></h1>
     <nav split-left>
       <ul class="topbar__nav | cluster">
-        <li><ccm-button el="a" href="/topic" color="white" variant="link">Topic</ccm-button></li>
-        <li><ccm-button el="a" href="/region" color="white" variant="link">Region</ccm-button></li>
-        <li><ccm-button el="a" href="/compare" color="base" variant="primary">Compare</ccm-button></li>
+        <li><bar-button el="a" href="/topic" color="white" size="s" variant="link">Topic</bar-button></li>
+        <li><bar-button el="a" href="/region" color="white" size="s" variant="link">Region</bar-button></li>
+        <li><bar-button el="a" href="/compare" color="white" size="s" variant="primary">Compare</bar-button></li>
       </ul>
     </nav>
-    <h2><nuxt-link to="/">BFNA Logo</nuxt-link></h2>
+    <h2 unstyled>
+      <a href="https://www.bfna.org" target="_blank" title="Bertelsmann Foundation" class="topbar__logo">
+        <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation" />
+      </a>
+    </h2>
   </ccm-topbar>
 </template>
 
