@@ -5,11 +5,11 @@
       <div class="hero-content__inner | stack">
         <slot name="column_left">
           <hgroup class="stack">
-            <h3>Welcome to the</h3>
+            <h3 class="h2">Welcome to the</h3>
             <h1>Transatlantic Barometer</h1>
           </hgroup>
           
-          <p class="color:base-40-tint">This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
+          <p class="font-size:2 | color:base-40-tint">This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
 
           <div class="cluster">
             <bar-button variant="primary" color="white"><span>Start Now</span><span class="icon">download</span></bar-button>
@@ -41,18 +41,20 @@
   grid-row: 2 / 3;
   color: var(--white-color);
 
+  /* --_stack-space: var(--space-m); */
+
   @media (min-width: 768px) {
-  display: grid;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-m);
   }
 
-  --_stack-space: var(--space-m);
+  
+}
 
-  :deep(hgroup) {
+:deep(hgroup) {
     --_stack-space: var(--space-2xs);
   }
-}
 
 .hero {
   padding-block: var(--space-xs) var(--space-2xl);

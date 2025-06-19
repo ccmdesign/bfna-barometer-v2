@@ -3,7 +3,7 @@
     <div class="map-section__map">
       <h1 class="color:base-20-tint" style="font-size: 8rem">Map</h1>
     </div>
-    <bar-flags />
+    <bar-flags controls="true" />
   </bar-section>
 </template>
 

@@ -37,35 +37,38 @@
   }
   h2,
   .h2 {
-    font-size: var(--size-4);
+    font-size: var(--size-3);
     font-weight: 500;
     line-height: 110%;
   }
 
   h3,
   .h3 {
-    font-size: var(--size-3);
+    font-size: var(--size-2);
     line-height: 110%;
     
   }
 
   h4,
   .h4 {
-    font-size: var(--size-2);
+    font-size: var(--size-1);
     font-weight: 700;
     line-height: 120%;
     letter-spacing: -1%;
   }
   h5,
   .h5 {
-    font-size: var(--size-1);
-    font-weight: 500;
+    font-size: var(--size-0);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
   h6,
   .h6 {
     font-size: var(--size-0);
-    font-weight: 700;
+    font-weight: 400;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   p, dl, li {

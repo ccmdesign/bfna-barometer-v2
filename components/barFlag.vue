@@ -25,6 +25,18 @@ const countryName = computed(() => getCountryName(props.country))
   overflow: hidden;
   padding: var(--space-3xs);
   background-color: var(--white-color);
+  transition: all 0.3s ease;
   
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.flag:hover {
+  transform: scale(1.25);
+  transform-origin: bottom;
+  box-shadow: var(--box-shadow-xl);
 }
 </style>

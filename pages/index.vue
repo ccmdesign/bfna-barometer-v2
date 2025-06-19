@@ -17,15 +17,15 @@
   <bar-section size="l" color="faded" class="homepage__about">
     <div class="switcher">
       <div class="section-panel | stack">
-        <h2 class="h6">About</h2>
+        <h2 class="h5">About</h2>
         <p>There is no closer geopolitical relationship than the transatlantic alliance. Yet, it is often difficult to know how individual actors are engaging on important issues impacting the larger community. With that challenge in mind, the Bertelsmann Foundation has developed the Transatlantic Barometer, an interactive digital platform that provides up-to-date information on pressing issues shaping the transatlantic relationship.</p>
         <p>The Transatlantic Barometer’s main fixture is a website that provides users with a synopsis of the policy positions and engagement of 31 key transatlantic actors: the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states. The Barometer provides users with two ways of accessing information. First, users can click on featured topics, generating a carousel of all transatlantic stakeholder positions. Alternatively, users can click on individual actors, revealing a carousel connecting the stakeholder to all featured topics. The Barometer also offers explanatory animations, written analyses, and infographics to highlight the factors driving country-specific policy.</p>
       </div>
       <div class="section-panel | stack">
-        <h2 class="h6">Methodology</h2>
+        <h2 class="h5">Methodology</h2>
         <p>The project team regularly identifies pressing topics shaping the transatlantic relationship. The team then engages with subject matter experts on both sides of the Atlantic to determine the best approach to encapsulate each topic. All information is reviewed by a comprehensive list of knowledge partners including diplomats, think tank experts, and academic institutions.</p>
         
-        <h2 class="h6">Related Projects</h2>
+        <h2 class="h5">Related Projects</h2>
         <ul class="homepage__related-projects | stack">
           <li><a href="#">Transatlantic Periscope</a> <span class="icon" size="xs">open_in_new</span></li>
           <li><a href="#">Transatlantic Trends 2022</a> <span class="icon" size="xs">open_in_new</span></li>
@@ -54,6 +54,7 @@ const tabs = [
   --_stack-space: var(--space-s);
 }
 .homepage__related-projects {
+  margin-block-start: var(--space-s);
   --_stack-space: var(--space-2xs);
 }
 

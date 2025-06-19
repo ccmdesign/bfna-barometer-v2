@@ -1,19 +1,55 @@
 <template>
-  <div class="tag">
-    <slot></slot>
+  <div class="tag" @click="toggleVisibility" :visible="isVisible" :country-name="countryName" :country-code="countryCode">
+    <slot>
+      {{ countryName }}
+    </slot>
+    <span class="icon" size="xs">{{ icon }}</span>
   </div>
 </template>
 
 <script setup>
 
+const props = defineProps({
+  countryName: {
+    type: String,
+    required: true
+  },
+  countryCode: {
+    type: String,
+    required: true
+  }
+})
+
+const isVisible = ref(true)
+
+const toggleVisibility = () => {
+  isVisible.value = !isVisible.value
+}
+
+const icon = computed(() => {
+  return isVisible.value ? 'visibility' : 'visibility_off'
+})
+
 </script>
 
 <style scoped>
 .tag {
-  background-color: gray;
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: 30px;
-  border: 1px solid red;
-  color: white
+  background-color: var(--base-color-05-tint);
+  padding: var(--space-3xs) var(--space-s) var(--space-2xs);
+  border-radius: var(--button-border-radius);
+  font-weight: 600;
+  color: var(--base-color-80-shade);
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3xs);
+
+  .icon {
+    color: var(--base-color-40-tint);
+  }
+
+  &[visible="false"] {
+    opacity: 0.5;
+  }
 }
 </style>

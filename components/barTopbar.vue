@@ -8,7 +8,7 @@
         <li><bar-button el="a" href="/compare" color="white" size="s" variant="primary">Compare</bar-button></li>
       </ul>
     </nav>
-    <h2 unstyled>
+    <h2 unstyled class="hide-on-mobile">
       <a href="https://www.bfna.org" target="_blank" title="Bertelsmann Foundation" class="topbar__logo">
         <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation" />
       </a>

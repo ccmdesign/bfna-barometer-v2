@@ -50,6 +50,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-color: #fff #000;
+  gap: var(--_reel-gap, 1rem);
 }
 
 .reel::-webkit-scrollbar {
@@ -77,7 +78,7 @@
 }
 
 .reel > * + * {
-  margin-inline-start: 1rem;
+  /* margin-inline-start: var(--_reel-gap, 1rem); */
 }
 
 .reel.overflowing {
@@ -99,3 +100,20 @@
 .switcher > :nth-last-child(n+ 5) ~ * {
   flex-basis: 100%;
 }
+
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+}
+
+.with-sidebar > :last-child {
+  flex-grow: 1;
+}
+
+.with-sidebar > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 50%;
+}
+  

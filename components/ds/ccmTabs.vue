@@ -1,6 +1,6 @@
 <template>
   <div class="ccm-tabs | subgrid" :centered="props.centered">
-    <div class="ccm-tabs__tabs | subgrid cluster" >
+    <div class="ccm-tabs__tabs | subgrid reel" >
       <button 
         v-for="(tab, index) in props.tabs"
         :key="index"
@@ -47,14 +47,12 @@ const activeTab = ref(0)
 
 .ccm-tabs__tabs {
   cursor: pointer;
-  
-  
   background-color: transparent;
   margin-inline: var(--space-2xs);
-  --_cluster-space: var(--space-m);
+  --_reel-gap: var(--space-xl);
 }
 
-[centered] .ccm-tabs__tabs {
+[centered="true"] .ccm-tabs__tabs {
   justify-content: center;
 }
 
