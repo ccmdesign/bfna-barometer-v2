@@ -1,15 +1,30 @@
 <template>
   <bar-hero>
-    <div class="switcher">
-      <div class="section-panel">
-        <bar-flag country="ca" />        
+    <template #column_left>
+      <hgroup class="stack">
+        <bar-back-button />
+        <bar-flag country="ca" size="small" />        
         <h1>Canada</h1>
-      </div>
-    </div>
+      </hgroup>
+    </template>
+    <template #column_right>
+      <bar-button el="button" @click="data.showRegionSelector = !data.showRegionSelector" class="align-self:end justify-self:end" color="faded" variant="primary" size="s">Change Region <span class="icon" v-if="!data.showRegionSelector">arrow_downward</span><span class="icon" v-else>cancel</span></bar-button>
+    </template>
   </bar-hero>
 
-  <bar-section>
+  <bar-section v-if="data.showRegionSelector" color="faded">
+    <h2 class="h4">Change the country</h2>
     <bar-flags />
+  </bar-section>
+
+  <bar-section  color="faded">
+    <h2 class="h4">Change the topic</h2>
+    <div class="topic-selector | flex | justify-content:center | padding-top:s">
+      <bar-button size="xs" color="gray" variant="primary"><span class="icon">inventory_2</span> View Archived Topics</bar-button>
+    </div>
+    <div class="topic-selector | flex gap:xs | justify-content:center | padding-top:s">
+      <bar-button size="xs" :color="topic.active ? 'base' : 'white'" variant="primary" v-for="topic in topics" :key="topic.title">{{ topic.title }} <span class="topic-date">{{ topic.date }}</span> <span class="topic-new" v-if="topic.new">new</span></bar-button>
+    </div>
   </bar-section>
 
   <bar-section color="faded">
@@ -59,6 +74,12 @@
 </template>
 
 <script setup>
+import { reactive } from 'vue';
+
+const data = reactive({
+  showRegionSelector: false
+})
+
 const tabs = [
   { label: 'Liberal Democracy', slot: 'tab1' },
   { label: 'Electoral Democracy', slot: 'tab2' },
@@ -123,8 +144,77 @@ const data_cards = [
     "scale": 1
   }
 ]
+
+const topics = [
+  {
+    "title": "Democracy",
+    "active": true,
+    "new": true,
+    date: 'May `25'
+  },
+  {
+    "title": "Security & Defense",
+    "active": false,
+    "new": false,
+    date: 'May `25'
+  },
+  {
+    "title": "Elections & Vote Turnout",
+    "active": false,
+    "new": false,
+    date: 'May `25'
+  },
+  {
+    "title": "E-Governance",
+    "active": false,
+    "new": false,
+    date: 'May `25'
+  },
+  {
+    "title": "Foreign Direct Investment",
+    "active": false,
+    "new": false,
+    date: 'May `25'
+  },
+  {
+    "title": "Migration",
+    "active": false,
+    "new": false,
+    date: 'May `25'
+  },
+  {
+    "title": "Artificial Intelligence",
+    "active": false,
+    "new": false,
+    date: 'May `25'
+  }
+]
 </script>
 
 <style scoped>
 
+.hero {
+  --hero-gradient-color: var(--base-color-07-tint);
+}
+ :deep(.hero-content__inner) {
+  justify-content: flex-end;
+ }
+
+ .h4 {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+ }
+
+ .topic-date {
+  font-weight: 300;
+ }
+
+ .topic-new {
+  background-color: var(--accent-color);
+  font-size: var(--size--2);
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius:  var(--space-xs);
+  color: var(--white-color);
+ }
 </style>

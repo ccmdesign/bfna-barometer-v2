@@ -2,6 +2,7 @@
   <bar-hero>
     <template #column_left>
       <hgroup class="stack">
+        <bar-back-button />
         <h3 class="h6">Governance & Democracy</h3>
         <h1>Democracy</h1>
         <p class="margin-bottom:m">Statements compiled in May 2025</p>
@@ -134,7 +135,7 @@ const data_cards = [
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 hgroup {
   --_stack-space: var(--space-2xs);
 }
@@ -151,5 +152,12 @@ hgroup {
   --_cluster-space: var(--space-xl);
 }
 
+.hero {
+  --hero-gradient-color: var(--base-color-07-tint);
+}
+
+.bar-footer {
+  --footer-gradient-color: var(--white-color);
+}
 
 </style>

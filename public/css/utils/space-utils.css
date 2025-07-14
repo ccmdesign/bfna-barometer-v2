@@ -16,10 +16,16 @@
 .align-items\:stretch { align-items: stretch !important; }
 
 .align-self\:center { align-self: center !important; }
-.align-self\:start { align-self: start !important; }
-.align-self\:end { align-self: end !important; }
+.align-self\:start { align-self: flex-start !important; }
+.align-self\:end { align-self: flex-end !important; }
 .align-self\:baseline { align-self: baseline !important; }
 .align-self\:stretch { align-self: stretch !important; }
+
+.justify-self\:center { justify-self: center !important; }
+.justify-self\:start { justify-self: flex-start !important; }
+.justify-self\:end { justify-self: flex-end !important; }
+.justify-self\:baseline { justify-self: baseline !important; }
+.justify-self\:stretch { justify-self: stretch !important; }
 
 
 .padding-block\:0 { padding-block: 0 !important; }

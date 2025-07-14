@@ -17,11 +17,28 @@
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .bar-footer {
+  --footer-gradient-color: var(--base-color-07-tint);
   background-color: var(--base-color);
   color: var(--white-color);
   padding-block: var(--space-2xl) var(--space-xs);
+  position: relative;
+  overflow: hidden;
+  & > * {
+    position: relative;
+    z-index: 3;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0% ;
+    left: -350%;
+    right: -350%;
+    top: -175%;
+    z-index: 1;
+    background: radial-gradient(ellipse at bottom, transparent 0%, transparent 25%, var(--footer-gradient-color) 25%, var(--footer-gradient-color) 100%);
+  }
 }
 
 .footer-content {

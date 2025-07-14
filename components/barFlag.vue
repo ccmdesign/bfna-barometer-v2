@@ -1,5 +1,5 @@
 <template>
-  <div class="flag" :country="country">
+  <div class="flag" :class="{ 'flag--small': size === 'small' }" :country="country">
     <img :src="`https://flagcdn.com/${country}.svg`" :alt="countryName">
   </div>
 </template>
@@ -9,6 +9,10 @@ const props = defineProps({
   country: {
     type: String,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'medium'
   }
 })
 import { useCountries } from '~/composables/countries'
@@ -34,7 +38,12 @@ const countryName = computed(() => getCountryName(props.country))
   }
 }
 
-.flag:hover {
+.flag--small {
+  width: 200px;
+  aspect-ratio: 16/9;
+}
+
+.flag:not(.flag--small):hover {
   transform: scale(1.25);
   transform-origin: bottom;
   box-shadow: var(--box-shadow-xl);
