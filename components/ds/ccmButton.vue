@@ -218,8 +218,14 @@ const componentEl = computed(() => el.value || defaultEl.value)
 
 .button[variant="primary"][color="white"] { 
   --_button-text-color: var(--base-color); 
-  --_button-border-color: var(--base-color);
+  --_button-border-color: var(--white-color);
   --_button-background-color: var(--white-color);
+}
+
+.button[variant="primary"][color="gray"] { 
+  --_button-text-color: var(--base-color); 
+  --_button-border-color: transparent;
+  --_button-background-color: var(--base-color-05-alpha);
 }
 
 .button[variant="link"][color="white"] {

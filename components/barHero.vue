@@ -17,7 +17,7 @@
           </div>
         </slot>
       </div>
-      <div class="hero-content__inner | stack | padding-block:m">
+      <div class="hero-content__inner | stack ">
         <slot name="column_right"></slot>
       </div>
     </div>
@@ -25,15 +25,32 @@
 </template>
 
 <script setup>
-
+  
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hero {
+  --hero-gradient-color: var(--white-color);
   background-color: var(--base-color);
   display: grid;
   grid-template-columns: subgrid;
   grid-template-rows: auto 1fr auto;
+  position: relative;
+  overflow: hidden;
+  & > * {
+    position: relative;
+    z-index: 3;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0% ;
+    left: -350%;
+    right: -350%;
+    bottom: -175%;
+    z-index: 1;
+    background: radial-gradient(ellipse at top, transparent 0%, transparent 25%, var(--hero-gradient-color) 25%, var(--hero-gradient-color) 100%);
+  }
 }
 
 .hero-content {

@@ -73,3 +73,26 @@
   grid-template-columns: subgrid;
   grid-column: inherit;
 }
+
+.flex {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.gap\:xs {
+  gap: var(--space-xs);
+}
+
+.gap\:s {
+  gap: var(--space-s);
+}
+
+.repel {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

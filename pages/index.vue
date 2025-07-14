@@ -61,9 +61,9 @@ const tabs = [
 .highlight {
   font-size: var(--size-2);
   line-height: 150%;
-  letter-spacing: -1%;
+  letter-spacing: -0.01em;
   font-weight: 300;
-  max-width: 65ch;
+  max-width: 75ch;
   margin-inline: auto;
 }
 </style>

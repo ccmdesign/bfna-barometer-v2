@@ -46,10 +46,14 @@ const countries = [
 ]
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .reel {
   --_reel-gap: var(--space-2xl);
   padding-block: var(--space-xl) var(--space-s);
+  overflow: hidden;
+  @media (max-width: 768px) {
+    overflow: visible;
+  }
 }
 
 /* Temp */
