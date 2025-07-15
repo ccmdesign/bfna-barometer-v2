@@ -10,7 +10,7 @@
       <bar-map-section id="map" />
     </template>
     <template #topics>
-      <bar-topics-section />
+      <bar-topics-section :topics="topics" @show-topics="(pay) => handleFilters(pay)" />
     </template>
   </ccm-tabs>
 
@@ -43,6 +43,33 @@ const tabs = [
   { label: 'Regions', slot: 'regions', count: 0, class: '' },
   { label: 'Topics', slot: 'topics', count: 0, class: '' },
 ]
+
+// Reactive filter state
+const filters = ref({})
+
+// Fetch topics based on filters
+const { data: topics } = await useAsyncData('topics', () => {
+  let query = queryCollection('topics')
+  // Always use boolean for isArchived
+  const archived = typeof filters.value.archived === 'boolean' ? filters.value.archived : false
+  query = query.where('isArchived', '=', archived)
+  
+  if (filters.value.sort) {
+    query = query.order('periodWithDay', filters.value.sort)
+  } else {
+    // fallback to default sorting
+    query = query.order('periodWithDay', 'DESC')
+  }
+
+  return query.all()
+
+}, { watch: [filters] })
+
+// Update filters and refetch data
+const handleFilters = (payload) => {
+  filters.value = { ...filters.value, ...payload }
+}
+
 </script>
 
 <style scoped>
