@@ -312,8 +312,20 @@ export const useCountries = () => {
     return countryNames[code] || code
   }
 
+  function getCountryCode(name) {
+      for (const [code, country] of Object.entries(countryNames)) {
+      if (country.toLowerCase() === name.toLowerCase()) {
+        return code
+      }
+    }
+    return undefined
+  }
+
+  
+
   return {
     countryNames,
-    getCountryName
+    getCountryName,
+    getCountryCode
   }
 }
