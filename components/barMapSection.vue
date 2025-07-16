@@ -1,7 +1,7 @@
 <template>
-  <bar-section class="map-section">
+  <bar-section class="map-section" size="0">
     <div class="map-section__map">
-      <h1 class="color:base-20-tint" style="font-size: 8rem">Map</h1>
+      <mapSVG />
     </div>
     <bar-flags controls="true" />
   </bar-section>
@@ -16,12 +16,20 @@
   grid-column: content-start / content-end;
   display: grid;
   grid-template-columns: subgrid;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .map-section__map {
-  background-color: var(--base-color-10-tint);
-  border-radius: var(--border-radius-l);
-  padding: var(--space-m);
-  aspect-ratio: 16 / 9;
+  position: relative;
+  width: 100vw;
+  aspect-ratio: 16 / 8;
+}
+
+:deep(.flags) {
+  position: absolute;
+  bottom: var(--space-m);
+  width: 100%;
 }
 </style>

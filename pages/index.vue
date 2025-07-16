@@ -93,4 +93,9 @@ const handleFilters = (payload) => {
   max-width: 75ch;
   margin-inline: auto;
 }
+
+:deep(.ccm-tabs__content) {
+  padding-block: 0;
+  margin-bottom: -1px;
+} 
 </style>

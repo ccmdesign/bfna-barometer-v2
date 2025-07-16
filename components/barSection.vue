@@ -49,6 +49,10 @@ const props = defineProps({
   padding-block: var(--space-m);
 }
 
+.bar-section[size="0"] {
+  padding-block: 0;
+}
+
 
 .bar-section[color="base"] {
   background-color: var(--base-color);
