@@ -59,6 +59,7 @@ const getStatements = async () => {
     if (!(countryCode in statementsByContrtry)) {
       statementsByContrtry[countryCode] = {
         slug: main.slugify(fields.country),
+        countryCode: countryCode,
         country: fields.country,
         statements: []
       };

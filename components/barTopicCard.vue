@@ -1,6 +1,6 @@
 <template>
   <div class="topic-card | stack">
-    <h3>{{ topic.topic }}</h3>
+    <h3>{{ topic.title }}</h3>
     <p class="margin-bottom:auto">{{ topic.period }}</p>
     <span v-if="topic.new" class="topic-card__new" >New</span>
     <span class="topic-card__category">{{ tags }}</span>

@@ -1,20 +1,3 @@
-<template>
-  <div class="flags" :controls="controls">
-    <div class="reel">
-      <div v-for="country in countries" :key="country" class="reel-item">
-        <bar-flag :country="country" :title="getCountryName(country)" />
-        <div class="reel-item-label">{{ getCountryName(country) }}</div>
-      </div>
-    </div>
-    
-    <div class="reel-controls" :class="{ 'reel-controls--minimal': controls == 'false' }">
-      <button class="arrow-button"><span class="icon">arrow_back_ios</span></button>
-      <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button>
-      <button class="arrow-button"><span class="icon">arrow_forward_ios</span></button>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { useCountries } from '~/composables/countries'
 
@@ -44,7 +27,36 @@ const countries = [
   'be',
   'ch',
 ]
+
+const router = useRouter()
+const handleCountryFlag = (country) => {
+  router.push({
+    name: `region-slug`,
+    path: country,
+    params: { slug: country }
+  });
+}
+
+
 </script>
+
+
+<template>
+  <div class="flags" :controls="controls">
+    <div class="reel">
+      <div v-for="country in countries" :key="country" class="reel-item">
+        <bar-flag :country="country" :title="getCountryName(country)" @click="handleCountryFlag(country)" />
+        <div class="reel-item-label">{{ getCountryName(country) }}</div>
+      </div>
+    </div>
+    
+    <div class="reel-controls" :class="{ 'reel-controls--minimal': controls == 'false' }">
+      <button class="arrow-button"><span class="icon">arrow_back_ios</span></button>
+      <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button>
+      <button class="arrow-button"><span class="icon">arrow_forward_ios</span></button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .reel {
@@ -78,6 +90,7 @@ const countries = [
 
 .flags {
   position: relative;
+  cursor: pointer;
 }
 
 .reel-controls {

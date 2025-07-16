@@ -9,17 +9,9 @@ export default defineContentConfig({
       schema: z.object({
         id: z.string(),
         slug: z.string(),
-        topic: z.string(),
-        country: z.string(),
-        description: z.string(),
-        links: z.array(
-          z.object({
-            label: z.string(),
-            url: z.string().url()
-          })
-        ),
-        furtherReading: z.array(z.any()), // Adjust type if you know the structure
-        infographicBaseData: z.number()
+        countryCode: z.string(),
+        statements: z.array(z.any()), // Adjust type if you know the structure
+        topicsIds: z.array(z.string())
       })
     }),
     topics: defineCollection({
@@ -28,9 +20,10 @@ export default defineContentConfig({
       // Define custom schema for docs collection
       schema: z.object({
         id: z.string(),
+        topicId: z.string(),
         slug: z.string(),
         isArchived: z.boolean(),
-        topic: z.string(),
+        title: z.string(),
         country: z.string(),
         description: z.string(),
         period: z.string(),

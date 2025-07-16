@@ -8,7 +8,6 @@ const props = defineProps({
 
 const selectedTag = ref('all')
 const tags = computed(() => {
-  console.log('Available tags:', props.topics);
   return props.topics
     .flatMap(topic => topic.tags && topic.tags.length ? topic.tags : [])
     .map(tag => tag.toUpperCase());
@@ -61,7 +60,7 @@ const handleArchivedTopics = () => {
     </div>
 
     <div class="topics-grid">
-      <div v-for="topic in topics" :key="topic.topic" class="topic-card">
+      <div v-for="topic in topics" :key="topic.title" class="topic-card">
         <bar-topic-card :topic="topic" />
       </div>
     </div>

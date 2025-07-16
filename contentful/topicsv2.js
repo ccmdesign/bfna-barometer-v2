@@ -96,7 +96,8 @@ const getTopics = async () => {
     
     topics[id] = {
       id: id,
-      topic: fields.topic,
+      topicId: id,
+      title: fields.topic,
       isArchived: fields.archived && fields.archived == true ? true : false,
       slug: main.slugify(fields.topic),
       description: fields.description,
