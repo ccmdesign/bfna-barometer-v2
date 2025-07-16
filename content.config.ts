@@ -11,7 +11,7 @@ export default defineContentConfig({
         slug: z.string(),
         countryCode: z.string(),
         statements: z.array(z.any()), // Adjust type if you know the structure
-        topicsIds: z.array(z.string())
+        topicsByCountry: z.array(z.string())
       })
     }),
     topics: defineCollection({
@@ -36,6 +36,7 @@ export default defineContentConfig({
         category: z.string(),
         tags: z.array(z.string()),
         new: z.boolean(),
+        active: z.boolean(),
       })
     }),
   }

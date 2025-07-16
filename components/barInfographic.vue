@@ -1,58 +1,30 @@
 <template>
   <div class="subgrid">
     <div class="bar-infographic__chart-wrapper">
-      <div class="bar-infographic__country" v-for="country in countries" :key="country.code">
-        <div class="bar-infographic__country-score" :style="{ '--score': country.score }" :score="country.score"></div>
-        <div class="bar-infographic__country-name">{{ country.code }}</div>        
+      <div class="bar-infographic__country" v-for="item in data.countries" :key="item.country">
+        <div class="bar-infographic__country-score" :style="{ '--score': item.val }" :score="item.val"></div>
+        <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>        
       </div>
     </div>
     <div class="tags | cluster" centered>
-      <bar-tag v-for="country in countries" :key="country.code" :country-name="country.country" :country-code="country.code" />
+      <bar-tag v-for="item in countries" :key="item.country" :country-name="getCountryName(item.country)" :country-code="item.country" />
     </div>
   </div>
 </template>
 
 <script setup>
+const { getCountryName } = useCountries()
 const props = defineProps({
+  data: {
+    type: Object,
+    required: false,
+  },
   title: {
     type: String,
     required: true,
   },
 })
 
-const countries = [
-  { "code": "DK", "country": "Denmark", "score": 0.88 },
-  { "code": "EE", "country": "Estonia", "score": 0.85 },
-  { "code": "SE", "country": "Sweden", "score": 0.84 },
-  { "code": "IE", "country": "Ireland", "score": 0.83 },
-  { "code": "CZ", "country": "Czech Republic", "score": 0.82 },
-  { "code": "BE", "country": "Belgium", "score": 0.81 },
-  { "code": "FI", "country": "Finland", "score": 0.80 },
-  { "code": "FR", "country": "France", "score": 0.80 },
-  { "code": "DE", "country": "Germany", "score": 0.79 },
-  { "code": "LU", "country": "Luxembourg", "score": 0.78 },
-  { "code": "LV", "country": "Latvia", "score": 0.77 },
-  { "code": "AT", "country": "Austria", "score": 0.76 },
-  { "code": "NL", "country": "Netherlands", "score": 0.76 },
-  { "code": "PT", "country": "Portugal", "score": 0.75 },
-  { "code": "GB", "country": "United Kingdom", "score": 0.75 },
-  { "code": "US", "country": "United States", "score": 0.75 },
-  { "code": "CA", "country": "Canada", "score": 0.74 },
-  { "code": "ES", "country": "Spain", "score": 0.74 },
-  { "code": "LT", "country": "Lithuania", "score": 0.73 },
-  { "code": "EU", "country": "European Union", "score": 0.70 },
-  { "code": "IT", "country": "Italy", "score": 0.70 },
-  { "code": "CY", "country": "Cyprus", "score": 0.65 },
-  { "code": "MT", "country": "Malta", "score": 0.64 },
-  { "code": "HR", "country": "Croatia", "score": 0.62 },
-  { "code": "PL", "country": "Poland", "score": 0.62 },
-  { "code": "SI", "country": "Slovenia", "score": 0.62 },
-  { "code": "GR", "country": "Greece", "score": 0.58 },
-  { "code": "SK", "country": "Slovakia", "score": 0.58 },
-  { "code": "BG", "country": "Bulgaria", "score": 0.51 },
-  { "code": "RO", "country": "Romania", "score": 0.45 },
-  { "code": "HU", "country": "Hungary", "score": 0.32 }
-]
 </script>
 
 <style scoped>
@@ -147,7 +119,7 @@ const countries = [
   }
 
   .bar-infographic__country-score {
-    height: calc(var(--score) * 100%);
+    height: calc(var(--score) * 1000%);
     background-color: var(--primary-color);
     width: 100%;
     border-radius: var(--border-radius-m) var(--border-radius-m) 0 0;

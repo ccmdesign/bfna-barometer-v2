@@ -61,11 +61,15 @@ const getStatements = async () => {
         slug: main.slugify(fields.country),
         countryCode: countryCode,
         country: fields.country,
-        statements: []
+        statements: [],
+        topicsByCountry: []
       };
     }
 
     statementsByContrtry[countryCode].statements.push(doc);
+
+    const currentTopic = checkValidTopic(fields.topic);
+    if(currentTopic) statementsByContrtry[countryCode].topicsByCountry.push(currentTopic);
 
   });
 

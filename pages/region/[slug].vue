@@ -1,67 +1,69 @@
 <script setup>
-
+import { useStatementStore } from '~/stores/statements';
 definePageMeta({
   name: 'region-slug',
 })
 
 const route = useRoute()
-const { getCountryCode, getCountryName } = useCountries()
+const { getCountryName } = useCountries()
+const showArchivedTopics = ref(false)
+const statementStore = useStatementStore()
+const statement = ref(null)
+const activeTopic = ref(null)
+statement.value = statementStore.getStatementBySlug(route.params.slug)
 
-const targetContryCode = route.params?.slug
-const { data: statement } = await useAsyncData('statements', () => {
-  let query = queryCollection('statements')
+// Fetch topics based on filters
+const { data: topics } = await useAsyncData('topics', () => {
+  let query = queryCollection('topics')
   // Always use boolean for isArchived
-  query = query.where('countryCode', '=', targetContryCode)
+  query = query.select('title', 'slug', 'new', 'active', 'topicId', 'period', 'periodWithDay', 'isArchived', 'infographics')
+  const archived = typeof showArchivedTopics.value === 'boolean' ? showArchivedTopics.value : false
+  query = query.where('isArchived', '=', archived)
+  query = query.order('periodWithDay', 'DESC')
   
-  return query.first()
+  return query.all()
 
-})
+}, { watch: [showArchivedTopics] })
+
+const handleSelectedTopic = (topicId) => {
+  topics.value = topics.value.map(topic => {
+    if (topic.topicId === topicId) {
+      topic.active = true
+      handleTabs(topic);
+    } else {
+      topic.active = false
+    }
+    return topic
+  })
+
+  handleActiveTopic();
+  
+}
+
+const handleActiveTopic = () => {
+  activeTopic.value = topics.value.find(topic => topic.active)
+  statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
+
+  handleTabs(activeTopic.value);
+}
+
+const handleArchivedTopics = () => {
+  showArchivedTopics.value = !showArchivedTopics.value;
+}
+
+const tabs = ref(null)
+const handleTabs = (topic) => {
+  tabs.value = topic.infographics?.map((infographic, index) => ({
+    label: infographic.title,
+    slot: `tab${index}`,
+    infographicType: infographic.infographicType,
+  })) || [];
+
+}
 
 const data = reactive({
   showRegionSelector: false
 })
-
-const tabs = [
-  { label: 'Liberal Democracy', slot: 'tab1' },
-  { label: 'Electoral Democracy', slot: 'tab2' },
-  { label: 'World Press Freedom', slot: 'tab3' },
-  { label: 'Judicial Independence', slot: 'tab4' },
-]
-
-const sidebar_links = [
-  {
-    "title": "V-Dem Democracy Report 2025",
-    "type": "report"
-  },
-  {
-    "title": "V-Dem Datasets 2025",
-    "type": "dataset"
-  },
-  {
-    "title": "V-Dem Datasets Archive",
-    "type": "dataset"
-  },
-  {
-    "title": "World Press Freedom Index 2025",
-    "type": "index"
-  },
-  {
-    "title": "Global State of Democracy Indices",
-    "type": "index"
-  },
-  {
-    "title": "Global State of Democracy Tracker: Canada",
-    "type": "tracker"
-  },
-  {
-    "title": "OSCE Report Canadian Elections 2021",
-    "type": "report"
-  },
-  {
-    "title": "Legal Scholars on Judicial Independence",
-    "type": "analysis"
-  }
-]
 
 const data_cards = [
   {
@@ -86,59 +88,20 @@ const data_cards = [
   }
 ]
 
-const topics = [
-  {
-    "title": "Democracy",
-    "active": true,
-    "new": true,
-    date: 'May `25'
-  },
-  {
-    "title": "Security & Defense",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Elections & Vote Turnout",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "E-Governance",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Foreign Direct Investment",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Migration",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Artificial Intelligence",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  }
-]
+
+onMounted(() => {
+  handleActiveTopic();
+})
+
 </script>
 
-<template>
+<template v-if="statement">
   <bar-hero>
     <template #column_left>
       <hgroup class="stack">
         <bar-back-button />
-        <bar-flag :country="statement.countryCode" size="small" />        
-        <h1>{{ getCountryName(statement.countryCode) }}</h1>
+        <bar-flag :country="statement.country" size="small" />        
+        <h1>{{ getCountryName(statement.country) }}</h1>
       </hgroup>
     </template>
     <template #column_right>
@@ -154,26 +117,24 @@ const topics = [
   <bar-section  color="faded">
     <h2 class="h4">Change the topic</h2>
     <div class="topic-selector | flex | justify-content:center | padding-top:s">
-      <bar-button size="xs" color="gray" variant="primary"><span class="icon">inventory_2</span> View Archived Topics</bar-button>
+      <bar-button size="xs" color="gray" variant="primary" @click="handleArchivedTopics"><span class="icon">inventory_2</span> View Archived Topics</bar-button>
     </div>
     <div class="topic-selector | flex gap:xs | justify-content:center | padding-top:s">
-      <bar-button size="xs" :color="topic.active ? 'base' : 'white'" variant="primary" v-for="topic in topics" :key="topic.title">{{ topic.title }} <span class="topic-date">{{ topic.date }}</span> <span class="topic-new" v-if="topic.new">new</span></bar-button>
+      <bar-button size="xs" :color="topic.active ? 'base' : 'white'" variant="primary" v-for="topic in topics" :key="topic.title" @click="handleSelectedTopic(topic.topicId)">{{ topic.title }} <span class="topic-date">{{ topic.period }}</span> <span class="topic-new" v-if="topic.new">new</span></bar-button>
     </div>
   </bar-section>
 
   <bar-section color="faded">
     <div class="with-sidebar">
       <div class="main-content">
-        <h2>Canada on Democracy</h2>
-        <p>Canada is classified as an electoral democracy in the Varieties of Democracy (V-Dem) Institute’s 2025 Democracy Report. This means that elections are free and fair and protection of civil liberties is “satisfactory”, but not as robust as in liberal democracies.</p>
-        <p>Canada, along with Spain, is in 17th place among the 30 Transatlantic Barometer countries on V-Dem’s Liberal Democracy Index. Canada scored 0.84/1.00 on the V-Dem Electoral Democracy Index in 2024, above the Barometer average of 0.80 and down slightly from its 0.85 in 2018. On the World Press Freedom Index, Canada scored 78.75/100 in 2025, down from its 2018 score of 84.72 but above the Barometer average of 76.07. Its Global State of Democracy Judiciary Independence score was 0.74/1.00 in 2023, a notable decline from its 0.81 score in 2018 and the same as the 0.74 Barometer average. Canada has declined on judicial independence since 2018, primarily over increasing criticism of the judiciary by political leaders and a lengthy judicial complaints process that did not provide accused judges with extensive opportunities to defend themselves.</p>
-        <p>Parliament passed changes to the judicial complaints process in 2023, but these changes are not yet reflected in the data. The Organization for Security and Cooperation in Europe noted “full confidence in the electoral process” in its report on the 2021 Canadian snap elections.</p>  
+        <h2>{{ getCountryName(statement.country) }} on Democracy</h2>
+        <p>{{ statement.description }}</p>  
       </div>
       <aside class="sidebar">
         <h2>Sources</h2>
         <ul class="stack | margin-top:s">
-          <li v-for="link in sidebar_links" :key="link.title">
-            <a :href="link.url">{{ link.title }}</a> <span class="icon" size="xs">open_in_new</span>
+          <li v-for="link in statement.links" :key="link.label">
+            <a :href="link.url">{{ link.label }}</a> <span class="icon" size="xs">open_in_new</span>
           </li>
           </ul>
         </aside>
@@ -186,21 +147,12 @@ const topics = [
     </div>
   </bar-section>
 
-  <bar-section>
+  <bar-section v-if="tabs">
     <h2 class="section-title">infographics</h2>
 
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
-      <template #tab1>
-        <bar-infographic title="Liberal Democracy" />
-      </template>
-      <template #tab2>
-        <bar-infographic title="Electoral Democracy" />
-      </template>
-      <template #tab3>
-        <bar-infographic title="World Press Freedom" />
-      </template>
-      <template #tab4>
-        <bar-infographic title="Judicial Independence" />
+      <template v-for="(infgc, index) in activeTopic.infographics" :key="infgc.infographicId" #['tab'+index]>
+        <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" />
       </template>
     </ccm-tabs>
   </bar-section>

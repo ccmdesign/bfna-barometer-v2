@@ -198,6 +198,7 @@ const getTopics = async () => {
       let interval = setDateInterval(initialDate, 30)
       
       topic.id === mostRecentlty.id || new Date() <= interval ? topic.new = true : topic.new = false;
+      topic.id === mostRecentlty.id || new Date() <= interval ? topic.active = true : topic.active = false;
     }
   }
 
