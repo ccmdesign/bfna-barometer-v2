@@ -1,20 +1,31 @@
 <template>
   <div class="subgrid">
     <div class="bar-infographic__chart-wrapper">
-      <div class="bar-infographic__country" v-for="item in data.countries" :key="item.country">
+      <div
+        class="bar-infographic__country"
+        v-for="item in visibleCountries"
+        :key="item.country"
+      >
         <div class="bar-infographic__country-score" :style="{ '--score': item.val }" :score="item.val"></div>
-        <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>        
+        <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>
       </div>
     </div>
     <div class="tags | cluster" centered>
-      <bar-tag v-for="item in countries" :key="item.country" :country-name="getCountryName(item.country)" :country-code="item.country" />
+      <bar-tag
+        v-for="item in countries"
+        :key="item.country"
+        :country-name="getCountryName(item.country)"
+        :country-code="item.country"
+        :visible="!hiddenCountries.includes(item.country)"
+        @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
 const { getCountryName } = useCountries()
-const props = defineProps({
+const { data } = defineProps({
   data: {
     type: Object,
     required: false,
@@ -25,6 +36,25 @@ const props = defineProps({
   },
 })
 
+const countries = computed(() => {
+  return data.countries || []
+})
+
+const hiddenCountries = ref([])
+const visibleCountries = computed(() => {
+  return (data.countries || []).filter(item => !hiddenCountries.value.includes(item.country))
+})
+
+const handleCountryVisibility = ({ countryCode, visible }) => {
+
+  if (!visible) {
+    if (!hiddenCountries.value.includes(countryCode)) {
+      hiddenCountries.value.push(countryCode)
+    }
+  } else {
+    hiddenCountries.value = hiddenCountries.value.filter(c => c !== countryCode)
+  }
+}
 </script>
 
 <style scoped>

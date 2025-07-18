@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-
+const emit = defineEmits(['toggleCountryVisibility'])
 const props = defineProps({
   countryName: {
     type: String,
@@ -24,6 +24,7 @@ const isVisible = ref(true)
 
 const toggleVisibility = () => {
   isVisible.value = !isVisible.value
+  emit('toggleCountryVisibility', { countryCode: props.countryCode, visible: isVisible.value })
 }
 
 const icon = computed(() => {
