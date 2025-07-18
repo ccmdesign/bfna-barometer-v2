@@ -82,12 +82,6 @@ const handleArchivedTopics = () => {
   gap: var(--base-gutter);
 }
 
-.topic-card {
-
-  &:hover {
-  }
-}
-
 .archived-active {
   background-color: var(--accent-color);
   /* background-color: var(--color-base-200); */
