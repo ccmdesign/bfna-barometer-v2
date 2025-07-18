@@ -110,9 +110,6 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
 }
 
 @media (max-width: 1024px) {
-  .bar-infographic__country {
-  }
-
   .bar-infographic__country-name {
     display: flex;
     align-items: center;

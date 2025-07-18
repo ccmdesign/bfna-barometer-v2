@@ -40,10 +40,11 @@ const handleSelectedTopic = (topicId) => {
   
 }
 
-const handleActiveTopic = () => {
+const handleActiveTopic = async () => {
   activeTopic.value = topics.value.find(topic => topic.active)
   statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
-
+  
+  await nextTick()
   handleTabs(activeTopic.value);
 }
 

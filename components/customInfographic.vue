@@ -1,12 +1,14 @@
 <template>
-  <NuxtLink 
-    :to="data.customInfographicFile.url"
-    target="_blank">
-    <div class="custom_infographic-card | stack">
-      <h3>{{ data.title }}</h3>
-      <p class="margin-bottom:auto">{{ data.infographicDescription }}</p>
-    </div>
-  </NuxtLink>
+  <div class="custom_infographic-card__wrapper">
+    <NuxtLink 
+      :to="data.customInfographicFile.url"
+      target="_blank">
+      <div class="custom_infographic-card | stack">
+        <h3>{{ data.title }}</h3>
+        <p>{{ data.infographicDescription }}</p>
+      </div>
+    </NuxtLink>
+  </div>
 </template>
 
 <script setup>
@@ -21,11 +23,16 @@
 
 <style scoped lang="scss">
 
-a {
-  text-decoration: none;
+.custom_infographic-card__wrapper {
+  width: max-content;
 }
 
+a {text-decoration: none;}
+
 .custom_infographic-card {
+  display: flex;
+  justify-content: center;
+  
   border-radius: var(--border-radius-l);
   border: 1px solid var(--base-color-20-tint);
   padding-inline: var(--space-m);
@@ -48,6 +55,7 @@ a {
   font-size: var(--size-1);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
