@@ -153,6 +153,7 @@ onMounted(() => {
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
       <template v-for="(infgc, index) in activeTopic.infographics" :key="infgc.infographicId" #['tab'+index]>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" />
+        <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
       </template>
     </ccm-tabs>
   </bar-section>
