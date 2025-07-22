@@ -156,6 +156,7 @@ onMounted(() => {
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" />
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
         <custom-infographic v-else-if="infgc.infographicType === 'customInfographic'" :data="infgc" />
+        <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" />
       </template>
     </ccm-tabs>
   </bar-section>
