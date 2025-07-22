@@ -1,10 +1,8 @@
 <template>
-  <bar-section class="map-section" size="0">
-    <div class="map-section__map">
-      <mapSVG />
-    </div>
-    <bar-flags controls="true" />
-  </bar-section>
+  <section class="map-section | subgrid">
+    <mapSVG class="map-section__map | subgrid" />
+    <bar-flags class="map-section__flags | subgrid" controls="true" />
+  </section>
 </template>
 
 <script setup>
@@ -13,23 +11,19 @@
 
 <style scoped>
 .map-section {
-  grid-column: content-start / content-end;
-  display: grid;
-  grid-template-columns: subgrid;
-  width: 100%;
   position: relative;
-  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  
 }
 
 .map-section__map {
-  position: relative;
-  width: 100vw;
-  aspect-ratio: 16 / 8;
+  
 }
 
-:deep(.flags) {
+.map-section__flags {
   position: absolute;
-  bottom: var(--space-m);
-  width: 100%;
+  bottom: 0;
+  padding-block: var(--space-m);
+  max-width: 100%;
 }
 </style>

@@ -39,7 +39,7 @@ const activeTab = ref(0)
 
 <style scoped>
 .ccm-tabs {
-  grid-column: content-start / content-end;
+  grid-column: full-start / full-end;
   display: grid;
   grid-template-columns: subgrid;
   text-align: center;
@@ -89,7 +89,7 @@ const activeTab = ref(0)
 }
 
 .ccm-tabs__content {
-  grid-column: content-start / content-end;
+  grid-column: full-start / full-end;
   display: grid;
   grid-template-columns: subgrid;
   padding-block: var(--space-m);

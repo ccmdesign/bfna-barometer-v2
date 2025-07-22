@@ -63,6 +63,7 @@ const handleCountryFlag = (country) => {
   --_reel-gap: var(--space-2xl);
   padding-block: var(--space-xl) var(--space-s);
   overflow: hidden;
+  overflow-x: auto;
   @media (max-width: 768px) {
     overflow: visible;
   }
