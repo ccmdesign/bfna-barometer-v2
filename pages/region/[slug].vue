@@ -128,7 +128,7 @@ onMounted(() => {
   <bar-section color="faded">
     <div class="with-sidebar">
       <div class="main-content">
-        <h2>{{ getCountryName(statement.country) }} on Democracy</h2>
+        <h2>{{ getCountryName(statement.country) }} on {{ activeTopic?.title }}</h2>
         <p>{{ statement.description }}</p>  
       </div>
       <aside class="sidebar">
