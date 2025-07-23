@@ -38,8 +38,6 @@ const countries = [
 
 <style scoped>
 svg {
-  border-top: 1px solid var(--base-color-10-alpha);
-  border-bottom: 1px solid var(--base-color-20-alpha);
   width: 100vw;
   position: absolute;
   top: 0;

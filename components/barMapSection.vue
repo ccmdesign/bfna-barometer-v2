@@ -11,7 +11,9 @@
 
 <style scoped>
 .map-section {
-  margin-bottom: -4px;
+  border-top: 1px solid var(--base-color-10-alpha);
+  border-bottom: 1px solid var(--base-color-20-alpha);
+  
 }
 
 .map-section,
@@ -21,6 +23,7 @@
 
 .map-section__map {
   max-width: 100%;
+  margin-bottom: -4px;
   overflow: hidden;
   @media (max-width: 768px) { display: none; }
 }

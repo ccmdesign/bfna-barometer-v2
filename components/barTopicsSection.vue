@@ -49,7 +49,6 @@ const handleArchivedTopics = () => {
 
 <template>
   <bar-section class="topics-section">
-    <h1>Topics</h1>
     <div class="topics-section__filters | cluster">
       <select name="topic-filter" id="topic-filter" split-left v-model="selectedTag" @change="handleFilters">
         <option value="all">All Tags</option>
@@ -70,6 +69,8 @@ const handleArchivedTopics = () => {
 <style scoped>
 .topics-section {
   grid-column: content-start / content-end;
+  border-top: 1px solid var(--base-color-10-alpha);
+  border-bottom: 1px solid var(--base-color-20-alpha);
 }
 
 .topics-section__filters {
