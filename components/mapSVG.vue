@@ -36,36 +36,38 @@ const countries = [
     
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 svg {
-    width: 100vw;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    aspect-ratio: 16 / 8;
-    border-top: 1px solid var(--base-color-10-alpha);
+  border-top: 1px solid var(--base-color-10-alpha);
+  border-bottom: 1px solid var(--base-color-20-alpha);
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  aspect-ratio: 16 / 8;
 }
 
 path { fill: hsla(var(--base-hsl), .05); }
 
 .hasStatement {
-    stroke-width: .2;
-    stroke: hsla(var(--base-hsl), .3);
-    fill: hsla(var(--base-hsl), .2);
-    cursor: pointer;
-    transition: all .3s ease;
-    &:hover,
-    &.active {
-        stroke: hsla(var(--accent-hsl), .5);
-        fill: hsla(var(--accent-hsl), .3);
-    }
+  stroke-width: .2;
+  stroke: hsla(var(--base-hsl), .3);
+  fill: hsla(var(--base-hsl), .2);
+  cursor: pointer;
+  transition: all .3s ease;
+  
+  &:hover,
+  &.active {
+    stroke: hsla(var(--accent-hsl), .5);
+    fill: hsla(var(--accent-hsl), .3);
+  }
 }
 </style>
 
 
 <template>
-    <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" viewBox="183 160 364 312">
+    <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" viewBox="183 160 364 312" transform="translate(0)">
         <path
           d="m 479.68275,331.6274 -0.077,0.025 -0.258,0.155 -0.147,0.054 -0.134,0.027 -0.105,-0.011 -0.058,-0.091 0.006,-0.139 -0.024,-0.124 -0.02,-0.067 0.038,-0.181 0.086,-0.097 0.119,-0.08 0.188,0.029 0.398,0.116 0.083,0.109 10e-4,0.072 -0.073,0.119 z"
           title="Andorra"

@@ -26,6 +26,26 @@ const countries = [
   'nl',
   'be',
   'ch',
+  'ca',
+  'us',
+  'gb',
+  'de',
+  'fr',
+  'it',
+  'es',
+  'nl',
+  'be',
+  'ch',
+  'ca',
+  'us',
+  'gb',
+  'de',
+  'fr',
+  'it',
+  'es',
+  'nl',
+  'be',
+  'ch',
 ]
 
 const router = useRouter()
@@ -58,21 +78,32 @@ const handleCountryFlag = (country) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .reel {
-  --_reel-gap: var(--space-2xl);
   padding-block: var(--space-xl) var(--space-s);
-  overflow: hidden;
-  overflow-x: auto;
+
+  @media (min-width: 768px) {
+    --_reel-gap: var(--space-2xl);
+    overflow: hidden;
+    overflow-x: auto;
+  }
+
   @media (max-width: 768px) {
-    overflow: visible;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-m);
+    margin-top: var(--space-l);
+    padding-inline: var(--space-s);
   }
 }
 
 /* Temp */
 .reel-item {
-  width: 180px;
-  height: 180px;
+  @media (min-width: 768px) {
+    width: 180px;
+    height: 180px;
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -98,6 +129,8 @@ const handleCountryFlag = (country) => {
   display: flex;
   justify-content: center;
   gap: var(--space-xs);
+  
+  
 }
 
 .arrow-button {
@@ -108,6 +141,8 @@ const handleCountryFlag = (country) => {
   cursor: pointer;
   transition: background-color 0.3s ease;
   box-shadow: var(--box-shadow-l);
+
+  @media (max-width: 768px) { display: none; }
 }
 
 .reel-controls--minimal {
@@ -133,8 +168,6 @@ const handleCountryFlag = (country) => {
 }
 
 .reel-item:hover {
-  
-
   .flag {
     transform: scale(1.15);
     transform-origin: bottom;

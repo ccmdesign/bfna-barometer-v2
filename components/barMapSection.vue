@@ -11,19 +11,25 @@
 
 <style scoped>
 .map-section {
+  margin-bottom: -4px;
+}
+
+.map-section,
+.map-section__map { 
   position: relative;
-  aspect-ratio: 16 / 9;
-  
 }
 
 .map-section__map {
-  
+  max-width: 100%;
+  overflow: hidden;
+  @media (max-width: 768px) { display: none; }
 }
 
 .map-section__flags {
-  position: absolute;
-  bottom: 0;
-  padding-block: var(--space-m);
+  @media (min-width: 768px) { position: absolute; } 
+  bottom: var(--space-m);
   max-width: 100%;
 }
 </style>
+
+
