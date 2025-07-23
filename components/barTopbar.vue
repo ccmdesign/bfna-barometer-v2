@@ -3,8 +3,8 @@
     <h1 unstyled><nuxt-link to="/" title="Transatlantic Barometer"><img src="/assets/barometer-logo.svg" alt="Transatlantic Barometer" /></nuxt-link></h1>
     <nav split-left>
       <ul class="topbar__nav | cluster">
-        <li><bar-button el="a" href="/topic" color="white" size="s" variant="link">Topic</bar-button></li>
-        <li><bar-button el="a" href="/region" color="white" size="s" variant="link">Region</bar-button></li>
+        <li><bar-button el="a" href="/" color="white" size="s" variant="link">Home</bar-button></li>
+        <li><bar-button el="a" href="/about" color="white" size="s" variant="link">About</bar-button></li>
         <li><bar-button el="a" href="/compare" color="white" size="s" variant="primary">Compare</bar-button></li>
       </ul>
     </nav>
