@@ -30,8 +30,11 @@
 
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .topic-card {
+  @media (min-width: 768px) { aspect-ratio: 1 / 1; } /* Sets a square look for the desktop*/
+  @media (max-width: 768px) { height: 100%; } /* makes cards the same height for the mobile */
+
   border-radius: var(--border-radius-l);
   border: 1px solid var(--base-color-20-tint);
   padding-inline: var(--space-m);
@@ -39,7 +42,6 @@
   background-color: var(--base-color-05-tint);
   box-shadow: var(--box-shadow-s);
   text-align: left;
-  aspect-ratio: 1 / 1;
   --_stack-space: var(--space-3xs);
 
   &:hover {
