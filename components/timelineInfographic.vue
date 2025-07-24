@@ -216,7 +216,7 @@ onUpdated(() => {
 </script>
 
 <template>
-    <div class="subgrid">
+    <div class="timeline-infographic | subgrid">
       <div class="timeline-infographic__chart-wrapper">
         <ul class="timeline">
           <li
@@ -265,8 +265,11 @@ onUpdated(() => {
 </template>
 
 <style scoped lang="scss">
-.timeline-infographic__chart-wrapper {
+.timeline-infographic {
+  grid-column: content;
+}
 
+.timeline-infographic__chart-wrapper {
   --legend-height: 45px;
   --gap: var(--space-xs);
 
@@ -312,6 +315,7 @@ onUpdated(() => {
   flex: var(--distance);
   position: relative;
   display: flex;
+  margin-bottom: 0;
 }
 
 .event:after {
