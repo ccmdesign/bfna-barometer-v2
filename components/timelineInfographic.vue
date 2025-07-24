@@ -364,13 +364,20 @@ onUpdated(() => {
   }
   .event__year {
     order: -1;
-    margin-right: var(--s0);
-    text-align: right;
-    flex: 1;
+    margin-right: var(--space-m);
+    
+    text-align: left;
+    @media (min-width: 1024px) {
+      text-align: right; 
+      flex: 1;
+    }
+
   }
 
   .event__list {
     flex: 1;
+    text-align: left;
+    @media (min-width: 1024px) { text-align: right; }
   }
 
   .event__extra {
