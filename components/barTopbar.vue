@@ -4,7 +4,7 @@
     <nav split-left>
       <ul class="topbar__nav | cluster">
         <li><bar-button el="a" href="/" color="white" size="s" variant="link">Home</bar-button></li>
-        <li><bar-button el="a" href="/about" color="white" size="s" variant="link">About</bar-button></li>
+        <li><bar-button el="a" href="/#about" color="white" size="s" variant="link">About</bar-button></li>
         <li><bar-button el="a" href="/compare" color="white" size="s" variant="primary">Compare</bar-button></li>
       </ul>
     </nav>

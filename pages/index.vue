@@ -14,7 +14,7 @@
     </template>
   </ccm-tabs>
 
-  <bar-section size="l" color="faded" class="homepage__about">
+  <bar-section id="about" size="l" color="faded" class="homepage__about">
     <div class="switcher">
       <div class="section-panel | stack">
         <h2 class="h5">About</h2>
