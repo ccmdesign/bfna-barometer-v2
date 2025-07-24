@@ -28,7 +28,7 @@ const handleCountryFlag = (country) => {
     
     <div class="reel-controls" :class="{ 'reel-controls--minimal': controls == 'false' }">
       <button class="arrow-button"><span class="icon">arrow_back_ios</span></button>
-      <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button>
+      <!-- <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button> -->
       <button class="arrow-button"><span class="icon">arrow_forward_ios</span></button>
     </div>
   </div>
