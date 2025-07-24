@@ -21,6 +21,9 @@ const props = defineProps({
   padding: var(--space-m) var(--space-l);
   border-radius: var(--border-radius-l);
   text-align: center;
+  @media screen and (min-width: 1024px) {
+    max-width: 25%;
+  }
 
   h2 {
     font-weight: 700;
