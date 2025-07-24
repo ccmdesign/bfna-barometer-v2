@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <bar-infographic />
+    <!-- <bar-infographic /> -->
 
   </bar-section>
 </template>

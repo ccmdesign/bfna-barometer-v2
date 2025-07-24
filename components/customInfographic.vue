@@ -1,13 +1,15 @@
 <template>
-  <div class="custom_infographic-card__wrapper">
-    <NuxtLink 
-      :to="data.customInfographicFile.url"
-      target="_blank">
-      <div class="custom_infographic-card | stack">
-        <h3>{{ data.title }}</h3>
-        <p>{{ data.infographicDescription }}</p>
-      </div>
-    </NuxtLink>
+  <div class="subgrid">
+    <div class="custom_infographic-card__wrapper">
+      <NuxtLink 
+        :to="data.customInfographicFile.url"
+        target="_blank">
+        <div class="custom_infographic-card | stack">
+          <h3>{{ data.title }}</h3>
+          <p>{{ data.infographicDescription }}</p>
+        </div>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 

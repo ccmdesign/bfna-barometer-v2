@@ -2,6 +2,17 @@ import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 export default defineContentConfig({
   collections: {
+    countries: defineCollection({
+      source: 'countries/*.json',
+      type: 'data',
+      // Define custom schema for docs collection
+      schema: z.object({
+        id: z.string(),
+        slug: z.string(),
+        name: z.string(),
+        code: z.string(),
+      })
+    }),
     statements: defineCollection({
       source: 'statements/*.json',
       type: 'data',

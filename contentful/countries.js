@@ -5,16 +5,24 @@ const getCountries = async () => {
     content_type: 'country'
   });
   
-  data.items.map(({ fields, sys: { id } }) => {
-    const doc = {
-      id: id,
-      name: fields.name,
-      slug: main.slugify(fields.name),
+  // Use a Set to track seen country names (or codes, or ids as needed)
+  const seen = new Set();
+  const countries = data.items.reduce((acc, { fields, sys: { id } }) => {
+    const name = fields.name;
+    if (!seen.has(name)) {
+      seen.add(name);
+      acc.push({
+        id: id,
+        name: name,
+        code: main.getCodeByCountry[name],
+        slug: main.slugify(name),
+      });
     }
+    return acc;
+  }, []);
 
-    main.writeContent(doc, 'countries', true);
+  for (const country of countries) main.writeContent(country, 'countries', true);
 
-  });
 }
 
 module.exports = async function () {

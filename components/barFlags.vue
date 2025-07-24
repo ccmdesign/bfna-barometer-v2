@@ -1,53 +1,9 @@
 <script setup>
 import { useCountries } from '~/composables/countries'
 
-const { getCountryName } = useCountries()
+const { countries, getCountryName } = useCountries()
 
 const controls = ref(false)
-
-const countries = [
-  'ca',
-  'us',
-  'gb',
-  'de',
-  'fr',
-  'it',
-  'es',
-  'nl',
-  'be',
-  'ch',
-  'ca',
-  'us',
-  'gb',
-  'de',
-  'fr',
-  'it',
-  'es',
-  'nl',
-  'be',
-  'ch',
-  'ca',
-  'us',
-  'gb',
-  'de',
-  'fr',
-  'it',
-  'es',
-  'nl',
-  'be',
-  'ch',
-  'ca',
-  'us',
-  'gb',
-  'de',
-  'fr',
-  'it',
-  'es',
-  'nl',
-  'be',
-  'ch',
-]
-
 const router = useRouter()
 const handleCountryFlag = (country) => {
   router.push({

@@ -25,48 +25,9 @@ const { data: topics } = await useAsyncData('topics', () => {
 
 }, { watch: [showArchivedTopics] })
 
-const handleSelectedTopic = (topicId) => {
-  topics.value = topics.value.map(topic => {
-    if (topic.topicId === topicId) {
-      topic.active = true
-      handleTabs(topic);
-    } else {
-      topic.active = false
-    }
-    return topic
-  })
 
-  handleActiveTopic();
-  
-}
-
-const handleActiveTopic = async () => {
-  activeTopic.value = topics.value.find(topic => topic.active)
-  statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
-  
-  await nextTick()
-  handleTabs(activeTopic.value);
-}
-
-const handleArchivedTopics = () => {
-  showArchivedTopics.value = !showArchivedTopics.value;
-}
-
-const tabs = ref(null)
-const handleTabs = (topic) => {
-  tabs.value = topic.infographics?.map((infographic, index) => ({
-    label: infographic.title,
-    slot: `tab${index}`,
-    infographicType: infographic.infographicType,
-  })) || [];
-
-}
-
-const data = reactive({
-  showRegionSelector: false
-})
-
-const data_cards = [
+const data_cards = ref([])
+const data_cards2 = [
   {
     "indicator": "Liberal Democracy",
     "score": 0.74,
@@ -89,6 +50,81 @@ const data_cards = [
   }
 ]
 
+const handleSelectedTopic = (topicId) => {
+  topics.value = topics.value.map(topic => {
+    if (topic.topicId === topicId) {
+      topic.active = true
+      handleTabs(topic);
+    } else {
+      topic.active = false
+    }
+    return topic
+  })
+
+  handleActiveTopic();
+  
+}
+
+const formatedDate = (country) => {
+  if (!country.val) return ''
+  const date = new Date(country.val  + 'T00:00:00Z')
+  const month = date.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' })
+  const year = String(date.getUTCFullYear()).slice(-2)
+  return `${month} '${year}`
+}
+
+const handleActiveTopic = async () => {
+  activeTopic.value = topics.value.find(topic => topic.active)
+  statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
+  
+  data_cards.value = (activeTopic.value.infographics?.map(infographic => {
+    if (infographic.infographicType !== 'customInfographic') {
+      const country = infographic.countries.find(item => item.country === statement.value.country)
+      const scale = typeof country?.val === 'number' && country.val < 10 ? 1 : 100;
+
+      if (!country?.val) {
+        return undefined;
+      }
+
+      if (infographic.infographicType === 'timelineChart' && country) {
+        return {
+          indicator: infographic.title,
+          score: country?.val,
+          period: formatedDate(country)
+        }
+      }
+
+      return {
+        indicator: infographic.title,
+        score: country?.val,
+        scale: scale,
+      }
+    }
+    return undefined;
+  }) || []).filter(Boolean)
+  
+  await nextTick(() => {
+    handleTabs(activeTopic.value);
+  })
+}
+
+const handleArchivedTopics = () => {
+  showArchivedTopics.value = !showArchivedTopics.value;
+}
+
+const tabs = ref(null)
+const handleTabs = (topic) => {
+  tabs.value = topic.infographics?.map((infographic, index) => ({
+    label: infographic.title,
+    slot: `tab${index}`,
+    infographicType: infographic.infographicType,
+  })) || [];
+
+}
+
+const data = reactive({
+  showRegionSelector: false
+})
 
 onMounted(() => {
   handleActiveTopic();
@@ -101,7 +137,7 @@ onMounted(() => {
     <template #column_left>
       <hgroup class="stack">
         <bar-back-button />
-        <bar-flag :country="statement.country" size="small" />        
+        <bar-flag v-if=statement.country :country="statement.country" size="small" />        
         <h1>{{ getCountryName(statement.country) }}</h1>
       </hgroup>
     </template>
@@ -152,7 +188,7 @@ onMounted(() => {
     <h2 class="section-title">infographics</h2>
 
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
-      <template v-for="(infgc, index) in activeTopic.infographics" :key="infgc.infographicId" #['tab'+index]>
+      <template v-for="(infgc, index) of activeTopic.infographics" :key="infgc.infographicId" #['tab'+index]>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" />
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
         <custom-infographic v-else-if="infgc.infographicType === 'customInfographic'" :data="infgc" />
