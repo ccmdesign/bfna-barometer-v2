@@ -6,6 +6,10 @@ const props = defineProps({
     type: Object,
     // see original for default structure
   },
+  highlight: {
+    type: String,
+    default: ''
+  }
 });
 
 const { getCountryName } = useCountries()
@@ -124,6 +128,7 @@ function isLineHidden(markers, labels) {
   return hidden;
 }
 
+
 // Build chartData from dataset
 if (infographicData && infographicData.length) {
   for (let i in infographicData) {
@@ -214,6 +219,13 @@ if (infographicData && infographicData.length) {
   }
 }
 
+const getAccentColor = (labels) => {
+  if (!props.highlight) return '';
+  return labels.some(l => l.countries && l.countries.includes(props.highlight))
+    ? 'var(--base-color)'
+    : '';
+}
+
 onMounted(() => {
   renderTimelineHeights();
 });
@@ -230,7 +242,7 @@ onUpdated(() => {
             ref="timelineList"
             v-for="(i, index) in chartData"
             class="event timeline__item"
-            :style="{ '--distance': i.distance, '--height': i.height }"
+            :style="{ '--distance': i.distance, '--height': i.height, '--accent-color': getAccentColor(i.labels) || '' }"
             :key="index"
             :class="{ 'hide-line': isLineHidden(i.markers, i.labels) }"
           >
