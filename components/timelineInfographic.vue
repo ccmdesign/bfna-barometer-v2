@@ -28,6 +28,8 @@ const timelineList = ref([]);
 const eventList = ref([]);
 const lineLabel = ref([]);
 
+// Custom ref for chart wrapper
+const chartWrapper = ref(null);
 
 const isMarkerVisible = computed(() => props.dataset.vizMarkers);
 const isBarVisible = (countryCode) => !hiddenCountries.value.includes(countryCode);
@@ -83,6 +85,11 @@ function renderTimelineHeights() {
       const highestHeight = eventsList.reduce((max, item) => item.clientHeight > max.clientHeight ? item: max, eventsList[0]);
       if(highestHeight.clientHeight > 500) {
         timelineStore.setTimelineHeightValue(true);
+      }
+      // Set --chart-height custom property on chart wrapper
+      if (chartWrapper.value && eventsList[i]) {
+        const computedPadding = window.getComputedStyle(eventsList[i]).paddingBottom;
+        chartWrapper.value.style.setProperty('--chart-height', computedPadding);
       }
     }
   }
@@ -217,7 +224,7 @@ onUpdated(() => {
 
 <template>
     <div class="timeline-infographic | subgrid">
-      <div class="timeline-infographic__chart-wrapper">
+      <div class="timeline-infographic__chart-wrapper" ref="chartWrapper">
         <ul class="timeline">
           <li
             ref="timelineList"
@@ -272,26 +279,29 @@ onUpdated(() => {
 .timeline-infographic__chart-wrapper {
   --legend-height: 45px;
   --gap: var(--space-xs);
+  /* --chart-height will be set dynamically via JS */
 
   display: flex;
   flex-direction: column;
+  // max-width: 100vw;
 
-  @media (min-width: 1024px) { flex-direction: row; }
-
+  @media (min-width: 1024px) { 
+    flex-direction: row; 
+    min-height: calc(var(--chart-height) + var(--legend-height));
+    margin-bottom: var(--space-l-xl);
+  }
   align-items: end;
   justify-content: center;
-  aspect-ratio: 16/6;
   position: relative;
   gap: var(--gap);
   padding-inline: var(--space-s);
   padding-top: calc(var(--space-xs) + var(--legend-height));
   padding-bottom: calc(var(--space-xs) + var(--legend-height));
-
 }
 
 .label {
   min-width: 20ch;
-  max-width: 23ch;
+  @media (min-width: 1024px) { max-width: 23ch; }
   overflow: hidden;
   white-space: pre-wrap;
 }
@@ -329,10 +339,11 @@ onUpdated(() => {
 }
 
 .timeline {
-  width: 70%;
+  width: 100%;
+  @media (min-width: 1024px) { width: 70%; }
 }
 
-@media (max-width: 39.98em) {
+@media (max-width: 1024px) {
   .timeline {
     display: flex;
     flex-direction: column;
@@ -353,7 +364,9 @@ onUpdated(() => {
     height: 110%;
     top: -5%;
     position: absolute;
-    left: 15%;
+    left: 5ch;
+
+    
   }
 
   .event {
@@ -365,9 +378,14 @@ onUpdated(() => {
   .event__year {
     order: -1;
     margin-right: var(--space-m);
-    
     text-align: left;
-    @media (min-width: 1024px) {
+
+    @media (max-width: 1024px) {
+      width: 40px;
+      margin-right: var(--space-m);
+    }
+
+    @media (min-width: 1025px) {
       text-align: right; 
       flex: 1;
     }
@@ -377,6 +395,7 @@ onUpdated(() => {
   .event__list {
     flex: 1;
     text-align: left;
+
     @media (min-width: 1024px) { text-align: right; }
   }
 
@@ -390,7 +409,7 @@ onUpdated(() => {
 
   .event:after {
     top: 4px;
-    left: calc(15% - 4px);
+    left: 42px;
   }
 
   .flag1 {
@@ -399,7 +418,7 @@ onUpdated(() => {
   }
 }
 
-@media (min-width: 40em) {
+@media (min-width: 1025px) {
   .timeline {
     display: flex;
     justify-content: space-between;
@@ -479,7 +498,7 @@ onUpdated(() => {
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1025px) {
   .timeline {
     padding-top: var(--space-s);
   }
@@ -492,18 +511,18 @@ onUpdated(() => {
   display: none;
 }
 
-@media (min-width: 40em) and (max-width: 1079px) {
-  .timeline {
-    transform: translateY(220px);
-  }
-}
+// @media (min-width: 40em) and (max-width: 1079px) {
+//   .timeline {
+//     transform: translateY(220px);
+//   }
+// }
 
-:deep(.button) {
-  margin-top: var(--space-s);
-}
+// :deep(.button) {
+//   margin-top: var(--space-s);
+// }
 
-.tags {
-  padding-block: var(--space-xl);
-  @media (max-width: 1024px) { display: none; }
-}
+// .tags {
+//   padding-block: var(--space-xl);
+//   @media (max-width: 1024px) { display: none; }
+// }
 </style>
