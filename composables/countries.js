@@ -3,6 +3,11 @@ import { useAsyncData } from 'nuxt/app'
 export const useCountries = () => {
   // Fetch all country JSON files from content/countries/
   const countriesCode = ref([])
+  const europeanUnion = reactive({
+    'name': 'European Union',
+    'members': ['at', 'be', 'bg', 'hr', 'cy', 'cz', 'dk', 'ee', 'fi', 'fr', 'de', 'gr', 'hu', 'ie', 'it', 'lv', 'lt', 'lu', 'mt', 'nl', 'pl', 'pt', 'ro', 'sk', 'si', 'es', 'se' ]
+  })
+  
   const { data: countries } = useAsyncData('countries', async () => {
     const data = await queryCollection('countries').all()
 
@@ -30,6 +35,7 @@ export const useCountries = () => {
 
   return {
     countries: countriesCode,
+    europeanUnion,
     getCountryName,
     getCountryCode,
   }
