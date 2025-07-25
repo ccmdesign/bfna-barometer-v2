@@ -49,7 +49,10 @@ const handleActiveTopic = async () => {
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
     if (infographic.infographicType !== 'customInfographic') {
       const country = infographic.countries.find(item => item.country === statement.value.country)
-      const scale = typeof country?.val === 'number' && country.val < 10 ? 1 : 100;
+      const scale = infographic.countries.reduce((max, item) => {
+        const val = Number(item.val);
+        return val > max ? val : max;
+      }, 0);
 
       if (!country?.val) {
         return undefined;
@@ -175,6 +178,7 @@ onMounted(() => {
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
         <custom-infographic v-else-if="infgc.infographicType === 'customInfographic'" :data="infgc" />
         <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="infgc.highlight" />
+        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="infgc.highlight" />
       </template>
     </ccm-tabs>
   </bar-section>
