@@ -67,7 +67,7 @@ const goDownToMapSection = () => {
 
   /* --_stack-space: var(--space-m); */
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-m);

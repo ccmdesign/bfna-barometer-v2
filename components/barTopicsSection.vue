@@ -50,12 +50,18 @@ const handleArchivedTopics = () => {
 <template>
   <bar-section class="topics-section">
     <div class="topics-section__filters | cluster">
-      <select name="topic-filter" id="topic-filter" split-left v-model="selectedTag" @change="handleFilters">
-        <option value="all">All Tags</option>
-        <option v-for="item of tags" :value="item">{{ item }}</option>
+      <select class="bar-select" name="topic-filter" id="topic-filter" split-left v-model="selectedTag" @change="handleFilters">
+        <option value="all">All Categories</option>
+        <option v-for="item of tags" :value="item">{{ item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() }}</option>
       </select>
-      <bar-button variant="secondary" color="base-300" size="s" @click="handleSort(sortedBy)">Sorted by: {{ sortedBy }}</bar-button>
-      <bar-button :class="{'archived-active': showArchivedTopics }" variant="secondary" color="base-300" size="s" split-right @click="handleArchivedTopics">View Archived Topics</bar-button>
+      <bar-button variant="primary" color="base-faded" size="s" @click="handleSort(sortedBy)">
+        <span class="icon" size="xs">sort</span>
+        Sorted by: {{ sortedBy }}
+      </bar-button>
+      <bar-button :class="{'archived-active': showArchivedTopics }" variant="primary" color="base-faded" size="s" split-right @click="handleArchivedTopics">
+        <span class="icon" size="xs">archive</span>
+        View Archived Topics
+      </bar-button>
     </div>
 
     <div class="topics-grid">
@@ -67,6 +73,29 @@ const handleArchivedTopics = () => {
 </template>
 
 <style scoped>
+/* @TODO: Se você achar tranquilo, o ideal seria criar um componente para o select, mas não quis complicar a manipulação dos dados. */
+.bar-select {
+  border-radius: var(--space-l);
+  padding-block: calc(var(--space-xs) * .85);
+  padding-inline: var(--space-s) var(--space-l);
+  font-size: var(--size-0);
+  background-color: var(--base-color-05-tint);
+  border: 1px solid var(--base-color-05-tint);
+  color: var(--base-color);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%23080808%22%3E%3Cpath%20d%3D%22M480-344%20240-584l56-56%20184%20184%20184-184%2056%2056-240%20240Z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1.5rem auto, 100%;
+  font-weight: 600;
+
+  option {
+    text-transform: capitalize;
+  }
+}
+
 .topics-section {
   grid-column: content-start / content-end;
   border-top: 1px solid var(--base-color-10-alpha);
@@ -88,5 +117,31 @@ const handleArchivedTopics = () => {
   /* background-color: var(--color-base-200); */
   color: var(--color-base-900);
 }
+
+
+/* .button[size="xs"] {
+  --_button-padding-block: var(--button-padding-block-xs);
+  --_button-padding-inline: var(--button-padding-inline-xs);
+  --_button-font-size: var(--button-font-size-xs);
+}
+
+.button[size="s"] {
+  --_button-padding-block: var(--button-padding-block-s);
+  --_button-padding-inline: var(--button-padding-inline-s);
+  --_button-font-size: var(--button-font-size-s);
+}
+
+.button,
+.button[size="m"] {
+  --_button-padding-block: var(--button-padding-block-m);
+  --_button-padding-inline: var(--button-padding-inline-m);
+  --_button-font-size: var(--button-font-size-m);
+}
+
+.button[size="l"] {
+  --_button-padding-block: var(--button-padding-block-l);
+  --_button-padding-inline: var(--button-padding-inline-l);
+  --_button-font-size: var(--button-font-size-l);
+} */
 
 </style>

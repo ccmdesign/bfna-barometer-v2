@@ -132,9 +132,9 @@ const componentEl = computed(() => el.value || defaultEl.value)
 
 .button {
   /* Required Values */
-  --_button-text-color: red;        
-  --_button-background-color: red;  
-  --_button-border-color: red;      
+  --_button-text-color: var(--base-color);
+  --_button-background-color: var(--base-color-05-tint);
+  --_button-border-color: var(--base-color-05-tint);
   --_button-icon-color: var(--_button-text-color);
 
   --_button-padding-block:     var(--base-padding-block);
@@ -189,8 +189,8 @@ const componentEl = computed(() => el.value || defaultEl.value)
 }
 
 .button[color="faded"] { 
-  --_button-text-color: var(--base-color-07-tint); 
-  --_button-border-color: var(--base-color-07-tint);
+  --_button-text-color: var(--base-color-05-tint); 
+  --_button-border-color: var(--base-color-05-tint);
 }
 
 .button[color="white"] { 
@@ -214,6 +214,12 @@ const componentEl = computed(() => el.value || defaultEl.value)
   --_button-text-color: var(--white-color); 
   --_button-border-color: transparent;
   --_button-background-color: var(--white-color-10-alpha);
+}
+
+.button[variant="primary"][color="base-faded"] { 
+  --_button-text-color: var(--base-color); 
+  --_button-border-color: var(--base-color-05-tint);
+  --_button-background-color: var(--base-color-05-tint);
 }
 
 .button[variant="primary"][color="white"] { 
