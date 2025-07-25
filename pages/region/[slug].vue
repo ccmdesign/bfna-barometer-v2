@@ -52,7 +52,7 @@ const handleActiveTopic = async () => {
       const scale = infographic.countries.reduce((max, item) => {
         const val = Number(item.val);
         return val > max ? val : max;
-      }, 0);
+      }, 0) + (infographic.infographicType === 'rankingChart' ? 1 : 0); // Ensure scale is at least 1 for ranking charts, because the value problably the first country is 0
 
       if (!country?.val) {
         return undefined;
@@ -179,6 +179,7 @@ onMounted(() => {
         <custom-infographic v-else-if="infgc.infographicType === 'customInfographic'" :data="infgc" />
         <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="infgc.highlight" />
         <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="infgc.highlight" />
+        <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="infgc.highlight" />
       </template>
     </ccm-tabs>
   </bar-section>
