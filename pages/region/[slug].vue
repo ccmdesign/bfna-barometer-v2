@@ -49,7 +49,10 @@ const handleActiveTopic = async () => {
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
     if (infographic.infographicType !== 'customInfographic') {
       const country = infographic.countries.find(item => item.country === statement.value.country)
-      const scale = typeof country?.val === 'number' && country.val < 10 ? 1 : 100;
+      const scale = infographic.countries.reduce((max, item) => {
+        const val = Number(item.val);
+        return val > max ? val : max;
+      }, 0);
 
       if (!country?.val) {
         return undefined;
