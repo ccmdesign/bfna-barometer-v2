@@ -27,5 +27,8 @@
 
 .topbar {
   /* Aux styles */
+  li {
+    margin-bottom: 0;
+  }
 }
 </style>

@@ -37,6 +37,7 @@ const handleCountryFlag = (country) => {
 <style scoped>
 .reel {
   padding-block: var(--space-xl) var(--space-s);
+  padding-inline: var(--space-xl);
 
   @media (min-width: 768px) {
     --_reel-gap: var(--space-2xl);
@@ -56,8 +57,7 @@ const handleCountryFlag = (country) => {
 /* Temp */
 .reel-item {
   @media (min-width: 768px) {
-    width: 180px;
-    height: 180px;
+    width: 100px;
   }
 
   display: flex;

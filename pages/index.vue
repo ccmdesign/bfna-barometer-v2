@@ -86,7 +86,7 @@ const handleFilters = (payload) => {
 }
 
 .highlight {
-  font-size: var(--size-2);
+  font-size: var(--size-1);
   line-height: 150%;
   letter-spacing: -0.01em;
   font-weight: 300;

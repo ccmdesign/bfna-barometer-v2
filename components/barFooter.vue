@@ -10,6 +10,7 @@
       <bar-button class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button>
     </div>
     <bar-by-line />
+    <barCurve />
   </ccm-footer>
 </template>
 
@@ -19,8 +20,12 @@
 
 <style scoped lang="scss">
 .bar-footer {
-  --footer-gradient-color: var(--base-color-07-tint);
+  --bar-curve-color: var(--base-color-07-tint);
   background-color: var(--base-color);
+  background-image: url(/assets/barometer-footer.svg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: bottom left;
   color: var(--white-color);
   padding-block: var(--space-2xl) var(--space-xs);
   position: relative;
@@ -28,16 +33,6 @@
   & > * {
     position: relative;
     z-index: 3;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0% ;
-    left: -350%;
-    right: -350%;
-    top: -175%;
-    z-index: 1;
-    background: radial-gradient(ellipse at bottom, transparent 0%, transparent 25%, var(--footer-gradient-color) 25%, var(--footer-gradient-color) 100%);
   }
 }
 
@@ -47,5 +42,12 @@
   @media (min-width: 768px) {
     grid-column: 5 / 11;
   }
+}
+
+:deep(.bar-curve) {
+  position: absolute;
+  top: 0;
+  grid-column: full-start / full-end;
+  transform: rotate(180deg);
 }
 </style>

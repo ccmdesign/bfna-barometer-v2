@@ -27,7 +27,7 @@ const countryName = computed(() => getCountryName(props.country))
   box-shadow: var(--box-shadow-l);
   border-radius: var(--border-radius-m);
   overflow: hidden;
-  padding: var(--space-3xs);
+  padding: calc(var(--space-3xs) * 0.3);
   background-color: var(--white-color);
   transition: all 0.3s ease;
   

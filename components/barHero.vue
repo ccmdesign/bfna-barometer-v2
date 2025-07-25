@@ -5,11 +5,11 @@
       <div class="hero-content__inner | stack">
         <slot name="column_left">
           <hgroup class="stack">
-            <h3 class="h2">Welcome to the</h3>
+            <p class="h2">Welcome to the</p>
             <h1>Transatlantic Barometer</h1>
           </hgroup>
           
-          <p class="font-size:2 | color:base-40-tint">This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
+          <p class="font-size:1 | color:base-40-tint">This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
 
           <div class="cluster">
             <bar-button variant="primary" color="white" @click="goDownToMapSection"><span>Start Now</span><span class="icon">arrow_downward</span></bar-button>
@@ -21,6 +21,7 @@
         <slot name="column_right"></slot>
       </div>
     </div>
+    <barCurve />
   </ccm-hero>
 </template>
 
@@ -37,7 +38,7 @@ const goDownToMapSection = () => {
 
 <style scoped lang="scss">
 .hero {
-  --hero-gradient-color: var(--white-color);
+  --bar-curve-color: var(--white-color);
   background-color: var(--base-color);
   display: grid;
   grid-template-columns: subgrid;
@@ -48,15 +49,8 @@ const goDownToMapSection = () => {
     position: relative;
     z-index: 3;
   }
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0% ;
-    left: -350%;
-    right: -350%;
-    bottom: -175%;
-    z-index: 1;
-    background: radial-gradient(ellipse at top, transparent 0%, transparent 25%, var(--hero-gradient-color) 25%, var(--hero-gradient-color) 100%);
+  .h2, h1 {
+    font-weight: 700;
   }
 }
 
@@ -82,5 +76,11 @@ const goDownToMapSection = () => {
 
 .hero {
   padding-block: var(--space-xs) var(--space-2xl);
+}
+
+:deep(.bar-curve) {
+  position: absolute;
+  bottom: 0;
+  grid-column: full-start / full-end;
 }
 </style>

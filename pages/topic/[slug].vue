@@ -3,8 +3,8 @@
     <template #column_left>
       <hgroup class="stack">
         <bar-back-button />
-        <h3 class="h6">Governance & Democracy</h3>
-        <h1>{{ topic.topic }}</h1>
+        <p class="font-weight:700">Governance & Democracy</p>
+        <h1>{{ topic.title }}</h1>
         <p class="margin-bottom:m">Statements compiled in {{ topic.period }}</p>
         <p>{{ topic.description }}</p>
       </hgroup>
@@ -48,7 +48,7 @@
     <h2 class="section-title">infographics</h2>
 
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
-      <template #tab1>
+      <!--<template #tab1>
         <bar-infographic title="Liberal Democracy" />
       </template>
       <template #tab2>
@@ -59,7 +59,7 @@
       </template>
       <template #tab4>
         <bar-infographic title="Judicial Independence" />
-      </template>
+      </template>-->
     </ccm-tabs>
   </bar-section>
 

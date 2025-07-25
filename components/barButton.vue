@@ -16,7 +16,7 @@
     --button-padding-inline-xs: var(--space-xs);
     --button-font-size-xs: var(--size--1);
     
-    --button-padding-block-s: var(--space-xs);
+    --button-padding-block-s: var(--space-2xs);
     --button-padding-inline-s: var(--space-s);
     --button-font-size-s: var(--size-0);
     

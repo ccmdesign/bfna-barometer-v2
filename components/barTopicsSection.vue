@@ -76,7 +76,7 @@ const handleArchivedTopics = () => {
 /* @TODO: Se você achar tranquilo, o ideal seria criar um componente para o select, mas não quis complicar a manipulação dos dados. */
 .bar-select {
   border-radius: var(--space-l);
-  padding-block: calc(var(--space-xs) * .85);
+  padding-block: calc(var(--space-2xs) * .85);
   padding-inline: var(--space-s) var(--space-l);
   font-size: var(--size-0);
   background-color: var(--base-color-05-tint);
