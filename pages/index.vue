@@ -27,11 +27,36 @@
         
         <h2 class="h5">Related Projects</h2>
         <ul class="homepage__related-projects | stack">
-          <li><a href="#">Transatlantic Periscope</a> <span class="icon" size="xs">open_in_new</span></li>
-          <li><a href="#">Transatlantic Trends 2022</a> <span class="icon" size="xs">open_in_new</span></li>
-          <li><a href="#">RANGE - Transatlantic Forecasting Platform</a> <span class="icon" size="xs">open_in_new</span></li>
-          <li><a href="#">Sustainable Governance Indicators (SGI)</a> <span class="icon" size="xs">open_in_new</span></li>
-          <li><a href="#">Eupinions</a> <span class="icon" size="xs">open_in_new</span></li>
+          <li>
+            <a href="https://transatlanticperiscope.org/" target="_blank" rel="noopener">
+              Transatlantic Periscope
+              <span class="icon" size="xs">open_in_new</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.bfna.org/archives/transatlantic-trends-2022/" target="_blank" rel="noopener">
+              Transatlantic Trends 2022
+              <span class="icon" size="xs">open_in_new</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.rangeforecasting.org/" target="_blank" rel="noopener">
+              RANGE - Transatlantic Forecasting Platform
+              <span class="icon" size="xs">open_in_new</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.bertelsmann-stiftung.de/en/our-projects/sustainable-governance-indicators-sgi" target="_blank" rel="noopener">
+              Sustainable Governance Indicators (SGI)
+              <span class="icon" size="xs">open_in_new</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.bertelsmann-stiftung.de/en/our-projects/eupinions" target="_blank" rel="noopener">
+              Eupinions
+              <span class="icon" size="xs">open_in_new</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
