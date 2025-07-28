@@ -156,11 +156,11 @@ hgroup {
 }
 
 .hero {
-  --hero-gradient-color: var(--base-color-07-tint);
+  --bar-curve-color: var(--base-color-07-tint);
 }
 
 .bar-footer {
-  --footer-gradient-color: var(--white-color);
+  --bar-curve-color: var(--white-color);
 }
 
 </style>

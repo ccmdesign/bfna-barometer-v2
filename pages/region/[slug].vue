@@ -127,7 +127,7 @@ onMounted(() => {
       </hgroup>
     </template>
     <template #column_right>
-      <bar-button el="button" @click="data.showRegionSelector = !data.showRegionSelector" class="align-self:end justify-self:end" color="faded" variant="primary" size="s">Change Region <span class="icon" v-if="!data.showRegionSelector">arrow_downward</span><span class="icon" v-else>cancel</span></bar-button>
+      <bar-button el="button" @click="data.showRegionSelector = !data.showRegionSelector" class="align-self:end justify-self:end" color="faded" variant="primary">Change Region <span class="icon" v-if="!data.showRegionSelector">arrow_downward</span><span class="icon" v-else>cancel</span></bar-button>
     </template>
   </bar-hero>
 

@@ -1199,7 +1199,7 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .choropleth-infographic__chart-wrapper {
 
   --legend-height: 45px;
