@@ -169,10 +169,10 @@ onMounted(() => {
     </div>
   </bar-section>
 
-  <bar-section v-if="tabs && tabs.length">
+  <bar-section id="infographics" v-if="tabs && tabs.length">
     <h2 class="section-title">infographics</h2>
 
-    <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
+    <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s text-align:center">
       <template v-for="(infgc, index) in infographicsByCountry" :key="infgc.infographicId" v-slot:[`tab${index}`]>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="infgc.highlight" />
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
@@ -191,25 +191,40 @@ onMounted(() => {
 .hero {
   --hero-gradient-color: var(--base-color-07-tint);
 }
- :deep(.hero-content__inner) {
-  justify-content: flex-end;
- }
 
- .h4 {
-  width: 100%;
+:deep(.hero-content__inner) {
+justify-content: flex-end;
+}
+
+.h4 {
+width: 100%;
+text-align: center;
+text-transform: uppercase;
+}
+
+.topic-date {
+font-weight: 300;
+}
+
+.topic-new {
+background-color: var(--accent-color);
+font-size: var(--size--2);
+padding: var(--space-3xs) var(--space-2xs);
+border-radius:  var(--space-xs);
+color: var(--white-color);
+}
+
+.infographics-tabs > * {
+  grid-column: content-start / content-end;
+}
+
+
+.infographics-tabs :deep(.ccm-tabs__tabs) {
   text-align: center;
-  text-transform: uppercase;
- }
+  justify-content: center;
+}
 
- .topic-date {
-  font-weight: 300;
- }
-
- .topic-new {
-  background-color: var(--accent-color);
-  font-size: var(--size--2);
-  padding: var(--space-3xs) var(--space-2xs);
-  border-radius:  var(--space-xs);
-  color: var(--white-color);
- }
+#infographics .section-title {
+text-align: center;
+}
 </style>
