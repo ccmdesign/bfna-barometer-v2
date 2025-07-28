@@ -52,10 +52,9 @@ const visibleCountries = computed(() => {
 const barScale = computed(() => {
   const vals = (data.countries || []).map(item => item.val)
   const max = Math.max(...vals, 0)
-  if (max < 0.1) return '1000%'
-  if (max > 1) return '20%'
-  if (max > 10) return '1%'
-  return '100%'
+  if (max === 0) return '100%' // avoid div by zero
+  const scale = 100 / max
+  return `${scale}%`
 })
 
 
@@ -117,7 +116,8 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
     position: absolute;
     right: calc(var(--legend-height) * -1);
     @media (max-width: 1024px) {
-      right: calc(var(--legend-height) * -1 + 12px);
+      right: calc(var(--legend-height) * -1 - 1px);
+      text-align: left;
     }
     top: 0;
     font-weight: 200;
