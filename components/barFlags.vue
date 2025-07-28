@@ -109,7 +109,7 @@ const scrollRight = () => {
   padding-inline: var(--space-xl);
 
   @media (min-width: 768px) {
-    --_reel-gap: var(--space-2xl);
+    --_reel-gap: var(--space-xl);
     overflow: hidden;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -137,6 +137,9 @@ const scrollRight = () => {
     width: 100px;
     scroll-snap-align: center;
     flex-shrink: 0;
+    /* margin-inline: var(--space-s); */
+    
+    box-sizing: content-box;
   }
 
   display: flex;
@@ -148,11 +151,21 @@ const scrollRight = () => {
   overflow-y: visible;
 }
 
+.reel-item:first-child {
+  border-right: 1px solid var(--base-color-30-alpha);
+  @media (min-width: 768px) { padding-inline: var(--space-xl); }
+}
+
+.reel-item:last-child {
+  margin-right: var(--space-xl);
+}
+
 .reel-item-label {
   font-size: var(--size-0);
   font-weight: 600;
   color: var(--base-color-80-shade);
   padding-top: var(--space-xs);
+  white-space: nowrap;
 }
 
 .flags {
