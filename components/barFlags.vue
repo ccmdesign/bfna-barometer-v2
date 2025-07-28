@@ -5,6 +5,10 @@ const { countries, getCountryName } = useCountries()
 
 const controls = ref(false)
 const router = useRouter()
+const reelRef = ref(null)
+
+const emit = defineEmits(['flag-hover', 'flag-leave'])
+
 const handleCountryFlag = (country) => {
   router.push({
     name: `region-slug`,
@@ -13,23 +17,88 @@ const handleCountryFlag = (country) => {
   });
 }
 
+const handleFlagHover = (country) => {
+  emit('flag-hover', country)
+}
 
+const handleFlagLeave = () => {
+  emit('flag-leave')
+}
+
+
+const scrollLeft = () => {
+  if (!reelRef.value) return
+  
+  const reel = reelRef.value
+  const itemWidth = 100 // largura de cada item
+  const gap = 32 // gap entre itens (--space-2xl)
+  const totalItemWidth = itemWidth + gap
+  
+  const scrollLeft = reel.scrollLeft
+  const containerWidth = reel.clientWidth
+  
+  const visibleItems = Math.floor(containerWidth / totalItemWidth)
+  const currentItemIndex = Math.floor(scrollLeft / totalItemWidth)
+  const targetItemIndex = Math.max(0, currentItemIndex - visibleItems)
+  
+  const targetScrollLeft = targetItemIndex * totalItemWidth
+  reel.scrollTo({
+    left: targetScrollLeft,
+    behavior: 'smooth'
+  })
+}
+
+const scrollRight = () => {
+  if (!reelRef.value) return
+  
+  const reel = reelRef.value
+  const itemWidth = 100 // largura de cada item
+  const gap = 32 // gap entre itens (--space-2xl)
+  const totalItemWidth = itemWidth + gap
+  
+  
+  const scrollLeft = reel.scrollLeft
+  const containerWidth = reel.clientWidth
+  const maxScrollLeft = reel.scrollWidth - containerWidth
+  
+  
+  const visibleItems = Math.floor(containerWidth / totalItemWidth)
+  
+  
+  const currentItemIndex = Math.floor(scrollLeft / totalItemWidth)
+  const targetItemIndex = Math.min(
+    Math.floor(maxScrollLeft / totalItemWidth),
+    currentItemIndex + visibleItems
+  )
+  
+ 
+  const targetScrollLeft = targetItemIndex * totalItemWidth
+  reel.scrollTo({
+    left: targetScrollLeft,
+    behavior: 'smooth'
+  })
+}
 </script>
-
 
 <template>
   <div class="flags" :controls="controls">
-    <div class="reel">
+    <div class="reel" ref="reelRef">
       <div v-for="country in countries" :key="country" class="reel-item">
-        <bar-flag :country="country" :title="getCountryName(country)" @click="handleCountryFlag(country)" />
+        <bar-flag 
+          :country="country" 
+          :title="getCountryName(country)" 
+          @click="handleCountryFlag(country)"
+          @flag-hover="handleFlagHover"
+          @flag-leave="handleFlagLeave"
+        />
         <div class="reel-item-label">{{ getCountryName(country) }}</div>
       </div>
     </div>
     
     <div class="reel-controls" :class="{ 'reel-controls--minimal': controls == 'false' }">
-      <button class="arrow-button"><span class="icon">arrow_back_ios</span></button>
+      <button class="arrow-button" @click="scrollLeft"><span class="icon">arrow_back_ios</span></button>
       <!-- <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button> -->
-      <button class="arrow-button"><span class="icon">arrow_forward_ios</span></button>
+      <button class="arrow-button" @click="scrollRight"><span class="icon">arrow_forward_ios</span></button>
     </div>
   </div>
 </template>
@@ -43,6 +112,10 @@ const handleCountryFlag = (country) => {
     --_reel-gap: var(--space-2xl);
     overflow: hidden;
     overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
   }
 
   @media (max-width: 768px) {
@@ -54,10 +127,16 @@ const handleCountryFlag = (country) => {
   }
 }
 
+.reel::-webkit-scrollbar {
+  display: none;
+}
+
 /* Temp */
 .reel-item {
   @media (min-width: 768px) {
     width: 100px;
+    scroll-snap-align: center;
+    flex-shrink: 0;
   }
 
   display: flex;

@@ -1,5 +1,11 @@
 <template>
-  <div class="flag" :class="{ 'flag--small': size === 'small' }" :country="country">
+  <div 
+    class="flag" 
+    :class="{ 'flag--small': size === 'small' }" 
+    :country="country"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
     <img :src="`https://flagcdn.com/${country}.svg`" :alt="countryName">
   </div>
 </template>
@@ -15,10 +21,21 @@ const props = defineProps({
     default: 'medium'
   }
 })
+
+const emit = defineEmits(['flag-hover', 'flag-leave'])
+
 import { useCountries } from '~/composables/countries'
 
 const { getCountryName } = useCountries()
 const countryName = computed(() => getCountryName(props.country))
+
+const handleMouseEnter = () => {
+  emit('flag-hover', props.country)
+}
+
+const handleMouseLeave = () => {
+  emit('flag-leave')
+}
 </script>
 
 <style scoped>

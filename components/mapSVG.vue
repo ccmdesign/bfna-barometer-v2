@@ -1,39 +1,50 @@
 <script setup>
-import { onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
+import { useCountries } from '~/composables/countries'
+
+const props = defineProps({
+  hoveredCountry: {
+    type: String,
+    default: ''
+  }
+})
+
+function updateActiveCountry(newCountry) {
+  // Remove .active de todos os paths
+  document.querySelectorAll('svg path.active').forEach(el => {
+    el.classList.remove('active')
+  })
+  // Adiciona .active apenas ao país hovered
+  if (newCountry) {
+    const el = document.getElementById(newCountry)
+    if (el) el.classList.add('active')
+  }
+}
+
+const { countries } = useCountries()
+
+watchEffect(() => {
+  if (countries.value) {
+    countries.value.forEach(country => {
+      console.log(country)
+      const el = document.getElementById(country)
+      if (el) {
+        el.classList.add('hasStatement')
+      }
+    })
+  }
+})
 
 onMounted(() => {
-
-const countries = [
-  'ca',
-  'us',
-  'gb',
-  'de',
-  'fr',
-  'it',
-  'es',
-  'nl',
-  'be',
-  'ch',
-  'ca',
-  'us',
-  'gb',
-  'de',
-  'fr',
-  'it',
-  'es',
-  'nl',
-  'be',
-  'ch',
-]
-
-  countries.forEach(country => {
-    const el = document.getElementById(country)
-    if (el) {
-      el.classList.add('hasStatement')
-    }
-  })
+  updateActiveCountry(props.hoveredCountry)
 })
-    
+
+watch(
+  () => props.hoveredCountry,
+  (newCountry) => {
+    updateActiveCountry(newCountry)
+  }
+)
 </script>
 
 <style scoped>
@@ -60,6 +71,17 @@ path { fill: hsla(var(--base-hsl), .05); }
     stroke: hsla(var(--accent-hsl), .5);
     fill: hsla(var(--accent-hsl), .3);
   }
+}
+
+.hovered {
+  stroke: hsla(var(--accent-hsl), .8) !important;
+  fill: hsla(var(--accent-hsl), .5) !important;
+  stroke-width: .4 !important;
+}
+
+.active {
+  stroke: hsla(var(--accent-hsl), .5) !important;
+  fill: hsla(var(--accent-hsl), .3) !important;
 }
 </style>
 
