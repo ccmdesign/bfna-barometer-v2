@@ -1,6 +1,6 @@
 <template>
   <div class="subgrid">
-    <div class="bar-infographic__chart-wrapper">
+    <div class="bar-infographic__chart-wrapper" :style="{ '--bar-scale': barScale }">
       <div
         class="bar-infographic__country"
         v-for="item in visibleCountries"
@@ -49,8 +49,17 @@ const visibleCountries = computed(() => {
   return (data.countries || []).filter(item => !hiddenCountries.value.includes(item.country))
 })
 
-const handleCountryVisibility = ({ countryCode, visible }) => {
+const barScale = computed(() => {
+  const vals = (data.countries || []).map(item => item.val)
+  const max = Math.max(...vals, 0)
+  if (max < 0.1) return '1000%'
+  if (max > 1) return '20%'
+  if (max > 10) return '1%'
+  return '100%'
+})
 
+
+const handleCountryVisibility = ({ countryCode, visible }) => {
   if (!visible) {
     if (!hiddenCountries.value.includes(countryCode)) {
       hiddenCountries.value.push(countryCode)
@@ -63,7 +72,7 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
 
 <style scoped>
 .bar-infographic__chart-wrapper {
-
+  --bar-scale: 100%;
   --legend-height: 45px;
   --gap: var(--space-xs);
 
@@ -107,6 +116,9 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
     content: attr(score);
     position: absolute;
     right: calc(var(--legend-height) * -1);
+    @media (max-width: 1024px) {
+      right: calc(var(--legend-height) * -1 + 12px);
+    }
     top: 0;
     font-weight: 200;
     font-size: var(--size-0);
@@ -118,12 +130,13 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
     display: flex;
     align-items: center;
     border-right: 1px solid var(--base-color-40-tint);
-    height: calc(100% - var(--gap) * -1);width: 100%;
+    height: calc(100% - var(--gap) * -1);
+    width: 100%;
     width: 28px;
   }
 
   .bar-infographic__country-score {
-    width: calc(var(--score) * 100% - 28px);
+    width: calc(var(--score) * var(--bar-scale) - 52px);
     height: 100%;
     order: 1;
     border-radius: 0 var(--border-radius-s) var(--border-radius-s) 0;
@@ -150,7 +163,7 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
   }
 
   .bar-infographic__country-score {
-    height: calc(var(--score) * 1000%);
+    height: calc(var(--score) * var(--bar-scale));
     background-color: var(--primary-color);
     width: 100%;
     border-radius: var(--border-radius-m) var(--border-radius-m) 0 0;
