@@ -1,10 +1,10 @@
 <template>
-  <div class="topic-card | stack">
+  <nuxt-link :to="`/topic/${topic.slug}`" class="topic-card | stack">
     <h3>{{ topic.title }}</h3>
     <p class="margin-bottom:auto">{{ formatedDate }}</p>
     <span v-if="topic.new" class="topic-card__new | topic-new">New</span>
     <span class="topic-card__category">{{ tags }}</span>
-  </div>
+  </nuxt-link>
 </template>
 
 <script setup>
@@ -30,7 +30,7 @@
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .topic-card {
   @media (min-width: 768px) { aspect-ratio: 1 / 1; } /* Sets a square look for the desktop*/
   @media (max-width: 768px) { height: 100%; } /* makes cards the same height for the mobile */
@@ -48,9 +48,16 @@
     background-color: var(--base-color);
     box-shadow: var(--box-shadow-m);
     color: var(--white-color);
+    h3, p {
+      color: var(--white-color);
+    }
   }
 
   cursor: pointer;
+  text-decoration: none;
+  p {
+    color: var(--base-color);
+  }
 }
 
 .topic-card h3 {
@@ -62,6 +69,7 @@
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  color: var(--base-color);
 }
 
 .topic-card__category {

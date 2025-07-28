@@ -183,13 +183,18 @@ onMounted(() => {
       </template>
     </ccm-tabs>
   </bar-section>
+  <bar-footer id="footer" />
 
 </template>
 
 <style scoped>
 
 .hero {
-  --hero-gradient-color: var(--base-color-07-tint);
+  --bar-curve-color: var(--base-color-07-tint);
+}
+
+.bar-footer {
+  --bar-curve-color: var(--white-color);
 }
 
 :deep(.hero-content__inner) {

@@ -36,6 +36,7 @@
       </div>
     </div>
   </bar-section>
+  <bar-footer id="footer" />
 </template>
 
 <script setup>

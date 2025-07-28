@@ -26,7 +26,6 @@ const { countries } = useCountries()
 watchEffect(() => {
   if (countries.value) {
     countries.value.forEach(country => {
-      console.log(country)
       const el = document.getElementById(country)
       if (el) {
         el.classList.add('hasStatement')

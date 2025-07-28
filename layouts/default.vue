@@ -2,7 +2,6 @@
   <ccm-master-grid>
     
     <slot />
-    <bar-footer id="footer" />
   </ccm-master-grid>
 </template>
 

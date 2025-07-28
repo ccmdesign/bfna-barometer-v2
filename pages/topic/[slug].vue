@@ -62,6 +62,7 @@
       </template>-->
     </ccm-tabs>
   </bar-section>
+  <bar-footer id="footer" />
 
 </template>
 
