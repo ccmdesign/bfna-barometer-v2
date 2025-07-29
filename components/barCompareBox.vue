@@ -25,6 +25,11 @@ const handleMoreDetails = (code) => {
 const highlightCodes = computed(() =>
   props.dataset.flatMap(topic => Object.keys(topic.statements))
 );
+
+const isCountryInInfographic = (codesToCheck, infographic) =>{
+  return codesToCheck.some(code => Object.keys(infographic.vizCountries).includes(code));
+}
+
 </script>
 
 <template>
@@ -54,11 +59,13 @@ const highlightCodes = computed(() =>
 
     <!-- <bar-infographic /> -->
     <div v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
-      <h3 v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)" class="h4" style="padding: 2rem 0">{{ infgc.title }}</h3>
-      <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" />
-      <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="highlightCodes" />
-      <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" />
-      <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="highlightCodes" />
+      <div v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)">
+        <h3 v-if="isCountryInInfographic(highlightCodes, infgc)"class="h4" style="padding: 2rem 0">{{ infgc.title }}</h3>
+        <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" />
+        <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart' && isCountryInInfographic(highlightCodes, infgc)" :dataset="infgc" :highlight="highlightCodes" />
+        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" />
+        <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="highlightCodes" />
+      </div>
     </div>
   </bar-section>
 </template>
