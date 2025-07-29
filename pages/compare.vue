@@ -24,7 +24,7 @@
   <bar-section class="margin-top:m">
     <div v-if="statements" class="cluster">
       <span split-left>Export Comparison:</span>
-      <bar-button variant="secondary" color="base" size="s" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+      <!-- <bar-button variant="secondary" color="base" size="s" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
       <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon" >vertical_align_bottom</span>CSV</bar-button>
     </div>
     <div v-else>
@@ -38,8 +38,8 @@
 
     <div class="cluster">
       <span split-left>Export Comparison:</span>
-      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
-      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+      <!-- <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
+      <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
     </div>
   </div>
 </bar-section>
@@ -148,8 +148,11 @@ const initComparison = () => {
   const codes = regions ? regions.split(',') : [];
   const topicsIds = topics ? topics.split(',') : [];
 
-  if (!codes.length || !topicsIds.length)
-    return null
+  if (!codes.length || !topicsIds.length) {
+    codes.push('eu', 'us'); // Default EU and US
+    topicsIds.push(availableTopics.value.find(topic => topic.new).slug);
+  }
+
 
   availableCountries.value = availableCountries.value.map(item => {
     if (codes.includes(item.code)) {
@@ -201,6 +204,9 @@ const handleDownloadCSV = () => {
   downloadCSV(csv);
 }
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 onMounted(async () => {
   // Initialize availableCountries with all countries
@@ -212,16 +218,11 @@ onMounted(async () => {
 
   availableTopics.value = topics.value.map(topic => ({
     ...topic,
-    active: false // Initialize all topics as inactive
   }));
 
   initComparison();
 
 });
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
 </script>
 
