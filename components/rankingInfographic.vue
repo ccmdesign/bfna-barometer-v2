@@ -5,7 +5,7 @@ const props = defineProps({
     required: true,
   },
   highlight: {
-    type: String,
+    type: Array,
     default: null,
   }
 });
@@ -95,7 +95,7 @@ watch(chartData, () => {
           >
             <p class="country__ranking">{{ i.ranking }}</p>
             <bar-flag :country="i.country.toLowerCase()" size="small" :style="{maxWidth: '42px'}"></bar-flag>
-            <div class="country__spacer" :style="{'background-color': i.country.toLowerCase() === highlight ? 'var(--base-color)' : 'var(--accent-color)' }"></div>
+            <div class="country__spacer" :style="{'background-color': highlight.includes(i.country.toLowerCase()) ? 'var(--base-color)' : 'var(--accent-color)' }"></div>
             <p class="country__country">{{ i.country }}</p>
           </li>
           <a class="scroll-button scroll-button--left | desktop-only" @click.prevent="scrollCards('left')" aria-hidden="true">

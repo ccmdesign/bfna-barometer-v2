@@ -1037,7 +1037,7 @@ const props = defineProps({
     type: Object
   },
   highlight: {
-    type: String,
+    type: Array,
     default: ''
   }
 });
@@ -1154,12 +1154,13 @@ onMounted(() => {
   });
 
   // Highlight the country specified by the highlight prop
-  if (props.highlight && map) {
-    const highlighted = map.querySelector(`#${props.highlight}`);
-    if (highlighted) {
-      highlighted.style.setProperty('stroke', 'var(--base-color)');
-      highlighted.style.setProperty('filter', 'drop-shadow(0 0 6px var(--base-color-40-tint))');
-    }
+  if (Array.isArray(props.highlight) && map) {
+    props.highlight.forEach(countryId => {
+      const highlighted = map.querySelector(`#${countryId}`);
+      if (highlighted) {
+        highlighted.classList.add('highlighted-country');
+      }
+    });
   }
 
   const chartLegend = document.createElement('div');

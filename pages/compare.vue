@@ -191,13 +191,13 @@ watch([selectedCountries, selectedTopics], () => {
 },{ deep: true });
 
 
-onMounted(() => {
+onMounted(async () => {
   // Initialize availableCountries with all countries
-  availableCountries.value = countries.value.map(code => ({
+  availableCountries.value = await Promise.all(countries.value.map(async code => ({
     code: code,
-    label: getCountryName(code),
+    label: await getCountryName(code),
     active: false
-  }));
+  })));
 
   availableTopics.value = topics.value.map(topic => ({
     ...topic,
