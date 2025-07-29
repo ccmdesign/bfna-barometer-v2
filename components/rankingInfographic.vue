@@ -52,8 +52,7 @@ function renderTimelineHeights() {
     // invert so 1st place is 100%, last is lowest
     let percent = maxRanking === 1 ? 100 : ((maxRanking - rank + 1) / maxRanking) * 100;
     percent = Number(percent.toFixed(2));
-    item.style.setProperty("--height", `${percent}%`);
-    item.style.setProperty("--width", `${percent}%`);
+    item.style.setProperty("--val", `${percent}`);
   });
 }
 
@@ -105,16 +104,9 @@ watch(chartData, () => {
             <div class="country__spacer" :style="{'background-color': highlight.includes(i.country.toLowerCase()) ? 'var(--base-color)' : 'var(--accent-color)' }"></div>
             <p class="country__country">{{ i.country }}</p>
           </li>
-          <a class="scroll-button scroll-button--left | desktop-only" @click.prevent="scrollCards('left')" aria-hidden="true">
-            <i class="material-icons">keyboard_arrow_left</i>
-          </a>
-          
-          <a class="scroll-button scroll-button--right | desktop-only" @click.prevent="scrollCards('right')" aria-hidden="true">
-            <i class="material-icons">keyboard_arrow_right</i>
-          </a>
         </ul>
       </div>
-      <div class="tags | cluster" centered>
+      <div class="tags | cluster | margin-top:m" centered>
         <bar-tag
           v-for="item in countries"
           :key="item.country"
@@ -125,29 +117,11 @@ watch(chartData, () => {
         />
       </div>
     </div>
-    
-
 </template>
 
 <style scoped lang="scss">
 .ranking-infographic__chart-wrapper {
-
-  --legend-height: 45px;
-  --gap: var(--space-xs);
-
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 1024px) { flex-direction: row; }
-
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 16/6;
-  position: relative;
-  gap: var(--gap);
-  padding-inline: var(--space-s);
-  padding-top: calc(var(--space-xs) + var(--legend-height));
-
+  --scale: 5px;
 }
 
 .label {
@@ -156,109 +130,64 @@ watch(chartData, () => {
   white-space: pre-wrap;
 }
 
-  .ranking {
-    display: flex;
-    flex-flow: row nowrap;
+.ranking {
+  display: flex;
+  flex-flow: row nowrap;
+  @media (min-width: 1440px) {
+    height: 600px;
     align-items: flex-end;
-    justify-content: center;
-    gap: var(--space-3xs);
-    height: 35vh;
-    margin-top: -10vh;
-    width: 50%;
-    @media (min-width: 36em) {
-      justify-content: flex-start;
-      padding-inline: 0;
-      width: 50%;
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-    @media (max-width: 36em) {
-      flex-flow: column nowrap;
-      height: auto;
-      margin-top: 0;
-      align-items: flex-start;
-    }
-
   }
-
-  .ranking__item {
-    display: flex;
+  @media (max-width: 1440px) {
     flex-flow: column nowrap;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-3xs);
-    height: var(--height);
-    scroll-snap-align: start;
-    @media (max-width: 36em) {
-      flex-flow: row-reverse nowrap;
-      justify-content: flex-start;
-      height: auto;
-      width: var(--width);
-    }
+    align-items: flex-start;
   }
-
-    .country__ranking {
-      font-weight: 700;
-    }
-
-    .country__spacer {
-      width: 1px;
-      background-color: var(--accent-color);
-      flex-grow: 1;
-      @media (max-width: 36em) {
-        height: 1px;
-        width: auto;
-      }
-    }
-
-    .country__country {
-      color: hsla(var(--base-hsl),0.9);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-
   
+  justify-content: center;
+  gap: var(--space-3xs);
+  
+}
 
-.scroll-button {
-  position: absolute;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
-  
-  top: 70%;
-  z-index: 12;
-  transform: translateY(-50%);
-  
+.ranking__item {
+  --extras: 65px + (var(--space-3xs) * 2);
   display: flex;
   align-items: center;
-  justify-content: center;
-  
-  border-radius: 50%;
-  background-color: var(--white-color);
-  box-shadow: 0 0 16px hsla(var(--base-hsl), .2);
-  transition: all 0.2s ease-out;
-  @media (max-width: 36em) {
-    display: none;
+  text-align: center;
+
+
+  @media (max-width: 1440px) { 
+    flex-flow: row-reverse nowrap; 
+    justify-content: flex-end;
+    gap: var(--space-3xs);
+    width: 100%;
+  }
+
+  @media (min-width: 1440px) { flex-flow: column nowrap; }
+}
+
+.country__ranking { 
+  font-weight: 700; 
+  margin: 0;;
+}
+
+.country__spacer {
+  background-color: var(--accent-color);
+
+  @media (max-width: 1440px) {
+    --scale: 1%;
+    width: calc(var(--val) * var(--scale) - var(--extras));
+    height: 1px;
+  }
+
+  @media (min-width: 1440px) {
+    width: 1px;
+    height: calc(var(--val) * var(--scale));
   }
 }
-  .scroll-button .material-icons {
-    color: var(--base-color);
-    flex: 0 0 auto;
-  }
-  .scroll-button:hover { transform: translateY(-50%) scale(1.2); }
-  .scroll-button--left { left: 20%; }
-  .scroll-button--right { right: 20%; }
-  
-  .ini .scroll-button--left,
-  .end .scroll-button--right {
-    display: none;
-  }
+
+.country__country { 
+  color: hsla(var(--base-hsl),0.9); 
+  margin: 0;
+}
+
+.hidden { display: none; }
 </style>
