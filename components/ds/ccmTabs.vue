@@ -72,7 +72,7 @@ const activeTab = ref(0)
   text-decoration: none;
   line-height: 180%;
   letter-spacing: -1%;
-  font-size: var(--size-2);
+  font-size: var(--size-1);
   @media (max-width: 768px) { font-size: var(--size-0); }
 }
 

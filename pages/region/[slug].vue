@@ -170,7 +170,7 @@ onMounted(() => {
   </bar-section>
 
   <bar-section id="infographics" v-if="tabs && tabs.length">
-    <h2 class="section-title">infographics</h2>
+    <h2 class="section-title ">infographics</h2>
 
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s text-align:center">
       <template v-for="(infgc, index) in infographicsByCountry" :key="infgc.infographicId" v-slot:[`tab${index}`]>

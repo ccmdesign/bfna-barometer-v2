@@ -46,7 +46,7 @@ const highlightCodes = computed(() =>
 
     <!-- <bar-infographic /> -->
     <div v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
-      <h3 v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)" class="h2" style="padding: 2rem 0">{{ infgc.title }}</h3>
+      <h3 v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)" class="h4" style="padding: 2rem 0">{{ infgc.title }}</h3>
       <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" />
       <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="highlightCodes" />
       <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" />
