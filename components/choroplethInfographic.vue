@@ -1173,18 +1173,18 @@ onMounted(() => {
   const legendContainer = document.createElement('div');
   legendContainer.className = 'chart-legend__legend';
 
-  const legendText = document.createElement('p');
-  legendText.style.position = 'absolute';
-  legendText.style.bottom = '2.2rem';
-  legendText.style.left = '6.5rem';
-  legendText.textContent = 'Legend';
-  legendContainer.appendChild(legendText);
+  // const legendText = document.createElement('p');
+  // legendText.style.position = 'absolute';
+  // legendText.style.bottom = '2.2rem';
+  // legendText.style.left = '6.5rem';
+  // legendText.textContent = 'Legend';
+  // legendContainer.appendChild(legendText);
 
-  for (let i = 1; i <= 5; i++) {
-    const box = document.createElement('div');
-    box.className = `chart-legend__box chart-legend__box--${i}`;
-    legendContainer.appendChild(box);
-  }
+  // for (let i = 1; i <= 5; i++) {
+  //   const box = document.createElement('div');
+  //   box.className = `chart-legend__box chart-legend__box--${i}`;
+  //   legendContainer.appendChild(box);
+  // }
 
   const maxValueText = document.createElement('p');
   maxValueText.className = 'chart-legend__text';
@@ -1202,23 +1202,23 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .choropleth-infographic__chart-wrapper {
-
+  overflow: hidden;
   --legend-height: 45px;
   --gap: var(--space-xs);
 
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--navy-color);
 
   @media (min-width: 1024px) { flex-direction: row; }
 
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16/6;
+  aspect-ratio: 16/8;
   position: relative;
   gap: var(--gap);
   padding-inline: var(--space-s);
   padding-top: calc(var(--space-xs) + var(--legend-height));
-
 }
 
 svg {
@@ -1235,10 +1235,10 @@ path { fill: hsla(var(--base-hsl), .05); }
 
 .highlighted-country {
   /* Use the --base-color variable for fill and stroke */
-  fill: var(--base-color) !important;
+  fill: var(--navy-color) !important;
   stroke: var(--base-color) !important;
-  stroke-width: 2 !important;
-  filter: drop-shadow(0 0 6px var(--base-color));
+  stroke-width: .25 !important;
+  filter: drop-shadow(0 0 6px var(--base-color-10-tint));
   transition: fill 0.3s, stroke 0.3s, filter 0.3s;
 }
 
@@ -1271,51 +1271,51 @@ path { fill: hsla(var(--base-hsl), .05); }
   --choropleth-hsl: var(--accent-hsl);
 }
 
-#choropleth .chart-legend {
-  position: absolute;
-  bottom: 0vh;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
+// #choropleth .chart-legend {
+//   position: absolute;
+//   // bottom: 0vh;
+//   // left: 50%;
+//   // transform: translateX(-50%);
+//   display: flex;
+//   align-items: center;
+//   gap: 1em;
+// }
 
-#choropleth .chart-legend__text {
-  margin: auto;
-  font-size: 0.875rem;
-  color: var(--text-color);
-}
+// #choropleth .chart-legend__text {
+//   margin: auto;
+//   font-size: 0.875rem;
+//   color: var(--text-color);
+// }
 
-#choropleth .chart-legend__legend {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--navy-color);
-}
+// #choropleth .chart-legend__legend {
+//   display: flex;
+//   gap: 0;
+//   border: 1px solid var(--navy-color);
+// }
 
-#choropleth .chart-legend__box {
-  width: 2rem;
-  height: 2rem;
-}
+// #choropleth .chart-legend__box {
+//   width: 2rem;
+//   height: 2rem;
+// }
 
-  #choropleth .chart-legend__box--1 {
-    background-color: hsla(var(--choropleth-hsl), 0.2);
-    border-right: 1px solid var(--navy-color);
-  }
-  #choropleth .chart-legend__box--2 {
-    background-color: hsla(var(--choropleth-hsl), 0.4);
-    border-right: 1px solid var(--navy-color);
-  }
-  #choropleth .chart-legend__box--3 {
-    background-color: hsla(var(--choropleth-hsl), 0.6);
-    border-right: 1px solid var(--navy-color);
-  }
-  #choropleth .chart-legend__box--4 {
-    background-color: hsla(var(--choropleth-hsl), 0.8);
-    border-right: 1px solid var(--navy-color);
-  }
-  #choropleth .chart-legend__box--5 {
-    background-color: hsla(var(--choropleth-hsl), 1);
-  }
+//   #choropleth .chart-legend__box--1 {
+//     background-color: hsla(var(--choropleth-hsl), 0.2);
+//     border-right: 1px solid var(--navy-color);
+//   }
+//   #choropleth .chart-legend__box--2 {
+//     background-color: hsla(var(--choropleth-hsl), 0.4);
+//     border-right: 1px solid var(--navy-color);
+//   }
+//   #choropleth .chart-legend__box--3 {
+//     background-color: hsla(var(--choropleth-hsl), 0.6);
+//     border-right: 1px solid var(--navy-color);
+//   }
+//   #choropleth .chart-legend__box--4 {
+//     background-color: hsla(var(--choropleth-hsl), 0.8);
+//     border-right: 1px solid var(--navy-color);
+//   }
+//   #choropleth .chart-legend__box--5 {
+//     background-color: hsla(var(--choropleth-hsl), 1);
+//   }
 
 </style>
