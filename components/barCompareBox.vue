@@ -1,4 +1,7 @@
+
 <script setup>
+import { useAttrs } from 'vue';
+defineOptions({ inheritAttrs: false });
 const props = defineProps({
   dataset: {
     type: Array,
@@ -7,6 +10,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['removeTopic']);
 const { getCountryName } = useCountries()
+const attrs = useAttrs();
 
 const handleMoreDetails = (code) => {
   navigateTo({
@@ -21,11 +25,15 @@ const handleMoreDetails = (code) => {
 const highlightCodes = computed(() =>
   props.dataset.flatMap(topic => Object.keys(topic.statements))
 );
-
 </script>
 
 <template>
-  <bar-section v-for="(topic, index) in props.dataset" :key="index" class="compare-box | stack | margin-bottom:m">
+  <bar-section
+    v-for="(topic, index) in props.dataset"
+    :key="index"
+    class="compare-box | stack | margin-bottom:m"
+    v-bind="attrs"
+  >
     <div class="cluster">
       <hgroup split-right>
         <h2 class="h1">{{ topic.title }}</h2>
@@ -52,7 +60,6 @@ const highlightCodes = computed(() =>
       <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" />
       <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="highlightCodes" />
     </div>
-
   </bar-section>
 </template>
 

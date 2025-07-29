@@ -24,8 +24,8 @@
   <bar-section class="margin-top:m">
     <div v-if="statements" class="cluster">
       <span split-left>Export Comparison:</span>
-      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
-      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+      <bar-button variant="secondary" color="base" size="s" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+      <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon" >vertical_align_bottom</span>CSV</bar-button>
     </div>
     <div v-else>
       <h2 class="h5 uppercase text-align:center">Make a Selection to start</h2>
@@ -194,6 +194,14 @@ watch([selectedCountries, selectedTopics], () => {
 },{ deep: true });
 
 
+const handleDownloadCSV = () => {
+  if (!statements.value || !statements.value.length) return;
+
+  const csv = objectsToCSV(statements.value)
+  downloadCSV(csv);
+}
+
+
 onMounted(async () => {
   // Initialize availableCountries with all countries
   availableCountries.value = await Promise.all(countries.value.map(async code => ({
@@ -237,4 +245,10 @@ const scrollToTop = () => {
  border-radius:  var(--space-xs);
 color: var(--white-color);
 }
+
+.export-download-btn {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
 </style>
