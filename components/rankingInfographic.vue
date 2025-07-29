@@ -38,15 +38,22 @@ function renderTimelineHeights() {
   const ranking = rankingList.value;
   if (!ranking) return;
   const items = ranking.querySelectorAll(".ranking__item");
-  const totalHeight = ranking.clientHeight;
-  const baseHeight = 100;
-  const step = (totalHeight - baseHeight) / items.length;
-  const totalWidth = ranking.clientWidth;
-  const baseWidth = 100;
-  const stepW = (totalWidth - baseWidth) / items.length;
-  items.forEach((item, index) => {
-    item.style.setProperty("--height", `${baseHeight + step * (items.length - index)}px`);
-    item.style.setProperty("--width", `${baseWidth + stepW * (items.length - index)}px`);
+  if (!items.length) return;
+
+  // get the largest ranking value (should be 1, but let's generalize)
+  const rankings = Array.from(items).map(item => {
+    const rank = parseInt(item.querySelector('.country__ranking')?.textContent, 10);
+    return isNaN(rank) ? 0 : rank;
+  });
+  const maxRanking = Math.max(...rankings);
+
+  items.forEach((item, idx) => {
+    const rank = rankings[idx];
+    // invert so 1st place is 100%, last is lowest
+    let percent = maxRanking === 1 ? 100 : ((maxRanking - rank + 1) / maxRanking) * 100;
+    percent = Number(percent.toFixed(2));
+    item.style.setProperty("--height", `${percent}%`);
+    item.style.setProperty("--width", `${percent}%`);
   });
 }
 
