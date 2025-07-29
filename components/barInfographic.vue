@@ -6,7 +6,7 @@
         v-for="item in visibleCountries"
         :key="item.country"
       >
-        <div class="bar-infographic__country-score" :style="{ '--score': item.val, 'background-color': item.country === highlight ? 'var(--base-color)' : 'var(--accent-color)' }" :score="item.val"></div>
+        <div class="bar-infographic__country-score" :style="{ '--score': item.val, 'background-color': highlight.includes(item.country) ? 'var(--base-color)' : 'var(--accent-color)' }" :score="item.val"></div>
         <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>
       </div>
     </div>
@@ -35,7 +35,7 @@ const { data } = defineProps({
     required: true,
   },
   highlight: {
-    type: String,
+    type: Array,
     required: false,
   }
 })

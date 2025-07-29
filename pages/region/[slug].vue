@@ -174,12 +174,12 @@ onMounted(() => {
 
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s text-align:center">
       <template v-for="(infgc, index) in infographicsByCountry" :key="infgc.infographicId" v-slot:[`tab${index}`]>
-        <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="infgc.highlight" />
+        <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="[infgc.highlight]" />
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
         <custom-infographic v-else-if="infgc.infographicType === 'customInfographic'" :data="infgc" />
-        <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="infgc.highlight" />
-        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="infgc.highlight" />
-        <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="infgc.highlight" />
+        <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
+        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
+        <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
       </template>
     </ccm-tabs>
   </bar-section>

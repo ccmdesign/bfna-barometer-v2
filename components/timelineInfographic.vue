@@ -7,8 +7,8 @@ const props = defineProps({
     // see original for default structure
   },
   highlight: {
-    type: String,
-    default: ''
+    type: Array,
+    default: () => []
   }
 });
 
@@ -220,8 +220,10 @@ if (infographicData && infographicData.length) {
 }
 
 const getAccentColor = (labels) => {
-  if (!props.highlight) return '';
-  return labels.some(l => l.countries && l.countries.includes(props.highlight))
+  if (!props.highlight || !Array.isArray(props.highlight) || props.highlight.length === 0) return '';
+  return labels.some(l => 
+    l.countries && l.countries.some(country => props.highlight.includes(country))
+  )
     ? 'var(--base-color)'
     : '';
 }

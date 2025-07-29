@@ -7,14 +7,14 @@
         <div class="stack">
           <h2 class="h5 uppercase">Select two countries</h2>
           <div class="cluster">
-            <bar-button color="white" size="s">Deselect All</bar-button>
-            <bar-button v-for="country in countries" :color="country.active ? 'white' : 'faded'" variant="primary" size="s">{{ country.label }}</bar-button>
+            <!-- <bar-button color="white" size="s">Deselect All</bar-button> -->
+            <bar-button v-for="country in availableCountries" :color="country.active ? 'white' : 'faded'" variant="primary" size="s" @click="handleSelectedCountry(country.code)" :key="country.code">{{ country.label }}</bar-button>
           </div>
 
           <h2 class="h5 uppercase">Select one or more topics</h2>
           <div class="cluster">
-            <bar-button color="white" size="s">Select All</bar-button>
-            <bar-button size="s" :color="topic.active ? 'white' : 'faded'" variant="primary" v-for="topic in topics" :key="topic.title">{{ topic.title }} <span class="topic-date">{{ topic.date }}</span> <span class="topic-new" v-if="topic.new">new</span></bar-button>
+            <bar-button color="white" size="s" @click="handleSelectAllTopics">Select All</bar-button>
+            <bar-button size="s" :color="topic.active ? 'white' : 'faded'" variant="primary" v-for="topic in availableTopics" :key="topic.title" @click="handleSelectedTopic(topic.topicId)">{{ topic.title }} <span class="topic-date">{{ topic.period }}</span> <span class="topic-new" v-if="topic.new">new</span></bar-button>
           </div>
         </div>
       </hgroup>
@@ -22,17 +22,17 @@
   </bar-hero>
 
   <bar-section>
-    <div class="cluster">
+    <div v-if="statements" class="cluster">
       <span split-left>Export Comparison:</span>
       <bar-button variant="primary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
       <bar-button variant="primary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
     </div>
+    <div v-else>Make a Selection to start</div>
   </bar-section>
-    <bar-compare-box class="margin-bottom:l" />
-    <bar-compare-box class="margin-bottom:l" />
-  <bar-section>
+  <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)"/>
+  <bar-section v-if="statements">
   <div class="repel">
-    <bar-button variant="primary" color="gray" size="s">Back to Top<span class="icon">arrow_upward</span></bar-button>
+    <bar-button variant="primary" color="gray" size="s" @click="scrollToTop">Back to Top<span class="icon">arrow_upward</span></bar-button>
 
     <div class="cluster">
       <span split-left>Export Comparison:</span>
@@ -44,90 +44,173 @@
 </template>
 
 <script setup>
-const countries = [
-  {
-    label: 'Austria',
-    active: false,
-  },
-  {
-    label: 'Belgium',
-    active: false,
-  },
-  {
-    label: 'Bulgaria',
-    active: false,
-  },
-  {
-    label: 'Canada',
-    active: true,
-  },
-  {
-    label: 'Croatia',
-    active: false,
-  },
-  {
-    label: 'Cyprus',
-    active: false,
-  },
-  {
-    label: 'Czech Republic',
-    active: false,
-  },
-  {
-    label: 'Denmark',
-    active: false,
-  },
-  {
-    label: 'Luxembourg',
-    active: true,
-  },
+import { useStatementStore } from '~/stores/statements';
+const { countries, getCountryName } = useCountries();
+const availableCountries = ref([])
+const availableTopics = ref([])
 
-]
+// Fetch topics based on filters
+const { data: topics } = await useAsyncData('topics', () => {
+  let query = queryCollection('topics')
+  // Always use boolean for isArchived
+  query = query.select('title', 'description', 'slug', 'new', 'active', 'topicId', 'period', 'periodWithDay', 'isArchived', 'infographics')
+  query = query.where('isArchived', '=', false)
+  query = query.order('periodWithDay', 'DESC')
+  
+  return query.all()
 
-const topics = [
-  {
-    "title": "Democracy",
-    "active": true,
-    "new": true,
-    date: 'May `25'
-  },
-  {
-    "title": "Security & Defense",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Elections & Vote Turnout",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "E-Governance",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Foreign Direct Investment",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Migration",
-    "active": false,
-    "new": false,
-    date: 'May `25'
-  },
-  {
-    "title": "Artificial Intelligence",
-    "active": false,
-    "new": false,
-    date: 'May `25'
+})
+
+const statements = ref(null)
+const selectedCountries = ref([])
+const selectedTopics = ref([])
+const handleSelectedCountry = (code) => {
+  const idx = selectedCountries.value.indexOf(code);
+  if (idx !== -1) {
+    selectedCountries.value.splice(idx, 1);
+  } else {
+    if (selectedCountries.value.length < 2) {
+      selectedCountries.value.push(code);
+    }
   }
-]
+
+  availableCountries.value = availableCountries.value.map(country => {
+    country.active = selectedCountries.value.includes(country.code);
+    return country;
+  })
+  
+  if(selectedTopics.value.length && selectedCountries.value.length === 2) {
+    handleStatementsFromSelectedCountries();
+  }
+
+}
+
+const handleSelectedTopic = (topicId) => {
+  availableTopics.value = availableTopics.value.map(topic => {
+    if (topic.topicId === topicId) {
+      topic.active = !topic.active; // Toggle active state
+    }
+    return topic;
+  });
+
+  selectedTopics.value = availableTopics.value.filter(topic => topic.active);
+  handleStatementsFromSelectedCountries();
+}
+
+const handleSelectAllTopics = () => {
+  const isAll = availableTopics.value.every(topic => topic.active);
+  availableTopics.value = availableTopics.value.map(topic => {
+    topic.active = !isAll; // Set all topics to active or inactive based on isAll
+    return topic;
+  });
+
+  selectedTopics.value = availableTopics.value.filter(topic => topic.active);
+  handleStatementsFromSelectedCountries();
+}
+
+const handleRemoveTopic = (topic) => {
+  selectedTopics.value = selectedTopics.value.filter(t => t.topicId !== topic.topicId);
+  availableTopics.value = availableTopics.value.map(t => {
+    if (t.topicId === topic.topicId) {
+      t.active = false; // Set the removed topic as inactive
+    }
+    return t;
+  });
+
+  if (selectedTopics.value.length === 0) {
+    statements.value = null;
+  }
+
+  if (selectedCountries.value.length >= 2) {
+    handleStatementsFromSelectedCountries();
+  } else {
+    statements.value = null; // Clear statements if less than 2 countries are selected
+  }
+}
+
+const statementStore = useStatementStore()
+const handleStatementsFromSelectedCountries = () => {
+  if (selectedCountries.value.length < 2) {
+    return;
+  }
+  
+  if (!selectedTopics.value.length) return;
+  statements.value = statementStore.getStatementByTopicAndCountryCode(selectedTopics.value, selectedCountries.value);
+
+}
+
+const route = useRoute()
+const initComparison = () => {
+  const {regions, topics } = route.query;
+  const codes = regions ? regions.split(',') : [];
+  const topicsIds = topics ? topics.split(',') : [];
+
+  if (!codes.length || !topicsIds.length)
+    return null
+
+  availableCountries.value = availableCountries.value.map(item => {
+    if (codes.includes(item.code)) {
+      item.active = true;
+      selectedCountries.value.push(item.code);
+    } else {
+      item.active = false;
+    }
+    return item;
+  });
+  
+  availableTopics.value.map(topic => {
+    // const topic = availableTopics.value.find(t => t.slug === topicId);
+    if (topicsIds.includes(topic.slug)) {
+      topic.active = true;
+      selectedTopics.value.push(topic);
+    } else {
+      topic.active = false;
+    }
+
+    return topic;
+  });
+
+  handleStatementsFromSelectedCountries();
+
+}
+
+const updateRouteQuery = () => {
+  const regions = selectedCountries.value.join(',');
+  const topics = selectedTopics.value.map(topic => topic.slug).join(',');
+  // Update the route query: clear query if regions or topics is empty
+  const router = useRouter();
+  if (!regions && !topics) {
+    router.replace({ query: {} });
+  } else {
+    router.replace({ query: { regions, topics } });
+  }
+}
+
+watch([selectedCountries, selectedTopics], () => {
+  updateRouteQuery();
+},{ deep: true });
+
+
+onMounted(() => {
+  // Initialize availableCountries with all countries
+  availableCountries.value = countries.value.map(code => ({
+    code: code,
+    label: getCountryName(code),
+    active: false
+  }));
+
+  availableTopics.value = topics.value.map(topic => ({
+    ...topic,
+    active: false // Initialize all topics as inactive
+  }));
+
+  initComparison();
+
+});
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 </script>
 
