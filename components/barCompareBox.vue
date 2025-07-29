@@ -25,13 +25,13 @@ const highlightCodes = computed(() =>
 </script>
 
 <template>
-  <bar-section v-for="(topic, index) in props.dataset" :key="index" class="compare-box | stack">
+  <bar-section v-for="(topic, index) in props.dataset" :key="index" class="compare-box | stack | margin-bottom:m">
     <div class="cluster">
       <hgroup split-right>
         <h2 class="h1">{{ topic.title }}</h2>
         <p>{{ topic.description }}</p>
       </hgroup>
-      <bar-button color="base" size="small" @click="emit('removeTopic', topic)">Close</bar-button>
+      <bar-button variant="link" color="base" size="small" @click="emit('removeTopic', topic)"><span class="icon">close</span></bar-button>
     </div>
     <div class="switcher">
       <div v-for="(statement, countryCode) in Object.values(topic.statements)" :key="countryCode" class="section-panel | stack">
@@ -61,8 +61,12 @@ const highlightCodes = computed(() =>
     border: 1px solid var(--base-color-20-tint);
     border-radius: var(--border-radius-m);
     margin-inline: var(--space-l);
-    padding-inline: var(--space-m);
-  
+    padding-inline: var(--space-xl);
+    --_stack-space: var(--space-xl);
+  }
+
+  .switcher {
+    --_switcher-gap: var(--space-xl);
   }
 
   .cluster {
@@ -72,7 +76,7 @@ const highlightCodes = computed(() =>
   .compare-timeline {
     display: flex;
     flex-direction: column;
-    gap: 25rem;
+    gap: var(--space-l);
   }
 
 </style>

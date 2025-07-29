@@ -5,7 +5,7 @@
     :mobile="mobile"
     :unstyled="unstyled"
     :hidden="hidden"
-    :variant="visual"
+    :variant="variant"
     :color="color"
     :size="size"
     :icon-before="iconBefore"
@@ -54,7 +54,7 @@
       type: String,
       default: ''
     },
-    visual: {
+    variant: {
       type: String,
       default: 'secondary'
     },
@@ -64,7 +64,7 @@
     },
   });
 
-  const { el, value, label, hidden, unstyled, mobile, size, color, visual, iconBefore, iconAfter, fullWidth } = toRefs(props)
+  const { el, value, label, hidden, unstyled, mobile, size, color, variant, iconBefore, iconAfter, fullWidth } = toRefs(props)
 
 const defaultEl = computed(() => {
   if (attrs.href) return 'a'
@@ -243,7 +243,7 @@ const componentEl = computed(() => el.value || defaultEl.value)
 
 .button[variant="link"][color="base"] {
   --_button-text-color: var(--base-color);
-  --_button-border-color: var(--base-color);
+  --_button-border-color: transparent;
   --_button-background-color: transparent;
   --_button-font-weight: 600;
 }

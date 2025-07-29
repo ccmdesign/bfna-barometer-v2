@@ -160,6 +160,7 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
   .bar-infographic__country-name {
     border-top: 1px solid var(--base-color-40-tint);
     width: calc(100% - var(--gap) * -1);
+    text-align: center;
   }
 
   .bar-infographic__country-score {

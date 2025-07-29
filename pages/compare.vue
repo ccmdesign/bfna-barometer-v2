@@ -21,13 +21,15 @@
     </template>
   </bar-hero>
 
-  <bar-section>
+  <bar-section class="margin-top:m">
     <div v-if="statements" class="cluster">
       <span split-left>Export Comparison:</span>
-      <bar-button variant="primary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
-      <bar-button variant="primary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
     </div>
-    <div v-else>Make a Selection to start</div>
+    <div v-else>
+      <h2 class="h5 uppercase text-align:center">Make a Selection to start</h2>
+    </div>
   </bar-section>
   <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)"/>
   <bar-section v-if="statements">
@@ -36,11 +38,12 @@
 
     <div class="cluster">
       <span split-left>Export Comparison:</span>
-      <bar-button variant="primary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
-      <bar-button variant="primary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+      <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
     </div>
   </div>
 </bar-section>
+
 </template>
 
 <script setup>
