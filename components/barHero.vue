@@ -17,7 +17,7 @@
           </div>
         </slot>
       </div>
-      <div class="hero-content__inner | stack ">
+      <div class="hero-content__inner | stack | padding-block:2xl">
         <slot name="column_right"></slot>
       </div>
     </div>
