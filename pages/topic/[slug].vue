@@ -19,7 +19,12 @@
     </template>
   </bar-hero>
 
-  <bar-section class="map-section">
+
+  <bar-section>
+    <h2 class="h4">Select the country</h2>
+  </bar-section>
+
+  <bar-section>
     <bar-map-section id="map" :topic="topic.slug" />
   </bar-section>
 
@@ -140,5 +145,9 @@ hgroup {
       color: var(--white-color);
     }
   }
+}
+
+:deep(.map-section) {
+  grid-column: full-start / full-end;
 }
 </style>
