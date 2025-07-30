@@ -17,6 +17,7 @@
         :country-name="getCountryName(item.country)"
         :country-code="item.country"
         :visible="!hiddenCountries.includes(item.country)"
+        color="base-10"
         @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
       />
     </div>

@@ -58,9 +58,9 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     </div>
 
     <!-- <bar-infographic /> -->
-    <div v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
+    <div class="infographic-container" v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
       <div v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)">
-        <h3 v-if="isCountryInInfographic(highlightCodes, infgc)"class="h4" style="padding: 2rem 0">{{ infgc.title }}</h3>
+        <h3 v-if="isCountryInInfographic(highlightCodes, infgc)" class="h4 padding-block:l text-align:center">{{ infgc.title }}</h3>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" />
         <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart' && isCountryInInfographic(highlightCodes, infgc)" :dataset="infgc" :highlight="highlightCodes" />
         <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" />
@@ -76,7 +76,6 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     border-radius: var(--border-radius-m);
     margin-inline: var(--space-l);
     padding-inline: var(--space-xl);
-    --_stack-space: var(--space-xl);
   }
 
   .switcher {
@@ -91,6 +90,17 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     display: flex;
     flex-direction: column;
     gap: var(--space-l);
+  }
+
+  .infographic-container {
+    background-color: var(--base-color-05-tint);
+    padding: 0 var(--space-l);
+    margin-bottom: var(--space-s);
+    border-radius: var(--border-radius-l);
+  }
+
+  .infographic-container:empty {
+    display: none;
   }
 
 </style>

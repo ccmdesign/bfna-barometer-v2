@@ -1,5 +1,5 @@
 <template>
-  <div class="tag" @click="toggleVisibility" :visible="isVisible" :country-name="countryName" :country-code="countryCode">
+  <div class="tag" @click="toggleVisibility" :visible="isVisible" :country-name="countryName" :country-code="countryCode" :color="color">
     <slot>
       {{ countryName }}
     </slot>
@@ -17,6 +17,11 @@ const props = defineProps({
   countryCode: {
     type: String,
     required: true
+  },
+  color: {
+    type: String,
+    required: false,
+    default: 'base-05'
   }
 })
 
@@ -52,5 +57,9 @@ const icon = computed(() => {
   &[visible="false"] {
     opacity: 0.5;
   }
+}
+
+.tag[color="base-10"] {
+  background-color: var(--base-color-10-tint);
 }
 </style>

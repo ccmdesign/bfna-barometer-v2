@@ -31,18 +31,20 @@
       <h2 class="h5 uppercase text-align:center">Make a Selection to start</h2>
     </div>
   </bar-section>
-  <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)"/>
+  
+  <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)" />
+  
   <bar-section v-if="statements">
-  <div class="repel">
-    <bar-button variant="primary" color="gray" size="s" @click="scrollToTop">Back to Top<span class="icon">arrow_upward</span></bar-button>
+    <div class="repel">
+      <bar-button variant="primary" color="gray" size="s" @click="scrollToTop">Back to Top<span class="icon">arrow_upward</span></bar-button>
 
-    <div class="cluster">
-      <span split-left>Export Comparison:</span>
-      <!-- <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
-      <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+      <div class="cluster">
+        <span split-left>Export Comparison:</span>
+        <!-- <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
+        <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+      </div>
     </div>
-  </div>
-</bar-section>
+  </bar-section>
 
 </template>
 
