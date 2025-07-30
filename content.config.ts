@@ -46,6 +46,7 @@ export default defineContentConfig({
         infographics: z.array(z.any()),
         category: z.string(),
         tags: z.array(z.string()),
+        tagsAsString: z.string(),
         new: z.boolean(),
         active: z.boolean(),
       })

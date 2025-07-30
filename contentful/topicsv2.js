@@ -104,6 +104,7 @@ const getTopics = async () => {
       period: fields.period ? `${new Date(fields.period).toLocaleDateString('en', { timeZone:'utc' ,month: 'long' })} ${new Date(fields.period).getFullYear()}` : '',
       periodWithDay: fields.period,
       tags: fields.tags, // 'tags': ['development', 'geoeconomics'],
+      tagsAsString: fields.tags ? fields.tags.join(', ').toUpperCase() : '',
       infographic: fields.infographic ? fields.infographic : '',
       video: fields.video ? fields.video : '',
       deepDive: fields.deepDive ? fields.deepDive : '',

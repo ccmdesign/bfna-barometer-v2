@@ -7,18 +7,14 @@ const props = defineProps({
 })
 
 const selectedTag = ref('all')
-const tags = computed(() => {
-  return props.topics
-    .flatMap(topic => topic.tags && topic.tags.length ? topic.tags : [])
-    .map(tag => tag.toUpperCase());
-})
+const tags = ref([])
 
 const emit = defineEmits(['show-topics'])
 const handleFilters = () => {
   emit('show-topics', {
     sort: getSortKeyFromName(sortedBy.value),
     archived: showArchivedTopics.value,
-    tags: selectedTag.value === 'all' ? [] : [selectedTag.value]
+    tag: selectedTag.value === 'all' ? null : selectedTag.value
   })
 }
 
@@ -41,9 +37,26 @@ const handleSort = (val) => {
 
 const showArchivedTopics = ref(false)
 const handleArchivedTopics = () => {
+  selectedTag.value = 'all'; // Reset tag filter when toggling archived topics
   showArchivedTopics.value = !showArchivedTopics.value;
   handleFilters();
 }
+
+watch(
+  () => [props.topics, showArchivedTopics.value],
+  () => {
+    const tagSet = new Set();
+    props.topics.forEach(topic => {
+      (topic.tags || []).forEach(tag => tagSet.add(tag.toUpperCase()));
+    });
+    tags.value = Array.from(tagSet);
+    // Reset selectedTag if current tag is not present
+    if (selectedTag.value !== 'all' && !tags.value.includes(selectedTag.value)) {
+      selectedTag.value = 'all';
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 </script>
 

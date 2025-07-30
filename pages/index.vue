@@ -80,6 +80,10 @@ const { data: topics } = await useAsyncData('topics', () => {
   const archived = typeof filters.value.archived === 'boolean' ? filters.value.archived : false
   query = query.where('isArchived', '=', archived)
   
+  if (filters.value.tag && filters.value.tag !== 'all') {
+    query = query.where('tagsAsString', 'LIKE', `%${filters.value.tag.toUpperCase()}%`)
+  }
+
   if (filters.value.sort) {
     query = query.order('periodWithDay', filters.value.sort)
   } else {
