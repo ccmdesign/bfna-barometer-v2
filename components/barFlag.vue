@@ -42,11 +42,11 @@ const handleMouseLeave = () => {
 .flag {
   width: auto;
   box-shadow: var(--box-shadow-l);
-  border-radius: var(--border-radius-m);
+  border-radius: var(--border-radius-s);
   overflow: hidden;
-  padding: calc(var(--space-3xs) * 0.3);
   background-color: var(--white-color);
   transition: all 0.3s ease;
+  outline: 3px solid var(--white-color);
   
   img {
     width: 100%;
@@ -57,7 +57,6 @@ const handleMouseLeave = () => {
 
 .flag--small {
   width: 200px;
-  border-radius: 0;
 }
 
 .flag:not(.flag--small):hover {
