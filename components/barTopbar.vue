@@ -4,7 +4,7 @@
     <nav split-left>
       <ul class="topbar__nav | cluster">
         <li><bar-button el="a" href="/" color="white" size="s" variant="link">Home</bar-button></li>
-        <li><bar-button el="a" href="/#about" color="white" size="s" variant="link">About</bar-button></li>
+        <li><bar-button el="a" @click.prevent="scrollToAbout" color="white" size="s" variant="link">About</bar-button></li>
         <li><bar-button el="a" href="/compare" color="white" size="s" variant="primary">Compare</bar-button></li>
       </ul>
     </nav>
@@ -17,7 +17,21 @@
 </template>
 
 <script setup>
+const router = useRouter()
+const route = useRoute()
 
+const scrollToAbout = async () => {
+  if (route.path === '/') {
+    // If we're already on the homepage, just scroll
+    const aboutSection = document.getElementById('about')
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  } else {
+    // If we're on another page, navigate to homepage with query parameter
+    await router.push('/?scrollTo=about')
+  }
+}
 </script>
 
 <style scoped>
