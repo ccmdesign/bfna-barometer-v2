@@ -111,7 +111,7 @@ const scrollRight = () => {
     </div>
     
     <div class="reel-controls" :class="{ 'reel-controls--minimal': controls == 'false' }">
-      <button class="arrow-button" @click="scrollLeft"><span class="icon">arrow_back_ios</span></button>
+      <button class="arrow-button arrow-button--left" @click="scrollLeft"><span class="icon">arrow_back_ios</span></button>
       <!-- <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button> -->
       <button class="arrow-button" @click="scrollRight"><span class="icon">arrow_forward_ios</span></button>
     </div>
@@ -199,13 +199,20 @@ const scrollRight = () => {
 .arrow-button {
   background-color: var(--white-color);
   border-radius: 80px;
-  padding: var(--space-s) calc(var(--space-m) * .9);
+  aspect-ratio: 1/1;
+  height: 64px;
+  /* padding: var(--space-xs) var(--space-xs); */
   border: 1px solid var(--white-color);
   cursor: pointer;
   transition: background-color 0.3s ease;
   box-shadow: var(--box-shadow-l);
 
   @media (max-width: 768px) { display: none; }
+}
+
+.arrow-button--left span {
+  position: relative;
+  left: 4px;
 }
 
 .reel-controls--minimal {
