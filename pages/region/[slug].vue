@@ -25,6 +25,7 @@ const { data: topics } = await useAsyncData('topics', () => {
 
 }, { watch: [showArchivedTopics] })
 
+
 const handleSelectedTopic = (topicId) => {
   topics.value = topics.value.map(topic => {
     if (topic.topicId === topicId) {
@@ -111,7 +112,13 @@ const data = reactive({
   showRegionSelector: false
 })
 
+
+
 onMounted(() => {
+  const selected = topics.value.find(topic => topic.slug === route.query.topic)
+  if (selected) {
+    handleSelectedTopic(selected.topicId)
+  }
   handleActiveTopic();
 })
 

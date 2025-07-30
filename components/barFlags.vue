@@ -1,6 +1,12 @@
 <script setup>
 import { useCountries } from '~/composables/countries'
 
+const props = defineProps({
+  topic: {
+    type: String
+  }
+})
+
 const { countries, getCountryName } = useCountries()
 
 const controls = ref(false)
@@ -10,11 +16,20 @@ const reelRef = ref(null)
 const emit = defineEmits(['flag-hover', 'flag-leave'])
 
 const handleCountryFlag = (country) => {
-  router.push({
-    name: `region-slug`,
-    path: country,
-    params: { slug: country }
-  });
+  if(props.topic) {
+    router.push({
+      name: `region-slug`,
+      path: country,
+      params: { slug: country },
+      query: { topic: props.topic }
+    });
+  } else {
+    router.push({
+      name: `region-slug`,
+      path: country,
+      params: { slug: country }
+    });
+  }
 }
 
 const handleFlagHover = (country) => {

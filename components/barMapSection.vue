@@ -1,7 +1,7 @@
 <template>
   <section class="map-section | subgrid">
     <mapSVG class="map-section__map | subgrid" :hovered-country="hoveredCountry" />
-    <bar-flags 
+    <bar-flags :topic="topic"
       class="map-section__flags | subgrid" 
       controls="true" 
       @flag-hover="handleFlagHover"
@@ -11,6 +11,12 @@
 </template>
 
 <script setup>
+const props = defineProps({
+  topic: {
+    type: String
+  }
+})
+
 const hoveredCountry = ref('')
 
 const handleFlagHover = (country) => {

@@ -9,16 +9,21 @@
         <p>{{ topic.description }}</p>
       </hgroup>
     </template>
-    <template #column_right>
-      <img src="/assets/video-thumbnail.png" alt="Video thumbnail">
+    <template #column_right v-if="topic.video">
+      <nuxt-link class="video-thumb" :to="topic.video" target="_blank">
+        <img :src="getThumbnail(topic.video)" alt="Video thumbnail">
+        <span class="video-thumb__player">
+          <span class="icon">arrow_right</span>
+        </span>
+      </nuxt-link>
     </template>
   </bar-hero>
 
-  <bar-section color="faded">
-    <bar-flags />
+  <bar-section class="map-section">
+    <bar-map-section id="map" :topic="topic.slug" />
   </bar-section>
 
-  <bar-section color="faded" size="l" class="padding-bottom:0">
+  <!--<bar-section color="faded" size="l" class="padding-bottom:0">
     <div class="with-sidebar">
       <div class="main-content | stack">
         <h2>Canada on Democracy</h2>
@@ -44,11 +49,11 @@
     </div>
   </bar-section>
 
-  <bar-section>
+  <!--<bar-section>
     <h2 class="section-title">infographics</h2>
 
     <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
-      <!--<template #tab1>
+      <template #tab1>
         <bar-infographic title="Liberal Democracy" />
       </template>
       <template #tab2>
@@ -59,83 +64,22 @@
       </template>
       <template #tab4>
         <bar-infographic title="Judicial Independence" />
-      </template>-->
+      </template>
     </ccm-tabs>
-  </bar-section>
+  </bar-section>-->
   <bar-footer id="footer" />
 
 </template>
 
 <script setup>
+import { useYouTube } from '~/composables/useYouTube'
 const route = useRoute()
 const { data: topic } = await useAsyncData('topic', () => queryCollection('topics')
   .where('slug', '=', route.params?.slug)
   .first())
 
-const tabs = [
-  { label: 'Liberal Democracy', slot: 'tab1' },
-  { label: 'Electoral Democracy', slot: 'tab2' },
-  { label: 'World Press Freedom', slot: 'tab3' },
-  { label: 'Judicial Independence', slot: 'tab4' },
-]
+const { getThumbnail } = useYouTube()
 
-const sidebar_links = [
-  {
-    "title": "V-Dem Democracy Report 2025",
-    "type": "report"
-  },
-  {
-    "title": "V-Dem Datasets 2025",
-    "type": "dataset"
-  },
-  {
-    "title": "V-Dem Datasets Archive",
-    "type": "dataset"
-  },
-  {
-    "title": "World Press Freedom Index 2025",
-    "type": "index"
-  },
-  {
-    "title": "Global State of Democracy Indices",
-    "type": "index"
-  },
-  {
-    "title": "Global State of Democracy Tracker: Canada",
-    "type": "tracker"
-  },
-  {
-    "title": "OSCE Report Canadian Elections 2021",
-    "type": "report"
-  },
-  {
-    "title": "Legal Scholars on Judicial Independence",
-    "type": "analysis"
-  }
-]
-
-const data_cards = [
-  {
-    "indicator": "Liberal Democracy",
-    "score": 0.74,
-    "scale": 1
-  },
-  {
-    "indicator": "Electoral Democracy",
-    "score": 0.84,
-    "scale": 1
-  },
-  {
-    "indicator": "World Press Freedom",
-    "score": 78.75,
-    "scale": 100
-  },
-  {
-    "indicator": "Judicial Independence",
-    "score": 0.74,
-    "scale": 1
-  }
-]
 
 </script>
 
@@ -157,11 +101,44 @@ hgroup {
 }
 
 .hero {
-  --bar-curve-color: var(--base-color-07-tint);
+  background-image: url(/assets/abstract.webp);
+  background-position: bottom right;
+  background-size: 140% auto;
 }
 
 .bar-footer {
   --bar-curve-color: var(--white-color);
 }
 
+
+.video-thumb {
+  position: relative;
+  & > img {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+    border-radius: var(--size--1);
+    border: var(--space-2xs) solid var(--base-color-80-tint);
+    box-shadow: 0px 64px 64px -32px var(--base-color-05-shade);
+  }
+  .video-thumb__player {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--size-5);
+    height: var(--size-5);
+    border-radius: 50%;
+    background-color: var(--base-color-80-tint);
+    display: flex;
+    flex-flow: row nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span{
+      font-size: var(--size-4);
+      color: var(--white-color);
+    }
+  }
+}
 </style>
