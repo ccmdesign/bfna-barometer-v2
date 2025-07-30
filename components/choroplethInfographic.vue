@@ -1,6 +1,16 @@
 <template>
   <div id="choropleth" class="subgrid">
     <div class="choropleth-infographic__chart-wrapper | world-map--choropleth">
+      <div 
+        v-if="true"
+        
+        class="choro-data"
+        :left="hoveredCountryPosition.x"
+        :top="hoveredCountryPosition.y"
+      >
+        <p style="font-weight: bold;">{{ hoveredCountryName }}</p>
+        <p>{{ hoveredCountryValue }}</p>
+      </div>
       <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" viewBox="183 160 364 312" transform="translate(0)">
         <path
           d="m 479.68275,331.6274 -0.077,0.025 -0.258,0.155 -0.147,0.054 -0.134,0.027 -0.105,-0.011 -0.058,-0.091 0.006,-0.139 -0.024,-0.124 -0.02,-0.067 0.038,-0.181 0.086,-0.097 0.119,-0.08 0.188,0.029 0.398,0.116 0.083,0.109 10e-4,0.072 -0.073,0.119 z"
@@ -1078,31 +1088,37 @@ const setupChartData = () => {
   maximumValue.value = Math.max(...chartData.value.map(item => item.val));
 }
 
-const showCountryToolTipInfo = (event, countryId) => {
-  mouseX.value = event.clientX;
-  mouseY.value = event.clientY;
 
-  const countryData = chartData.value.find(item => item.country === countryId);
-  if (countryData) {
-    currentCountry.value = countryData;
-    const choroInfo = document.querySelector('#choro-data');
-    choroInfo.style.left = `${mouseX.value + 10}px`;
-    choroInfo.style.top = `${mouseY.value + 10}px`;
-    choroInfo.style.opacity = 1;
-    choroInfo.querySelector('#choro-title').textContent = getCountryName(countryId);
-    choroInfo.querySelector('#choro-value').textContent = countryData.label + (props.dataset.infographicValuesAsPercentage ? '%' : '');
-  }
-};
+
+const hoveredCountryName = ref('');
+const hoveredCountryValue = ref('');
+const hoveredCountryPosition = ref({ x: 0, y: 0 });
+const isHovering = ref(false);
 
 const handleMouseEnter = (event) => {
   const countryId = event.target.id;
-  showCountryToolTipInfo(event, countryId);
+  const countryData = chartData.value.find(c => c.country === countryId);
+
+  if (!countryData) return;
+
+  hoveredCountryName.value = getCountryName(countryId);
+  hoveredCountryValue.value = `${countryData.val}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
+
+  const mapContainer = document.querySelector('.world-map--choropleth');
+  const mapRect = mapContainer.getBoundingClientRect();
+  const countryRect = event.target.getBoundingClientRect();
+
+  hoveredCountryPosition.value = {
+    x: countryRect.left - mapRect.left + countryRect.width / 2,
+    y: countryRect.top - mapRect.top,
+  };
+
+  isHovering.value = true;
+  currentCountry.value = countryData;
 };
 
 const handleMouseLeave = () => {
-  const choroInfo = document.querySelector('#choro-data');
-  choroInfo.style.opacity = 0;
-  currentCountry.value = {};
+  isHovering.value = false;
 };
 
 onMounted(() => {
@@ -1120,19 +1136,7 @@ onMounted(() => {
   const mapContainer = document.querySelector('.world-map--choropleth');
   const map = document.querySelector('#map-svg');
 
-  const div = document.createElement('div');
-  const p1 = document.createElement('p');
-  const p2 = document.createElement('p');
-  p1.id = 'choro-title';
-  p2.id = 'choro-value';
-  p1.style.fontWeight = 'bold';
-  p1.style.margin = 0;
-  p2.style.margin = 0;
-  div.id = `choro-data`;
-  div.classList.add('choro-data');
-  div.appendChild(p1);
-  div.appendChild(p2);
-  mapContainer?.parentNode.appendChild(div);
+  
 
   chartData.value.forEach(ch => {
     const chValue = Number(ch.val);
@@ -1201,14 +1205,23 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+
+#choropleth {
+  position: relative;
+}
+
 .choropleth-infographic__chart-wrapper {
   overflow: hidden;
+  position: relative;
+
   --legend-height: 45px;
   --gap: var(--space-xs);
 
+  border: 1px solid var(--base-color-20-tint);
+  border-radius: var(--border-radius-m);
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--navy-color);
+
 
   @media (min-width: 1024px) { flex-direction: row; }
 
@@ -1222,25 +1235,14 @@ onMounted(() => {
 }
 
 svg {
-  width: 100vw;
+  width: 100%;
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-51%);
   aspect-ratio: 16 / 8;
 }
 
 
 path { fill: hsla(var(--base-hsl), .05); }
-
-.highlighted-country {
-  /* Use the --base-color variable for fill and stroke */
-  fill: var(--navy-color) !important;
-  stroke: var(--base-color) !important;
-  stroke-width: .25 !important;
-  filter: drop-shadow(0 0 6px var(--base-color-10-tint));
-  transition: fill 0.3s, stroke 0.3s, filter 0.3s;
-}
 
 .hasStatement {
   stroke-width: .2;
@@ -1251,71 +1253,28 @@ path { fill: hsla(var(--base-hsl), .05); }
   &:hover,
   &.active {
     stroke: hsla(var(--accent-hsl), .5);
+    stroke-width: .2;
     fill: hsla(var(--accent-hsl), .3);
   }
 }
 
 .choro-data {
-  position: fixed;
+  position: absolute;
   padding: .5rem var(--space-s);
   font-size: .85rem;
-  border-radius: 0;
+  border-radius: var(--border-radius-s);
   background-color: hsla(var(--navy-hsl), .8);
   color: var(--white-color);
   text-align: center;
-  opacity: 0;
-  transform: translate(-115%, -120%);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 10;
+  left: calc(var(--left) * 1px);
+  top: calc(var(--top) * 1px);
 }
 
 #choropleth {
   --choropleth-hsl: var(--accent-hsl);
 }
-
-// #choropleth .chart-legend {
-//   position: absolute;
-//   // bottom: 0vh;
-//   // left: 50%;
-//   // transform: translateX(-50%);
-//   display: flex;
-//   align-items: center;
-//   gap: 1em;
-// }
-
-// #choropleth .chart-legend__text {
-//   margin: auto;
-//   font-size: 0.875rem;
-//   color: var(--text-color);
-// }
-
-// #choropleth .chart-legend__legend {
-//   display: flex;
-//   gap: 0;
-//   border: 1px solid var(--navy-color);
-// }
-
-// #choropleth .chart-legend__box {
-//   width: 2rem;
-//   height: 2rem;
-// }
-
-//   #choropleth .chart-legend__box--1 {
-//     background-color: hsla(var(--choropleth-hsl), 0.2);
-//     border-right: 1px solid var(--navy-color);
-//   }
-//   #choropleth .chart-legend__box--2 {
-//     background-color: hsla(var(--choropleth-hsl), 0.4);
-//     border-right: 1px solid var(--navy-color);
-//   }
-//   #choropleth .chart-legend__box--3 {
-//     background-color: hsla(var(--choropleth-hsl), 0.6);
-//     border-right: 1px solid var(--navy-color);
-//   }
-//   #choropleth .chart-legend__box--4 {
-//     background-color: hsla(var(--choropleth-hsl), 0.8);
-//     border-right: 1px solid var(--navy-color);
-//   }
-//   #choropleth .chart-legend__box--5 {
-//     background-color: hsla(var(--choropleth-hsl), 1);
-//   }
 
 </style>
