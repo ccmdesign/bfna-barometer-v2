@@ -99,6 +99,10 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     border-radius: var(--border-radius-l);
   }
 
+  .infographic-container:has(#choropleth) {
+    padding-bottom: var(--space-l);
+  }
+
   .infographic-container:empty {
     display: none;
   }

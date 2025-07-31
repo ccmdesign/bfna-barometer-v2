@@ -1097,6 +1097,8 @@ const hoveredCountryValue = ref('');
 const hoveredCountryPosition = ref({ x: 0, y: 0 });
 const isHovering = ref(false);
 
+const { countryCoords } = useCountryCoords();
+
 const handleMouseEnter = (event) => {
   const countryId = event.target.id;
   const countryData = chartData.value.find(c => c.country === countryId);
@@ -1106,14 +1108,23 @@ const handleMouseEnter = (event) => {
   hoveredCountryName.value = getCountryName(countryId);
   hoveredCountryValue.value = `${countryData.val}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
 
-  const mapContainer = document.querySelector('.world-map--choropleth');
-  const mapRect = mapContainer.getBoundingClientRect();
-  const countryRect = event.target.getBoundingClientRect();
-
-  hoveredCountryPosition.value = {
-    x: countryRect.left - mapRect.left + countryRect.width / 2,
-    y: countryRect.top - mapRect.top + countryRect.height / 2,
-  };
+  // Use hardcoded coordinates from countryCoords composable
+  const coords = countryCoords[countryId];
+  if (coords) {
+    hoveredCountryPosition.value = {
+      x: coords.left + coords.width / 2,
+      y: coords.top,
+    };
+  } else {
+    // Fallback to dynamic calculation if country not in hardcoded list
+    const mapContainer = document.querySelector('.world-map--choropleth');
+    const mapRect = mapContainer.getBoundingClientRect();
+    const countryRect = event.target.getBoundingClientRect();
+    hoveredCountryPosition.value = {
+      x: countryRect.left - mapRect.left + countryRect.width / 2,
+      y: countryRect.top - mapRect.top + countryRect.height / 2,
+    };
+  }
 
   isHovering.value = true;
   currentCountry.value = countryData;
@@ -1180,19 +1191,6 @@ onMounted(() => {
   const legendContainer = document.createElement('div');
   legendContainer.className = 'chart-legend__legend';
 
-  // const legendText = document.createElement('p');
-  // legendText.style.position = 'absolute';
-  // legendText.style.bottom = '2.2rem';
-  // legendText.style.left = '6.5rem';
-  // legendText.textContent = 'Legend';
-  // legendContainer.appendChild(legendText);
-
-  // for (let i = 1; i <= 5; i++) {
-  //   const box = document.createElement('div');
-  //   box.className = `chart-legend__box chart-legend__box--${i}`;
-  //   legendContainer.appendChild(box);
-  // }
-
   const maxValueText = document.createElement('p');
   maxValueText.className = 'chart-legend__text';
   maxValueText.textContent = `${maximumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''} High`;
@@ -1221,9 +1219,8 @@ onMounted(() => {
   --gap: var(--space-xs);
 
   border: 1px solid var(--base-color-20-tint);
-  border-radius: var(--border-radius-m);
-  display: flex;
-  flex-direction: column;
+  border-radius: var(--border-radius-s);
+  display: block;
 
 
   @media (min-width: 1024px) { flex-direction: row; }
@@ -1241,17 +1238,20 @@ svg {
   width: 100%;
   position: absolute;
   top: 0;
+  left: 0;
   aspect-ratio: 16 / 8;
 }
 
-
 path { fill: hsla(var(--base-hsl), .05); }
+
+
 
 .hasStatement {
   stroke-width: .2;
   stroke: hsla(var(--base-hsl), .3);
   fill: hsla(var(--base-hsl), .2);
   transition: all .3s ease;
+  outline: 1px solid red;
   
   &:hover,
   &.active {
@@ -1299,6 +1299,10 @@ path { fill: hsla(var(--base-hsl), .05); }
 
 #choropleth {
   --choropleth-hsl: var(--accent-hsl);
+}
+
+.chart-legend {
+  background-color: red;
 }
 
 </style>
