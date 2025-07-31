@@ -8,7 +8,7 @@
           <h2 class="h5 uppercase">Select two countries</h2>
           <div class="cluster">
             <!-- <bar-button color="white" size="s">Deselect All</bar-button> -->
-            <bar-button v-for="country in availableCountries" :color="country.active ? 'white' : 'faded'" variant="primary" size="s" @click="handleSelectedCountry(country.code)" :key="country.code">{{ country.label }}</bar-button>
+            <bar-button :style="{ 'opacity': country.active ? '1' : '0.3' }" v-for="country in availableCountries" :color="country.active ? 'white' : 'faded'" variant="primary" size="s" @click="handleSelectedCountry(country.code)" :key="country.code">{{ country.label }}</bar-button>
           </div>
 
           <h2 class="h5 uppercase">Select one or more topics</h2>
