@@ -17,8 +17,18 @@
           </div>
         </slot>
       </div>
-      <div class="hero-content__inner | stack | padding-block:2xl">
-        <slot name="column_right"></slot>
+      <div class="hero-content__inner | stack">
+        <slot name="column_right">
+          <iframe 
+            class="hero__video" 
+            src="https://www.youtube.com/embed/ervofXVlR_w" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </slot>
       </div>
     </div>
     <barCurve />
@@ -52,6 +62,24 @@ const goDownToMapSection = () => {
   .h2, h1 {
     font-weight: 700;
   }
+}
+
+.hero-content__inner {
+  @media (max-width: 1024px) {
+    padding-top: var(--space-m);
+  }
+}
+
+.hero__video {
+  display: flex;
+  justify-self: center;
+  margin: auto;
+  aspect-ratio: 16/9;
+  max-width: 800px;
+  object-fit: cover;
+  border-radius: var(--border-radius-s);
+  box-shadow: var(--box-shadow-l);
+  border: 3px solid var(--white-color);
 }
 
 .hero-content {
