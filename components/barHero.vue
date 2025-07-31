@@ -19,7 +19,7 @@
       </div>
       <div class="hero-content__inner | stack">
         <slot name="column_right">
-          <iframe 
+          <iframe v-if="useRouter().currentRoute.value.name === 'index'"
             class="hero__video" 
             src="https://www.youtube.com/embed/ervofXVlR_w" 
             title="YouTube video player" 
