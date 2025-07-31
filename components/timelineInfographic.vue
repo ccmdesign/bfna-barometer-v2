@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted, onUpdated, nextTick, watch, ref, computed } from 'vue'
 import { useTimelineStore } from '@/stores/timeline'
 
 const props = defineProps({
@@ -35,6 +36,8 @@ const lineLabel = ref([]);
 // Custom ref for chart wrapper
 const chartWrapper = ref(null);
 
+const chartHeight = ref(0);
+
 const isMarkerVisible = computed(() => props.dataset.vizMarkers);
 const isBarVisible = (countryCode) => !hiddenCountries.value.includes(countryCode);
 
@@ -62,39 +65,25 @@ function renderTimelineHeights() {
   const eventsList = eventList.value;
   const timeline = timelineList.value;
 
-  for (let i in eventsList) {
-    if (i > 0) {
-      let distanceLine = timeline[i].clientWidth;
-      let textSize = eventsList[i].clientWidth;
-      let posPrevEvent = i - 1;
+  for (let i = 1; i < eventsList.length; i++) {
+    let distanceLine = timeline[i].clientWidth;
+    let textSize = eventsList[i].clientWidth;
+    let posPrevEvent = i - 1;
 
-      while (
-        posPrevEvent >= 0 &&
-        timeline[posPrevEvent].classList.contains("hide-line")
-      ) {
-        distanceLine += timeline[posPrevEvent].clientWidth;
-        posPrevEvent -= 1;
-      }
-
-      if (textSize > distanceLine) {
-        let prevEventHeight = eventsList[posPrevEvent].clientHeight;
-        let paddingBottom = `calc(${prevEventHeight}px + 1rem)`;
-        eventsList[i].style.paddingBottom = paddingBottom;
-      } else {
-        eventsList[i].style.paddingBottom = "1rem";
-      }
+    while (
+      posPrevEvent >= 0 &&
+      timeline[posPrevEvent].classList.contains("hide-line")
+    ) {
+      distanceLine += timeline[posPrevEvent].clientWidth;
+      posPrevEvent -= 1;
     }
 
-    if(Number(i) == eventsList.length -1) {
-      const highestHeight = eventsList.reduce((max, item) => item.clientHeight > max.clientHeight ? item: max, eventsList[0]);
-      if(highestHeight.clientHeight > 500) {
-        timelineStore.setTimelineHeightValue(true);
-      }
-      // Set --chart-height custom property on chart wrapper
-      if (chartWrapper.value && eventsList[i]) {
-        const computedPadding = window.getComputedStyle(eventsList[i]).paddingBottom;
-        chartWrapper.value.style.setProperty('--chart-height', computedPadding);
-      }
+    if (posPrevEvent >= 0 && textSize > distanceLine) {
+      let prevEventHeight = eventsList[posPrevEvent].clientHeight;
+      let paddingBottom = `calc(${prevEventHeight}px + 1rem)`;
+      eventsList[i].style.paddingBottom = paddingBottom;
+    } else {
+      eventsList[i].style.paddingBottom = "1rem";
     }
   }
 
@@ -103,6 +92,33 @@ function renderTimelineHeights() {
     timelineStore.setTimelineMarginLeft(lineLabels[0].clientWidth);
   }
 }
+
+
+
+const setChartHeight = () => {
+  // handle multiple timelines
+  const wrappers = document.querySelectorAll('.timeline-infographic__chart-wrapper');
+  wrappers.forEach(wrapper => {
+    const timelineEl = wrapper.querySelector('.timeline');
+    if (!timelineEl) return;
+    const heights = Array.from(timelineEl.children).map(eventEl => {
+      const eventList = eventEl.querySelector('.event__list');
+      return eventList ? eventList.offsetHeight : 0;
+    });
+    const maxHeight = Math.max(...heights, 0);
+    wrapper.style.setProperty('--chart-height', `${maxHeight}px`);
+  });
+};
+
+onMounted(() => {
+  nextTick(() => setChartHeight())
+})
+
+watch(
+  () => chartData,
+  () => nextTick(() => setChartHeight()),
+  { deep: true }
+)
 
 function isLineHidden(markers, labels) {
   let hidden = true;
@@ -230,10 +246,13 @@ const getAccentColor = (labels) => {
 
 onMounted(() => {
   renderTimelineHeights();
+  setChartHeight();
 });
 onUpdated(() => {
   renderTimelineHeights();
+  setChartHeight();
 });
+
 </script>
 
 <template>
@@ -292,19 +311,20 @@ onUpdated(() => {
 }
 
 .timeline-infographic__chart-wrapper {
+  --chart-height: 0px; /* Default fallback, will be overridden by JS */
   --legend-height: 45px;
   --gap: var(--space-xs);
-  /* --chart-height will be set dynamically via JS */
 
   display: flex;
   flex-direction: column;
-  // max-width: 100vw;
+  
 
   @media (min-width: 1024px) { 
+    height: var(--chart-height);
     flex-direction: row; 
-    min-height: calc(var(--chart-height) + var(--legend-height));
     margin-bottom: var(--space-l-xl);
   }
+  
   align-items: end;
   justify-content: center;
   position: relative;
@@ -355,7 +375,7 @@ onUpdated(() => {
 
 .timeline {
   width: 100%;
-  @media (min-width: 1024px) { width: 70%; }
+  @media (min-width: 1024px) { width: 90%; }
 }
 
 @media (max-width: 1024px) {
@@ -450,12 +470,12 @@ onUpdated(() => {
   }
 
   .timeline:before {
-    left: -15vw;
+    left: -5vw;
     right: 100%;
     top: 100%;
   }
   .timeline:after {
-    right: -15vw;
+    right: -5vw;
     left: 100%;
     top: 100%;
   }

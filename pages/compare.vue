@@ -70,25 +70,26 @@ const statements = ref(null)
 const selectedCountries = ref([])
 const selectedTopics = ref([])
 const handleSelectedCountry = (code) => {
-  const idx = selectedCountries.value.indexOf(code);
-  if (idx !== -1) {
-    selectedCountries.value.splice(idx, 1);
-  } else {
-    if (selectedCountries.value.length < 2) {
-      selectedCountries.value.push(code);
-    }
+  // If the country is already selected, do nothing.
+  if (selectedCountries.value.includes(code)) {
+    return;
   }
+
+  // Replace the oldest selected country with the new one.
+  if (selectedCountries.value.length >= 2) {
+    selectedCountries.value.shift();
+  }
+  selectedCountries.value.push(code);
 
   availableCountries.value = availableCountries.value.map(country => {
     country.active = selectedCountries.value.includes(country.code);
     return country;
-  })
+  });
   
-  if(selectedTopics.value.length && selectedCountries.value.length === 2) {
+  if (selectedTopics.value.length && selectedCountries.value.length === 2) {
     handleStatementsFromSelectedCountries();
   }
-
-}
+};
 
 const handleSelectedTopic = (topicId) => {
   availableTopics.value = availableTopics.value.map(topic => {
@@ -146,41 +147,37 @@ const handleStatementsFromSelectedCountries = () => {
 
 const route = useRoute()
 const initComparison = () => {
-  const {regions, topics } = route.query;
-  const codes = regions ? regions.split(',') : [];
+  const { regions, topics } = route.query;
+  let codes = regions ? regions.split(',') : [];
   const topicsIds = topics ? topics.split(',') : [];
 
-  if (!codes.length || !topicsIds.length) {
-    codes.push('eu', 'us'); // Default EU and US
-    topicsIds.push(availableTopics.value.find(topic => topic.new).slug);
+  // Ensure there are always exactly two countries selected.
+  if (codes.length !== 2) {
+    codes = ['eu', 'us']; // Default to EU and US.
   }
 
-
-  availableCountries.value = availableCountries.value.map(item => {
-    if (codes.includes(item.code)) {
-      item.active = true;
-      selectedCountries.value.push(item.code);
-    } else {
-      item.active = false;
+  if (topicsIds.length === 0 && availableTopics.value.length > 0) {
+    const newTopic = availableTopics.value.find(topic => topic.new);
+    if (newTopic) {
+      topicsIds.push(newTopic.slug);
     }
-    return item;
+  }
+
+  selectedCountries.value = codes;
+  availableCountries.value.forEach(item => {
+    item.active = codes.includes(item.code);
   });
-  
-  availableTopics.value.map(topic => {
-    // const topic = availableTopics.value.find(t => t.slug === topicId);
-    if (topicsIds.includes(topic.slug)) {
-      topic.active = true;
-      selectedTopics.value.push(topic);
-    } else {
-      topic.active = false;
-    }
 
-    return topic;
+  selectedTopics.value = [];
+  availableTopics.value.forEach(topic => {
+    topic.active = topicsIds.includes(topic.slug);
+    if (topic.active) {
+      selectedTopics.value.push(topic);
+    }
   });
 
   handleStatementsFromSelectedCountries();
-
-}
+};
 
 const updateRouteQuery = () => {
   const regions = selectedCountries.value.join(',');
