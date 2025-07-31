@@ -2,11 +2,13 @@
   <div id="choropleth" class="subgrid">
     <div class="choropleth-infographic__chart-wrapper | world-map--choropleth">
       <div 
-        v-if="true"
-        
-        class="choro-data"
-        :left="hoveredCountryPosition.x"
-        :top="hoveredCountryPosition.y"
+        v-if="isHovering"
+
+        :class="{ 'choro-data': isHovering }"
+        :style="{
+          '--left': hoveredCountryPosition.x,
+          '--top': hoveredCountryPosition.y
+        }"
       >
         <p style="font-weight: bold;">{{ hoveredCountryName }}</p>
         <p>{{ hoveredCountryValue }}</p>
@@ -1110,7 +1112,7 @@ const handleMouseEnter = (event) => {
 
   hoveredCountryPosition.value = {
     x: countryRect.left - mapRect.left + countryRect.width / 2,
-    y: countryRect.top - mapRect.top,
+    y: countryRect.top - mapRect.top + countryRect.height / 2,
   };
 
   isHovering.value = true;
@@ -1119,6 +1121,7 @@ const handleMouseEnter = (event) => {
 
 const handleMouseLeave = () => {
   isHovering.value = false;
+
 };
 
 onMounted(() => {
@@ -1262,7 +1265,7 @@ path { fill: hsla(var(--base-hsl), .05); }
   position: absolute;
   padding: .5rem var(--space-s);
   font-size: .85rem;
-  border-radius: var(--border-radius-s);
+  border-radius: var(--border-radius-m);
   background-color: hsla(var(--navy-hsl), .8);
   color: var(--white-color);
   text-align: center;
@@ -1271,6 +1274,27 @@ path { fill: hsla(var(--base-hsl), .05); }
   z-index: 10;
   left: calc(var(--left) * 1px);
   top: calc(var(--top) * 1px);
+
+  /* Speech bubble arrow */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0 8px;
+    border-style: solid;
+    border-color: hsla(var(--navy-hsl), .8) transparent transparent transparent;
+    display: block;
+    width: 0;
+    height: 0;
+  }
+
+  & p {
+    margin: 0;
+    font-size: .8rem;
+    line-height: 1.2;
+  }
 }
 
 #choropleth {
