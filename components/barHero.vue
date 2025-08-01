@@ -1,3 +1,21 @@
+<script setup>
+
+const goDownToMapSection = () => {
+  const mapSection = document.getElementById('map');
+  if (mapSection) {
+    mapSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+const playYoutubeVideo = () => {
+  const videoFrame = document.querySelector('.hero__video');
+  if (videoFrame) {
+    videoFrame.src += '?autoplay=1';
+  }
+}
+  
+</script>
+
 <template>
   <ccm-hero class="hero">
     <bar-topbar id="topbar" />
@@ -13,7 +31,7 @@
 
           <div class="cluster">
             <bar-button variant="primary" color="white" @click="goDownToMapSection"><span>Start Now</span><span class="icon">arrow_downward</span></bar-button>
-            <bar-button variant="primary" color="faded"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
+            <bar-button variant="primary" color="faded" @click="playYoutubeVideo"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
           </div>
         </slot>
       </div>
@@ -34,17 +52,6 @@
     <barCurve />
   </ccm-hero>
 </template>
-
-<script setup>
-
-const goDownToMapSection = () => {
-  const mapSection = document.getElementById('map');
-  if (mapSection) {
-    mapSection.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-  
-</script>
 
 <style scoped lang="scss">
 .hero {
