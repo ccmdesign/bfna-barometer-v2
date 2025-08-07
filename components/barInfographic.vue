@@ -10,7 +10,7 @@
         <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>
       </div>
     </div>
-    <div class="tags | cluster" centered>
+    <div class="tags | cluster print:hidden" centered>
       <bar-tag
         v-for="item in countries"
         :key="item.country"

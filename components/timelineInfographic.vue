@@ -291,7 +291,7 @@ onUpdated(() => {
           </li>
         </ul>
       </div>
-      <div class="tags | cluster padding-bottom:l" centered>
+      <div class="tags | cluster padding-bottom:l print:hidden" centered>
         <bar-tag
           color="base-10"
           v-for="item in countries"

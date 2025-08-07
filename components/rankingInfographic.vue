@@ -106,7 +106,7 @@ watch(chartData, () => {
           </li>
         </ul>
       </div>
-      <div class="tags | cluster | margin-top:m padding-bottom:l" centered>
+      <div class="tags | cluster | margin-top:m padding-bottom:l print:hidden" centered>
         <bar-tag
           color="base-10"
           v-for="item in countries"
