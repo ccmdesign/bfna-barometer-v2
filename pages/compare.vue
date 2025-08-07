@@ -1,5 +1,5 @@
 <template>
-  <bar-hero>
+  <bar-hero class="print:hidden">
     <template #column_left>
       <hgroup class="stack">
         <h1>Comparison Tool</h1>
@@ -21,7 +21,7 @@
     </template>
   </bar-hero>
 
-  <bar-section class="margin-top:m">
+  <bar-section class="margin-top:m print:hidden">
     <div v-if="statements" class="cluster">
       <span split-left>Export Comparison:</span>
       <!-- <bar-button variant="secondary" color="base" size="s" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
@@ -34,7 +34,7 @@
   
   <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)" />
   
-  <bar-section v-if="statements">
+  <bar-section v-if="statements" class="print:hidden">
     <div class="repel">
       <bar-button variant="primary" color="gray" size="s" @click="scrollToTop">Back to Top<span class="icon">arrow_upward</span></bar-button>
 
@@ -252,4 +252,24 @@ color: var(--white-color);
   pointer-events: none;
 }
 
+@media print {
+  h1, h2, h3, h4, h5, h6 {
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+
+ :deep(p) {
+    font-size: 12px !important;
+  }
+
+  a {
+    text-decoration: underline !important;
+    color: #000 !important;
+  }
+
+  body, html {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
 </style>

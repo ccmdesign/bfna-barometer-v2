@@ -44,21 +44,21 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
         <h2 class="h1">{{ topic.title }}</h2>
         <p>{{ topic.description }}</p>
       </hgroup>
-      <bar-button variant="link" color="base" size="small" @click="emit('removeTopic', topic)"><span class="icon">close</span></bar-button>
+      <bar-button variant="link" color="base" size="small" @click="emit('removeTopic', topic)" class="print:hidden"><span class="icon">close</span></bar-button>
     </div>
-    <div class="switcher">
+    <div class="switcher ">
       <div v-for="(statement, countryCode) in Object.values(topic.statements)" :key="countryCode" class="section-panel | stack">
-        <bar-flag :country="statement.country" size="small" />
+        <bar-flag :country="statement.country" size="small" class="compare-flag" />
         <div>
           <h3 class="h2">{{ getCountryName(statement.country) }}</h3>
           <p>{{ statement.description }}</p>
         </div>
-        <bar-button @click="handleMoreDetails(statement.country)">More details</bar-button>
+        <bar-button @click="handleMoreDetails(statement.country)" class="print:hidden">More details</bar-button>
       </div>
     </div>
 
     <!-- <bar-infographic /> -->
-    <div class="infographic-container" v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
+    <div class="infographic-container print:hidden" v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
       <div v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)">
         <h3 v-if="isCountryInInfographic(highlightCodes, infgc)" class="h4 padding-block:l text-align:center">{{ infgc.title }}</h3>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" />
@@ -76,6 +76,12 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     border-radius: var(--border-radius-m);
     margin-inline: var(--space-l);
     padding-inline: var(--space-xl);
+
+    @media print {
+      border: none;
+      margin-inline: 0;
+      padding-inline: 0;
+    }
   }
 
   .switcher {
@@ -105,6 +111,21 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
 
   .infographic-container:empty {
     display: none;
+  }
+
+  .compare-flag {
+    @media print { 
+      max-width: 80px; 
+      border-radius: 0;
+    }
+  }
+
+  .switcher {
+    @media print {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-l);
+    }
   }
 
 </style>
