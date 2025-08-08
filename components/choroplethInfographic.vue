@@ -1,3 +1,290 @@
+<script setup>
+const props = defineProps({
+  dataset: {
+    type: Object
+  },
+  highlight: {
+    type: Array,
+    default: ''
+  }
+});
+
+const { europeanUnion, getCountryName } = useCountries()
+const scale = ref(1);
+const chartData = ref([]);
+const minimumValue = ref(0);
+const maximumValue = ref(0);
+const mouseX = ref(0);
+const mouseY = ref(0);
+const currentCountry = ref({});
+
+const getProportionalValue = (value) => {
+  const newMin = 20;
+  const newMax = 100;
+  const prop = ((value - minimumValue.value) / (maximumValue.value - minimumValue.value)) * (newMax - newMin) + newMin;
+  return prop;
+}
+
+const setupChartData = () => {
+  chartData.value = props.dataset.countries.map(item => {
+    const matches = item.val.match(/(.+)\s*.*\s*\|\s*(.+)/);
+    const obj = {};
+    if (matches) {
+      obj.country = item.country;
+      obj.label = matches[1].trim();
+      obj.val = Number(matches[2].trim());
+    } else {
+      obj.country = item.country;
+      obj.val = Number(item.val);
+      obj.label = item.val;
+    }
+    return obj;
+  });
+  scale.value = 100 / (props.dataset.countries[0]?.val || 1);
+  minimumValue.value = Math.min(...chartData.value.map(item => item.val));
+  maximumValue.value = Math.max(...chartData.value.map(item => item.val));
+}
+
+
+
+const hoveredCountryName = ref('');
+const hoveredCountryValue = ref('');
+const hoveredCountryPosition = ref({ x: 0, y: 0 });
+const isHovering = ref(false);
+
+const { countryCoords } = useCountryCoords2();
+
+const handleMouseEnter = (event) => {
+  const countryId = event.target.id;
+  const countryData = chartData.value.find(c => c.country === countryId);
+
+  if (!countryData) return;
+
+  hoveredCountryName.value = getCountryName(countryId);
+  hoveredCountryValue.value = `${countryData.val}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
+
+  // Use hardcoded coordinates from countryCoords composable
+  const coords = countryCoords[countryId];
+  if (coords) {
+    hoveredCountryPosition.value = {
+      x: coords.percentLeft * window.innerWidth,
+      y: coords.top,
+    };
+  } else {
+    const countryRect = event.target.getBoundingClientRect();
+    const container = document.querySelector('.choropleth-infographic__chart-wrapper');
+    const containerRect = container.getBoundingClientRect();
+
+    hoveredCountryPosition.value = {
+      x: countryRect.left + countryRect.width / 2 - containerRect.left,
+      y: countryRect.top + countryRect.height / 2 - containerRect.top,
+    };
+  }
+
+
+  isHovering.value = true;
+  currentCountry.value = countryData;
+};
+
+const handleMouseLeave = () => {
+  isHovering.value = false;
+
+};
+
+onMounted(() => {
+  setupChartData();
+
+  props.dataset.countries.forEach(item => {
+    const el = document.getElementById(item.country)
+    if (el) {
+      el.classList.add('hasStatement')
+      el.addEventListener('mousemove', handleMouseEnter);
+      el.addEventListener('mouseleave', handleMouseLeave);
+    }
+  })
+
+  const mapContainer = document.querySelector('.world-map--choropleth');
+  const map = document.querySelector('#map-svg');
+
+  
+
+  chartData.value.forEach(ch => {
+    const chValue = Number(ch.val);
+    if (!map) return;
+    const country = map.querySelector(`#${ch.country}`);
+    if (ch.country === 'eu') {
+      europeanUnion.members.forEach(euCountry => {
+        const c = map.querySelector(`#${euCountry}`);
+        if (!c) return;
+        c.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
+        c.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+      });
+    } else if (country) {
+      country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
+      country.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+      const list = document.querySelector('.list');
+      list?.classList.add('list--top');
+    }
+  });
+
+  // Highlight the country specified by the highlight prop
+  if (Array.isArray(props.highlight) && map) {
+    props.highlight.forEach(countryId => {
+      const highlighted = map.querySelector(`#${countryId}`);
+      if (highlighted) {
+        highlighted.classList.add('highlighted-country');
+      }
+    });
+  }
+
+  const chartLegend = document.createElement('div');
+  chartLegend.className = 'chart-legend';
+
+  const minValueText = document.createElement('p');
+  minValueText.className = 'chart-legend__text';
+  minValueText.textContent = `${minimumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
+  const minValueLegend = document.createElement('b');
+  minValueLegend.textContent = 'Lowest';
+  minValueText.prepend(minValueLegend);
+
+  const legendContainer = document.createElement('div');
+  legendContainer.className = 'chart-legend__legend';
+
+  const maxValueText = document.createElement('p');
+  maxValueText.className = 'chart-legend__text';
+  maxValueText.textContent = `${maximumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
+  const maxValueLegend = document.createElement('b');
+  maxValueLegend.textContent = 'Highest';
+  maxValueText.prepend(maxValueLegend);
+  
+
+  chartLegend.appendChild(legendContainer);
+  chartLegend.appendChild(maxValueText);
+  chartLegend.appendChild(minValueText);
+
+  mapContainer?.appendChild(chartLegend);
+
+});
+
+</script>
+
+<style lang="scss" scoped>
+
+#choropleth {
+  position: relative;
+}
+
+.choropleth-infographic__chart-wrapper {
+  overflow: hidden;
+  position: relative;
+
+  --legend-height: 45px;
+  --gap: var(--space-xs);
+
+  border: 1px solid var(--base-color-20-tint);
+  border-radius: var(--border-radius-s);
+  display: block;
+
+
+  @media (min-width: 1024px) { flex-direction: row; }
+
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16/8;
+  position: relative;
+  gap: var(--gap);
+  padding-inline: var(--space-s);
+  padding-top: calc(var(--space-xs) + var(--legend-height));
+}
+
+svg {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  aspect-ratio: 16 / 8;
+}
+
+path { fill: hsla(var(--base-hsl), .05); }
+
+
+
+.hasStatement {
+  stroke-width: .2;
+  stroke: hsla(var(--base-hsl), .3);
+  fill: hsla(var(--base-hsl), .2);
+  transition: all .3s ease;
+  
+  &:hover,
+  &.active {
+    stroke: hsla(var(--accent-hsl), .5);
+    stroke-width: .2;
+    fill: hsla(var(--accent-hsl), .3);
+  }
+}
+
+.choro-data {
+  position: absolute;
+  padding: .5rem var(--space-s);
+  font-size: .85rem;
+  border-radius: var(--border-radius-m);
+  background-color: hsla(var(--navy-hsl), .8);
+  color: var(--white-color);
+  text-align: center;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 10;
+  left: calc(var(--left) * 1px);
+  top: calc(var(--top) * 1px);
+  transform: translate(-50%, -100%);
+  /* Speech bubble arrow */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0 8px;
+    border-style: solid;
+    border-color: hsla(var(--navy-hsl), .8) transparent transparent transparent;
+    display: block;
+    width: 0;
+    height: 0;
+  }
+
+  & p {
+    margin: 0;
+    font-size: .8rem;
+    line-height: 1.2;
+  }
+}
+
+#choropleth {
+  --choropleth-hsl: var(--accent-hsl);
+}
+
+:deep(.chart-legend) {
+  position: absolute;
+  bottom: var(--space-m);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  p {
+    padding: var(--space-2xs) var(--space-xs);
+    background-color: var(--white-color);
+    border-radius: 0.75em;
+    font-size: var(--size--1);
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
+</style>
+
 <template>
   <div id="choropleth" class="subgrid">
     <div class="choropleth-infographic__chart-wrapper | world-map--choropleth">
@@ -1042,267 +1329,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-const props = defineProps({
-  dataset: {
-    type: Object
-  },
-  highlight: {
-    type: Array,
-    default: ''
-  }
-});
-
-const { europeanUnion, getCountryName } = useCountries()
-const scale = ref(1);
-const chartData = ref([]);
-const minimumValue = ref(0);
-const maximumValue = ref(0);
-const mouseX = ref(0);
-const mouseY = ref(0);
-const currentCountry = ref({});
-
-const getProportionalValue = (value) => {
-  const newMin = 20;
-  const newMax = 100;
-  const prop = ((value - minimumValue.value) / (maximumValue.value - minimumValue.value)) * (newMax - newMin) + newMin;
-  return prop;
-}
-
-const setupChartData = () => {
-  chartData.value = props.dataset.countries.map(item => {
-    const matches = item.val.match(/(.+)\s*.*\s*\|\s*(.+)/);
-    const obj = {};
-    if (matches) {
-      obj.country = item.country;
-      obj.label = matches[1].trim();
-      obj.val = Number(matches[2].trim());
-    } else {
-      obj.country = item.country;
-      obj.val = Number(item.val);
-      obj.label = item.val;
-    }
-    return obj;
-  });
-  scale.value = 100 / (props.dataset.countries[0]?.val || 1);
-  minimumValue.value = Math.min(...chartData.value.map(item => item.val));
-  maximumValue.value = Math.max(...chartData.value.map(item => item.val));
-}
-
-
-
-const hoveredCountryName = ref('');
-const hoveredCountryValue = ref('');
-const hoveredCountryPosition = ref({ x: 0, y: 0 });
-const isHovering = ref(false);
-
-const { countryCoords } = useCountryCoords();
-
-const handleMouseEnter = (event) => {
-  const countryId = event.target.id;
-  const countryData = chartData.value.find(c => c.country === countryId);
-
-  if (!countryData) return;
-
-  hoveredCountryName.value = getCountryName(countryId);
-  hoveredCountryValue.value = `${countryData.val}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
-
-  // Use hardcoded coordinates from countryCoords composable
-  const coords = countryCoords[countryId];
-  if (coords) {
-    hoveredCountryPosition.value = {
-      x: coords.left + coords.width / 2,
-      y: coords.top,
-    };
-  } else {
-    // Fallback to dynamic calculation if country not in hardcoded list
-    const mapContainer = document.querySelector('.world-map--choropleth');
-    const mapRect = mapContainer.getBoundingClientRect();
-    const countryRect = event.target.getBoundingClientRect();
-    hoveredCountryPosition.value = {
-      x: countryRect.left - mapRect.left + countryRect.width / 2,
-      y: countryRect.top - mapRect.top + countryRect.height / 2,
-    };
-  }
-
-  isHovering.value = true;
-  currentCountry.value = countryData;
-};
-
-const handleMouseLeave = () => {
-  isHovering.value = false;
-
-};
-
-onMounted(() => {
-  setupChartData();
-
-  props.dataset.countries.forEach(item => {
-    const el = document.getElementById(item.country)
-    if (el) {
-      el.classList.add('hasStatement')
-      el.addEventListener('mousemove', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
-    }
-  })
-
-  const mapContainer = document.querySelector('.world-map--choropleth');
-  const map = document.querySelector('#map-svg');
-
-  
-
-  chartData.value.forEach(ch => {
-    const chValue = Number(ch.val);
-    if (!map) return;
-    const country = map.querySelector(`#${ch.country}`);
-    if (ch.country === 'eu') {
-      europeanUnion.members.forEach(euCountry => {
-        const c = map.querySelector(`#${euCountry}`);
-        if (!c) return;
-        c.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-        c.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
-      });
-    } else if (country) {
-      country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-      country.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
-      const list = document.querySelector('.list');
-      list?.classList.add('list--top');
-    }
-  });
-
-  // Highlight the country specified by the highlight prop
-  if (Array.isArray(props.highlight) && map) {
-    props.highlight.forEach(countryId => {
-      const highlighted = map.querySelector(`#${countryId}`);
-      if (highlighted) {
-        highlighted.classList.add('highlighted-country');
-      }
-    });
-  }
-
-  const chartLegend = document.createElement('div');
-  chartLegend.className = 'chart-legend';
-
-  const minValueText = document.createElement('p');
-  minValueText.className = 'chart-legend__text';
-  minValueText.textContent = `Low ${minimumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
-
-  const legendContainer = document.createElement('div');
-  legendContainer.className = 'chart-legend__legend';
-
-  const maxValueText = document.createElement('p');
-  maxValueText.className = 'chart-legend__text';
-  maxValueText.textContent = `${maximumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''} High`;
-
-  chartLegend.appendChild(minValueText);
-  chartLegend.appendChild(legendContainer);
-  chartLegend.appendChild(maxValueText);
-
-  mapContainer?.appendChild(chartLegend);
-
-});
-
-</script>
-
-<style lang="scss" scoped>
-
-#choropleth {
-  position: relative;
-}
-
-.choropleth-infographic__chart-wrapper {
-  overflow: hidden;
-  position: relative;
-
-  --legend-height: 45px;
-  --gap: var(--space-xs);
-
-  border: 1px solid var(--base-color-20-tint);
-  border-radius: var(--border-radius-s);
-  display: block;
-
-
-  @media (min-width: 1024px) { flex-direction: row; }
-
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 16/8;
-  position: relative;
-  gap: var(--gap);
-  padding-inline: var(--space-s);
-  padding-top: calc(var(--space-xs) + var(--legend-height));
-}
-
-svg {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  aspect-ratio: 16 / 8;
-}
-
-path { fill: hsla(var(--base-hsl), .05); }
-
-
-
-.hasStatement {
-  stroke-width: .2;
-  stroke: hsla(var(--base-hsl), .3);
-  fill: hsla(var(--base-hsl), .2);
-  transition: all .3s ease;
-  outline: 1px solid red;
-  
-  &:hover,
-  &.active {
-    stroke: hsla(var(--accent-hsl), .5);
-    stroke-width: .2;
-    fill: hsla(var(--accent-hsl), .3);
-  }
-}
-
-.choro-data {
-  position: absolute;
-  padding: .5rem var(--space-s);
-  font-size: .85rem;
-  border-radius: var(--border-radius-m);
-  background-color: hsla(var(--navy-hsl), .8);
-  color: var(--white-color);
-  text-align: center;
-  opacity: 1;
-  pointer-events: none;
-  z-index: 10;
-  left: calc(var(--left) * 1px);
-  top: calc(var(--top) * 1px);
-
-  /* Speech bubble arrow */
-  &::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -8px;
-    transform: translateX(-50%);
-    border-width: 8px 8px 0 8px;
-    border-style: solid;
-    border-color: hsla(var(--navy-hsl), .8) transparent transparent transparent;
-    display: block;
-    width: 0;
-    height: 0;
-  }
-
-  & p {
-    margin: 0;
-    font-size: .8rem;
-    line-height: 1.2;
-  }
-}
-
-#choropleth {
-  --choropleth-hsl: var(--accent-hsl);
-}
-
-.chart-legend {
-  background-color: red;
-}
-
-</style>
