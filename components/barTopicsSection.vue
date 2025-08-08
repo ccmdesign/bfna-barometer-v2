@@ -67,11 +67,11 @@ watch(
         <option value="all">All Categories</option>
         <option v-for="item of tags" :value="item">{{ item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() }}</option>
       </select>
-      <bar-button variant="primary" color="base-faded" size="s" @click="handleSort(sortedBy)">
+      <bar-button class="filter-button" variant="primary" color="base-faded" size="s" @click="handleSort(sortedBy)">
         <span class="icon" size="xs">sort</span>
         Sorted by: {{ sortedBy }}
       </bar-button>
-      <bar-button :class="{'archived-active': showArchivedTopics }" variant="primary" color="base-faded" size="s" split-right @click="handleArchivedTopics">
+      <bar-button class="filter-button" :class="{'archived-active': showArchivedTopics }" variant="primary" color="base-faded" size="s" split-right @click="handleArchivedTopics">
         <span class="icon" size="xs">archive</span>
         View Archived Topics
       </bar-button>
@@ -106,6 +106,19 @@ watch(
 
   option {
     text-transform: capitalize;
+  }
+  @media (max-width: 36em) {
+    width: 100%;
+  }
+  @media (max-width: 1024px) {
+    flex-grow: 1;
+  }
+
+}
+
+.filter-button {
+  @media (max-width: 36em) {
+    flex-grow: 1;
   }
 }
 
