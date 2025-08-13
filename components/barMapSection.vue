@@ -1,6 +1,10 @@
 <template>
   <section class="map-section | subgrid">
-    <mapSVG class="map-section__map | subgrid" :hovered-country="hoveredCountry" />
+    <mapSVG 
+      v-if="!isMobile" 
+      class="map-section__map | subgrid" 
+      :hovered-country="hoveredCountry" 
+    />
     <bar-flags :topic="topic"
       class="map-section__flags | subgrid" 
       controls="true" 
@@ -17,6 +21,7 @@ const props = defineProps({
   }
 })
 
+const { isMobile } = useDevice()
 const hoveredCountry = ref('')
 
 const handleFlagHover = (country) => {
@@ -44,7 +49,6 @@ const handleFlagLeave = () => {
   max-width: 100%;
   margin-bottom: -4px;
   overflow: hidden;
-  @media (max-width: 768px) { display: none; }
 }
 
 .map-section__flags {

@@ -167,8 +167,10 @@ const scrollRight = () => {
 }
 
 .reel-item:first-child {
-  border-right: 1px solid var(--base-color-30-alpha);
-  @media (min-width: 768px) { padding-inline: var(--space-xl); }
+  @media (min-width: 768px) { 
+    border-right: 1px solid var(--base-color-30-alpha);
+    padding-inline: var(--space-xl); 
+  }
 }
 
 .reel-item:last-child {
