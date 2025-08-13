@@ -7,10 +7,11 @@ const goDownToMapSection = () => {
   }
 }
 
+const lazyYouTubeRef = ref(null)
+
 const playYoutubeVideo = () => {
-  const videoFrame = document.querySelector('.hero__video');
-  if (videoFrame) {
-    videoFrame.src += '?autoplay=1';
+  if (lazyYouTubeRef.value) {
+    lazyYouTubeRef.value.loadVideo()
   }
 }
   
@@ -37,15 +38,13 @@ const playYoutubeVideo = () => {
       </div>
       <div class="hero-content__inner | stack">
         <slot name="column_right">
-          <iframe v-if="useRouter().currentRoute.value.name === 'index'"
-            class="hero__video" 
-            src="https://www.youtube.com/embed/ervofXVlR_w" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-          </iframe>
+          <LazyYouTube 
+            v-if="useRouter().currentRoute.value.name === 'index'"
+            ref="lazyYouTubeRef"
+            video-id="ervofXVlR_w"
+            title="Transatlantic Barometer Introduction Video"
+            class="hero__video"
+          />
         </slot>
       </div>
     </div>
@@ -81,12 +80,8 @@ const playYoutubeVideo = () => {
   display: flex;
   justify-self: center;
   margin: auto;
-  aspect-ratio: 16/9;
   max-width: 800px;
-  object-fit: cover;
-  border-radius: var(--border-radius-s);
-  box-shadow: var(--box-shadow-l);
-  border: 3px solid var(--white-color);
+  width: 100%;
 }
 
 .hero-content {
