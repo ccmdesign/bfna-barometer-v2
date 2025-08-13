@@ -6,7 +6,7 @@
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <img :src="`https://flagcdn.com/${country}.svg`" :alt="countryName">
+    <img :src="`https://flagcdn.com/${country}.svg`" :alt="countryName" loading="lazy">
   </div>
 </template>
 

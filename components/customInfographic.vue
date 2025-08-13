@@ -5,7 +5,7 @@
         :to="data.customInfographicFile.url"
         target="_blank">
         <div class="custom_infographic-card">
-          <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image">
+          <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
           <div class="custom_infographic-card__content | cluster">
             <div class="custom_infographic-card__content-inner | text-align:left" split-right>
               <h3>{{ data.title }}</h3>

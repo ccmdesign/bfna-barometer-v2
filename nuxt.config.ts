@@ -27,20 +27,52 @@ export default defineNuxtConfig({
         { name: "twitter:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." }
       ],
       link: [
-        // google icons - async loading for performance
+        // DNS prefetch for external resources
+        { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+        { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
+        { rel: "dns-prefetch", href: "https://cloud.typography.com" },
+        { rel: "dns-prefetch", href: "https://flagcdn.com" },
+        { rel: "dns-prefetch", href: "https://www.youtube.com" },
+        { rel: "dns-prefetch", href: "https://i.ytimg.com" },
+        // google fonts - optimized loading
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: true },
-        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" },
+        // adobe fonts - optimized loading
+        { rel: "preconnect", href: "https://cloud.typography.com", crossorigin: true },
+        { rel: "preload", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap", as: "style", onload: "this.onload=null;this.rel='stylesheet'" },
+        { rel: "noscript", innerHTML: "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap'>" },
         { rel: "preload", href: "/assets/barometer-logo.svg", as: "image", type: "image/svg+xml" },
+        { rel: "preload", href: "/assets/abstract.webp", as: "image", type: "image/webp" },
+        { rel: "preload", href: "/assets/barometer-footer.svg", as: "image", type: "image/svg+xml" },
       ],
       script: [],
     }
   },
   css: [
-    'public/css/styles.css'
+    '~/public/css/styles.css'
   ],
   build: {
     transpile: ['vue-carousel'],
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        default: {
+          name: 'default',
+          chunks: 'async',
+          priority: -20,
+          reuseExistingChunk: true
+        },
+        vendor: {
+          name: 'vendor',
+          chunks: 'initial',
+          test: /node_modules/,
+          priority: -10,
+          reuseExistingChunk: true
+        }
+      }
+    }
   },
   vite: {
     css: {
@@ -48,17 +80,39 @@ export default defineNuxtConfig({
     },
     build: {
       cssCodeSplit: true,
+      sourcemap: true,
       rollupOptions: {
         output: {
           manualChunks: {
             vendor: ['vue', 'vue-router'],
+            d3: ['d3'],
+            contentful: ['contentful'],
+            utils: ['lodash', 'papaparse'],
+            carousel: ['vue-carousel'],
+            media: ['@vimeo/player', 'vue3-youtube']
           }
+        },
+        external: (id) => {
+          // Don't bundle large third-party libraries that aren't used everywhere
+          if (id.includes('vue2-perfect-scrollbar') && !id.includes('node_modules')) {
+            return true;
+          }
+          return false;
+        }
+      },
+      target: 'esnext',
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.warn']
         }
       }
     }
   },
   plugins: [
-    
+    '~/plugins/performance.client.js'
   ],
   ssr: false,
   experimental: {
@@ -68,7 +122,7 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         headers: {
-          'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.google.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https:; frame-src 'self' https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';",
+          'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.google.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cloud.typography.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com https://cloud.typography.com; connect-src 'self' https:; frame-src 'self' https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';",
           'Cross-Origin-Opener-Policy': 'same-origin',
           'X-Frame-Options': 'SAMEORIGIN',
           'X-Content-Type-Options': 'nosniff',

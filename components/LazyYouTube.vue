@@ -6,6 +6,8 @@
         :alt="`Play ${title || 'YouTube video'}`"
         class="lazy-youtube__thumbnail"
         loading="lazy"
+        width="480"
+        height="360"
       />
       <button class="lazy-youtube__play-button" :aria-label="`Play ${title || 'YouTube video'}`">
         <svg viewBox="0 0 68 48" width="68" height="48">
@@ -87,6 +89,7 @@ defineExpose({
   height: 100%;
   object-fit: cover;
   transition: opacity 0.3s ease;
+  aspect-ratio: 16/9;
 }
 
 .lazy-youtube__facade:hover .lazy-youtube__thumbnail {

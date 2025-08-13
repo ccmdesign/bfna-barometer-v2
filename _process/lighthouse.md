@@ -1,5 +1,7 @@
 This document summarizes the PageSpeed Insights reports for the development site `https://barometer-v2.netlify.app/`, based on an analysis conducted on August 13, 2025.
 
+https://pagespeed.web.dev/analysis/https-barometer-v2-netlify-app/o31ilsft1n?form_factor=desktop
+
 ---
 
 ### **Mobile Analysis**

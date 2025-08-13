@@ -10,14 +10,12 @@
       </hgroup>
     </template>
     <template #column_right v-if="topic.video">
-      <iframe 
-        class="video" 
-        :src="videoEmbedUrl" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen></iframe>
+      <LazyYouTube 
+        v-if="videoId"
+        :video-id="videoId"
+        :title="topic.title"
+        class="video"
+      />
     </template>
   </bar-hero>
 
@@ -40,11 +38,11 @@ const { data: topic } = await useAsyncData('topic', () => queryCollection('topic
   .where('slug', '=', route.params?.slug)
   .first())
 
-const { convertToEmbed, getThumbnail } = useYouTube()
+const { extractVideoId } = useYouTube()
 
-const videoEmbedUrl = computed(() => {
+const videoId = computed(() => {
   if (!topic.value?.video) return null
-  return convertToEmbed(topic.value.video)
+  return extractVideoId(topic.value.video)
 })
 
 
