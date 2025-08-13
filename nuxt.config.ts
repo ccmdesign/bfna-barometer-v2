@@ -30,15 +30,17 @@ export default defineNuxtConfig({
         // DNS prefetch for external resources
         { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
         { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
-        { rel: "dns-prefetch", href: "https://cloud.typography.com" },
+        { rel: "dns-prefetch", href: "https://use.typekit.net" },
+        { rel: "dns-prefetch", href: "https://p.typekit.net" },
         { rel: "dns-prefetch", href: "https://flagcdn.com" },
         { rel: "dns-prefetch", href: "https://www.youtube.com" },
         { rel: "dns-prefetch", href: "https://i.ytimg.com" },
         // google fonts - optimized loading
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: true },
-        // adobe fonts - optimized loading
-        { rel: "preconnect", href: "https://cloud.typography.com", crossorigin: true },
+        // adobe typekit fonts - optimized loading  
+        { rel: "preconnect", href: "https://use.typekit.net", crossorigin: true },
+        { rel: "preconnect", href: "https://p.typekit.net", crossorigin: true },
         { rel: "preload", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap", as: "style", onload: "this.onload=null;this.rel='stylesheet'" },
         { rel: "noscript", innerHTML: "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap'>" },
         { rel: "preload", href: "/assets/barometer-logo.svg", as: "image", type: "image/svg+xml" },
@@ -122,7 +124,7 @@ export default defineNuxtConfig({
     routeRules: {
       '/**': {
         headers: {
-          'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.google.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cloud.typography.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com https://cloud.typography.com; connect-src 'self' https:; frame-src 'self' https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';",
+          'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.google.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://use.typekit.net https://p.typekit.net; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com https://use.typekit.net; connect-src 'self' https:; frame-src 'self' https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';",
           'Cross-Origin-Opener-Policy': 'same-origin',
           'X-Frame-Options': 'SAMEORIGIN',
           'X-Content-Type-Options': 'nosniff',
