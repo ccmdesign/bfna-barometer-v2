@@ -48,9 +48,8 @@
     background-color: var(--base-color);
     box-shadow: var(--box-shadow-m);
     color: var(--white-color);
-    h3, p {
-      color: var(--white-color);
-    }
+    
+    h3, p { color: var(--white-color); }
   }
 
   cursor: pointer;

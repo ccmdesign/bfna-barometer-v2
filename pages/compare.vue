@@ -50,6 +50,7 @@
 
 <script setup>
 import { useStatementStore } from '~/stores/statements';
+import { statementsToCSV, downloadCSV } from '~/utils/csv';
 const { countries, getCountryName } = useCountries();
 const availableCountries = ref([])
 const availableTopics = ref([])
@@ -199,7 +200,7 @@ watch([selectedCountries, selectedTopics], () => {
 const handleDownloadCSV = () => {
   if (!statements.value || !statements.value.length) return;
 
-  const csv = objectsToCSV(statements.value)
+  const csv = statementsToCSV(statements.value)
   downloadCSV(csv);
 }
 

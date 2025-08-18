@@ -96,3 +96,70 @@ export const csvToObjects = (csv) => {
   
   return parsed.data.map(flatObj => unflattenObject(flatObj))
 }
+
+/**
+ * Converts comparison statements data to a user-friendly CSV format
+ * @param {Array} statements - Array of statement objects from the comparison tool
+ * @returns {String} - CSV string with user-friendly columns
+ */
+export const statementsToCSV = (statements) => {
+  if (!Array.isArray(statements) || statements.length === 0) {
+    return ''
+  }
+
+  const csvData = []
+
+  statements.forEach(topic => {
+    const baseRow = {
+      'Topic': topic.title,
+      'Description': topic.description
+    }
+
+    // Get all country codes from statements
+    const countryCodes = Object.keys(topic.statements || {})
+    
+    if (countryCodes.length === 0) {
+      csvData.push(baseRow)
+      return
+    }
+
+    // Create a row for each topic with country-specific data
+    const row = { ...baseRow }
+    
+    countryCodes.forEach(countryCode => {
+      const statement = topic.statements[countryCode]
+      const countryPrefix = countryCode.toUpperCase()
+      
+      if (statement) {
+        row[`${countryPrefix} Statement`] = statement.description || ''
+        
+        // Add links if they exist
+        if (statement.links && Array.isArray(statement.links)) {
+          statement.links.forEach((link, index) => {
+            if (link.label && link.url) {
+              row[`${countryPrefix} Link ${index + 1} Label`] = link.label
+              row[`${countryPrefix} Link ${index + 1} URL`] = link.url
+            }
+          })
+        }
+      } else {
+        row[`${countryPrefix} Statement`] = 'No data available'
+      }
+    })
+
+    // Add infographics data if available
+    if (topic.infographics && Array.isArray(topic.infographics)) {
+      topic.infographics.forEach((infographic, index) => {
+        if (infographic.title) {
+          row[`Infographic ${index + 1} Title`] = infographic.title
+          row[`Infographic ${index + 1} Type`] = infographic.infographicType || ''
+          row[`Infographic ${index + 1} Description`] = infographic.infographicDescription || ''
+        }
+      })
+    }
+
+    csvData.push(row)
+  })
+
+  return Papa.unparse(csvData, { header: true })
+}
