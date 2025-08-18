@@ -1,5 +1,5 @@
 <template>
-    <button @click="goBack" class="back-button">
+    <button @click="goBack" class="back-button" aria-label="Go back to previous page">
         <div><span class="icon">arrow_back_ios</span></div> BACK
     </button>
 </template>

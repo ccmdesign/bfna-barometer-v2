@@ -111,9 +111,9 @@ const scrollRight = () => {
     </div>
     
     <div class="reel-controls" :class="{ 'reel-controls--minimal': controls == 'false' }">
-      <button class="arrow-button arrow-button--left" @click="scrollLeft"><span class="icon">arrow_back_ios</span></button>
+      <button class="arrow-button arrow-button--left" @click="scrollLeft" aria-label="Scroll left through countries"><span class="icon">arrow_back_ios</span></button>
       <!-- <bar-button variant="primary" size="l" color="base"><span>Read More</span><span class="icon">arrow_forward</span></bar-button> -->
-      <button class="arrow-button" @click="scrollRight"><span class="icon">arrow_forward_ios</span></button>
+      <button class="arrow-button" @click="scrollRight" aria-label="Scroll right through countries"><span class="icon">arrow_forward_ios</span></button>
     </div>
   </div>
 </template>

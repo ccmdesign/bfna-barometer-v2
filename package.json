@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@nuxt/vite-builder": "^3.16.2",
+    "@nuxtjs/sitemap": "^7.4.3",
     "@types/vimeo__player": "^2.18.3",
     "postcss": "^8.4.0",
     "postcss-import": "^16.0.0",
