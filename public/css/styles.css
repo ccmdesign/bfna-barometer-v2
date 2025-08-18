@@ -16,6 +16,9 @@
 @import "base/form.css" layer(defaults);
 @import 'base/everylayout.css' layer(defaults);
 
+/* Print Styles */
+@import "print.css" layer(defaults);
+
 /* Utils Layer */
 @import "utils/color-utils-background-color.css" layer(utils);
 @import "utils/color-utils-color.css" layer(utils);

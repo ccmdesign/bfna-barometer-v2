@@ -1,0 +1,97 @@
+/* Print Styles for PDF Export */
+@media print {
+  /* Page setup with margins */
+  @page {
+    margin: 15mm;
+  }
+
+  /* Global page and typography settings */
+  body, html {
+    background: #fff !important;
+    color: #000 !important;
+    font-family: var(--body-font);
+    font-size: 11pt;
+  }
+
+  /* Heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    color: #000 !important;
+    text-shadow: none !important;
+    page-break-after: avoid;
+  }
+
+  /* Paragraph styles */
+  p {
+    font-size: 11pt !important;
+    line-height: 1.4;
+  }
+
+  /* Link styles with URL display */
+  a {
+    text-decoration: underline !important;
+    color: #000 !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    font-style: italic;
+  }
+
+  /* Hide non-essential UI elements */
+  .print\:hidden,
+  .bar-hero,
+  .bar-topbar,
+  .bar-footer,
+  .bar-button,
+  .infographic-container {
+    display: none !important;
+  }
+
+  /* Compare box spacing and separation */
+  .compare-box:not(:first-child) {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid #ccc;
+  }
+
+  .compare-box {
+    border: none;
+    margin-inline: 0;
+    padding-inline: 0;
+    page-break-inside: avoid;
+  }
+
+  /* Keep flag and country name together, but allow description to break */
+  .compare-flag {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Keep country headings with some following content */
+  .section-panel h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+    orphans: 2;
+    widows: 2;
+  }
+
+  /* Allow description paragraphs to break naturally */
+  .section-panel p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Stack country panels vertically for better readability */
+  .switcher {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-l) !important;
+  }
+
+  /* Flag styling for print */
+  .compare-flag {
+    max-width: 80px;
+    border-radius: 0;
+  }
+}

@@ -256,24 +256,5 @@ color: var(--white-color);
   pointer-events: none;
 }
 
-@media print {
-  h1, h2, h3, h4, h5, h6 {
-    color: #000 !important;
-    text-shadow: none !important;
-  }
 
- :deep(p) {
-    font-size: 12px !important;
-  }
-
-  a {
-    text-decoration: underline !important;
-    color: #000 !important;
-  }
-
-  body, html {
-    background: #fff !important;
-    color: #000 !important;
-  }
-}
 </style>
