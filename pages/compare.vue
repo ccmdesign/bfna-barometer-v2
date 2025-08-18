@@ -22,11 +22,11 @@
   </bar-hero>
 
   <bar-section class="margin-top:m print:hidden">
-    <div v-if="statements" class="cluster">
-      <span split-left>Export Comparison:</span>
-      <!-- <bar-button variant="secondary" color="base" size="s" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
-      <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon" >vertical_align_bottom</span>CSV</bar-button>
-    </div>
+          <div v-if="statements" class="cluster">
+        <span split-left>Export Comparison:</span>
+        <bar-button variant="secondary" color="base" size="s" @click="handleDownloadPDF" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+        <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon" >vertical_align_bottom</span>CSV</bar-button>
+      </div>
     <div v-else>
       <h2 class="h5 uppercase text-align:center">Make a Selection to start</h2>
     </div>
@@ -38,11 +38,11 @@
     <div class="repel">
       <bar-button variant="primary" color="gray" size="s" @click="scrollToTop">Back to Top<span class="icon">arrow_upward</span></bar-button>
 
-      <div class="cluster">
-        <span split-left>Export Comparison:</span>
-        <!-- <bar-button variant="secondary" color="base" size="s"><span class="icon">vertical_align_bottom</span>PDF</bar-button> -->
-        <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
-      </div>
+              <div class="cluster">
+          <span split-left>Export Comparison:</span>
+          <bar-button variant="secondary" color="base" size="s" @click="handleDownloadPDF"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+          <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
+        </div>
     </div>
   </bar-section>
 
@@ -202,6 +202,10 @@ const handleDownloadCSV = () => {
 
   const csv = statementsToCSV(statements.value)
   downloadCSV(csv);
+}
+
+const handleDownloadPDF = () => {
+  window.print();
 }
 
 const scrollToTop = () => {
