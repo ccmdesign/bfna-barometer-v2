@@ -44,10 +44,25 @@ This is the core of the implementation. We will use `@media print` rules inside 
   - **Future Enhancement (Static Fallbacks):** If desired later, we could explore creating simplified, static image fallbacks for the charts to be displayed in the print version. For now, the focus is on the textual data.
 
 #### 2.5. Page Flow and Control
-- **Avoid Awkward Breaks:** We will apply `page-break-inside: avoid;` to the main `<bar-compare-box>` container for each topic. This crucial rule will prevent a single topic's comparison from being split illogically across two pages.
+- **Enforce Page Breaks Between Topics:** Each `<bar-compare-box>` component instance will start on a new page using `page-break-before: always;`. We will use `:first-child` to prevent a break before the first topic.
+- **Avoid Awkward Internal Breaks:** We will apply `page-break-inside: avoid;` to the main `<bar-compare-box>` container for each topic. This crucial rule will prevent a single topic's comparison from being split illogically across two pages.
 - **Heading Control:** We will apply `page-break-after: avoid;` to headings to ensure they don't get orphaned at the bottom of a page, separated from the content that follows them.
+
+#### 2.6. Dynamic, Print-Only Page Headers
+- **Action:** A new, non-reusable HTML structure (e.g., `<div class="print-header">`) will be added inside the `v-for` loop in `pages/compare.vue`.
+- **Content:** The header will dynamically display the list of compared countries and the specific topic title for that page.
+- **Visibility:** The header will be hidden by default and made visible only for print.
+- **Styling:** We will use existing typography utility classes for styling.
+
+#### 2.7. Standardized Page Footers
+- **Action:** Implement a global print footer using the `@page` CSS at-rule.
+- **Content:** The footer will contain:
+  1.  **Page Number:** "Page X of Y" using CSS counters (`counter(page)` and `counter(pages)`).
+  2.  **Source URL:** "Generated from [URL]".
+  3.  **Generation Date:** The current date.
+- **Implementation:** A small JavaScript snippet will write the date and URL to `data-*` attributes on the `<body>` tag, which will be pulled into the footer using the CSS `attr()` function.
 
 ## 4. Files to be Modified
 - **`_process/feature-pdf-export.md`**: (This file)
-- **`pages/compare.vue`**: (Add button, trigger function, and all `@media print` styles)
+- **`pages/compare.vue`**: (Add button, trigger function, print-only header markup, and all `@media print` styles)
 - **`components/barCompareBox.vue`**: (Potentially add some print-specific classes to facilitate styling, though most will be handled from the parent page)
