@@ -41,6 +41,12 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
   >
     <div class="cluster">
       <hgroup split-right>
+        <h4 class="h6 | print:only">
+          Comparison: 
+          <template v-if="Object.values(topic.statements).length === 2">
+            {{ getCountryName(Object.values(topic.statements)[0].country) }} and {{ getCountryName(Object.values(topic.statements)[1].country) }}
+          </template>
+        </h4>
         <h2 class="h1">{{ topic.title }}</h2>
         <p>{{ topic.description }}</p>
       </hgroup>

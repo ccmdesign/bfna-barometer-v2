@@ -1,97 +1,220 @@
-/* Print Styles for PDF Export */
-@media print {
-  /* Page setup with margins */
-  @page {
-    margin: 15mm;
+@layer print {
+  .print\:only { display: none; } 
+
+  @media print {
+    .print\:only { display: block; } 
   }
 
-  /* Global page and typography settings */
-  body, html {
-    background: #fff !important;
-    color: #000 !important;
-    font-family: var(--body-font);
-    font-size: 11pt;
-  }
 
-  /* Heading styles */
-  h1, h2, h3, h4, h5, h6 {
-    color: #000 !important;
-    text-shadow: none !important;
-    page-break-after: avoid;
-  }
+  /* Print Styles for PDF Export */
+     @media print {
+     /* Page setup with margins */
+     @page {
+       margin: 15mm;
+       margin-top: 15mm;
+       
+       @top-left {
+         content: "Country Comparison";
+         font-family: var(--body-font);
+         font-size: 10pt;
+         font-weight: bold;
+         color: #333;
+         vertical-align: middle;
+         padding-left: 5mm;
+         padding-top: 5mm;
+       }
+       
+       @top-right {
+         content: "Bertelsmann Foundation – Transatlantic Barometer";
+         font-family: var(--body-font);
+         font-size: 10pt;
+         font-weight: bold;
+         color: #333;
+         vertical-align: middle;
+         padding-right: 5mm;
+         padding-top: 5mm;
+       }
+       
+       @top-left, @top-right {
+         padding-bottom: 5mm;
+         border-bottom: 1px solid #ccc;
+       }
+     }
 
-  /* Paragraph styles */
-  p {
-    font-size: 11pt !important;
-    line-height: 1.4;
-  }
+     .print-header-title {
+       font-family: var(--body-font);
+       font-size: 10pt;
+       font-weight: bold;
+       color: #333;
+       text-align: center;
+     }
 
-  /* Link styles with URL display */
-  a {
-    text-decoration: underline !important;
-    color: #000 !important;
-  }
+    /* Global page and typography settings */
+    body, html {
+      background: #fff !important;
+      color: #000 !important;
+      font-family: var(--body-font);
+      font-size: 11pt;
+      position: relative;
+    }
 
-  a[href]::after {
-    content: " (" attr(href) ")";
-    font-size: 9pt;
-    font-style: italic;
-  }
+    /* Heading styles */
+    h1, h2, h3, h4, h5, h6 {
+      color: #000 !important;
+      text-shadow: none !important;
+      page-break-after: avoid;
+    }
 
-  /* Hide non-essential UI elements */
-  .print\:hidden,
-  .bar-hero,
-  .bar-topbar,
-  .bar-footer,
-  .bar-button,
-  .infographic-container {
-    display: none !important;
-  }
+    /* Paragraph styles */
+    p {
+      font-size: 11pt !important;
+      line-height: 1.4;
+    }
 
-  /* Compare box spacing and separation */
-  .compare-box:not(:first-child) {
-    margin-top: var(--space-xl);
-    padding-top: var(--space-xl);
-    border-top: 1px solid #ccc;
-  }
+    /* Link styles with URL display */
+    a {
+      text-decoration: underline !important;
+      color: #000 !important;
+    }
 
-  .compare-box {
-    border: none;
-    margin-inline: 0;
-    padding-inline: 0;
-    page-break-inside: avoid;
-  }
+    a[href]::after {
+      content: " (" attr(href) ")";
+      font-size: 9pt;
+      font-style: italic;
+    }
 
-  /* Keep flag and country name together, but allow description to break */
-  .compare-flag {
-    page-break-after: avoid;
-    break-after: avoid;
-  }
+    /* Hide non-essential UI elements */
+    .print\:hidden,
+    .bar-hero,
+    .bar-topbar,
+    .bar-footer,
+    .bar-button {
+      display: none !important;
+    }
 
-  /* Keep country headings with some following content */
-  .section-panel h3 {
-    page-break-after: avoid;
-    break-after: avoid;
-    orphans: 2;
-    widows: 2;
-  }
+         /* Compare box with page breaks - no horizontal lines */
+     .compare-box:not(:first-child) {
+       page-break-before: always !important;
+     }
 
-  /* Allow description paragraphs to break naturally */
-  .section-panel p {
-    orphans: 3;
-    widows: 3;
-  }
+     .compare-box {
+       border: none;
+       border-radius: 0 !important;
+       margin-inline: 0;
+       padding-inline: 0;
+       page-break-inside: avoid;
+     }
 
-  /* Stack country panels vertically for better readability */
-  .switcher {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--space-l) !important;
-  }
+     /* Add top margin to first compare box for logo space */
+     .compare-box:first-child {
+       margin-top: 25mm;
+     }
 
-  /* Flag styling for print */
-  .compare-flag {
-    max-width: 80px;
-    border-radius: 0;
+    /* Keep flag and country name together, but allow description to break */
+    .compare-flag {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Keep country headings with some following content */
+    .section-panel h3 {
+      page-break-after: avoid;
+      break-after: avoid;
+      orphans: 2;
+      widows: 2;
+    }
+
+    /* Allow description paragraphs to break naturally */
+    .section-panel p {
+      orphans: 3;
+      widows: 3;
+    }
+
+    /* Stack country panels vertically for better readability */
+    .switcher {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: var(--space-l) !important;
+    }
+
+    /* Flag styling for print */
+    .compare-flag {
+      max-width: 80px;
+      border-radius: 0;
+    }
+
+    /* Infographic styling for print */
+    .infographic-container {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    /* Scale down large infographics to fit page */
+    .infographic-container > div,
+    .bar-infographic__chart-wrapper,
+    .timeline-infographic__chart-wrapper,
+    .ranking-infographic__chart-wrapper,
+    #choropleth {
+      max-width: 100%;
+      transform-origin: top left;
+      overflow: visible;
+    }
+
+    /* Ensure SVG elements scale properly */
+    .infographic-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Fix infographic element rendering issues */
+    
+    /* Bar chart styling */
+    .bar-infographic__country-score {
+      background-color: var(--accent-color, #007bff) !important;
+      opacity: 1 !important;
+    }
+
+    /* Flag visibility in rankings and other infographics */
+    .bar-flag,
+    .compare-flag {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    .bar-flag img {
+      opacity: 1 !important;
+      filter: none !important;
+    }
+
+    /* Timeline and ranking elements */
+    .timeline__item,
+    .ranking__item {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    /* Chart elements general fixes */
+    .infographic-container * {
+      print-color-adjust: exact !important;
+      -webkit-print-color-adjust: exact !important;
+    }
+
+    /* Choropleth map fixes */
+    #choropleth path,
+    #map-svg path {
+      opacity: 1 !important;
+      stroke: #ccc !important;
+      stroke-width: 0.5px !important;
+    }
+
+    /* Tags and labels */
+    .bar-tag,
+    .tags .bar-tag {
+      background-color: var(--base-color-10, #f0f0f0) !important;
+      border: 1px solid #ccc !important;
+      opacity: 1 !important;
+    }
   }
 }
