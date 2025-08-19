@@ -133,7 +133,9 @@ export default defineNuxtConfig({
     }
   },
   plugins: [
-    '~/plugins/performance.client.js'
+    { src: '~/plugins/performance.client.js' },
+    { src: '~/plugins/clarity.client.js' }
+    
   ],
   ssr: false,
   experimental: {
