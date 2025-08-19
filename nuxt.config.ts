@@ -2,7 +2,10 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@pinia/nuxt', '@nuxtjs/sitemap'],
+  modules: ['@nuxt/content', '@pinia/nuxt', '@nuxtjs/sitemap', 'nuxt-gtag'],
+  gtag: {
+    id: 'G-CF6DQ2RYX7'
+  },
   runtimeConfig: {
     public: {
       contentfulSpace: process.env.CONTENTFUL_SPACE_ID || '',
