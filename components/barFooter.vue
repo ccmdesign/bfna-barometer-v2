@@ -34,6 +34,15 @@
     position: relative;
     z-index: 3;
   }
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bar-curve-color);
+  }
 }
 
 .footer-content {

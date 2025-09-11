@@ -68,6 +68,15 @@ const playYoutubeVideo = () => {
   .h2, h1 {
     font-weight: 700;
   }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bar-curve-color);
+  }
 }
 
 .hero-content__inner {
