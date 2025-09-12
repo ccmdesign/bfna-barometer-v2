@@ -12,6 +12,7 @@ export default defineNuxtConfig({
       contentfulToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
     }
   },
+  site: { "url": "https://barometer-v2.netlify.app/" },
   sitemap: {
     hostname: 'https://transatlanticbarometer.org',
     gzip: true,
