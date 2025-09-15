@@ -91,7 +91,7 @@ const getCodeByCountry = {
   "Cuba": "cu",
   "Cura\u00e7ao": "cw",
   "Cyprus": "cy",
-  "Czech Republic": "cz",
+  "Czechia": "cz",
   "Denmark": "dk",
   "Djibouti": "dj",
   "Dominica": "dm",

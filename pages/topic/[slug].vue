@@ -82,7 +82,7 @@ hgroup {
   justify-self: center;
   margin: auto;
   aspect-ratio: 16/9;
-  max-width: 800px;
+  max-width: 1024px;
   object-fit: cover;
   border-radius: var(--border-radius-s);
   box-shadow: var(--box-shadow-l);

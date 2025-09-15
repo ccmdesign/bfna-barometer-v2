@@ -163,7 +163,7 @@ onMounted(() => {
         <h2>Sources</h2>
         <ul class="stack | margin-top:s">
           <li v-for="(link, index) in statement.links" :key="link.label + index">
-            <a :href="link.url">{{ link.label }}</a> <span class="icon" size="xs">open_in_new</span>
+            <a :href="link.url" target="_blank">{{ link.label }}</a> <span class="icon" size="xs">open_in_new</span>
           </li>
           </ul>
         </aside>
