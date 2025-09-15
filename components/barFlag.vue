@@ -49,14 +49,14 @@ const handleMouseLeave = () => {
   outline: 3px solid var(--white-color);
   
   img {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: 70px;
     object-fit: cover;
   }
 }
 
 .flag--small {
-  width: 200px;
+  height: 60px;
 }
 
 .flag:not(.flag--small):hover {

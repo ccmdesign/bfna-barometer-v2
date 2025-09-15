@@ -18,24 +18,24 @@
     <div class="switcher">
       <div class="section-panel | stack">
         <h2 class="h5">About</h2>
-        <p>There is no closer geopolitical relationship than the transatlantic alliance. Yet, it is often difficult to know how individual actors are engaging on important issues impacting the larger community. With that challenge in mind, the Bertelsmann Foundation has developed the Transatlantic Barometer, an interactive digital platform that provides up-to-date information on pressing issues shaping the transatlantic relationship.</p>
+        <p>There is no closer geopolitical relationship than the transatlantic alliance. Yet, it is often difficult to know how individual countries are engaging on important issues impacting the larger community. With that challenge in mind, the Bertelsmann Foundation has developed the Transatlantic Barometer, an interactive digital platform that provides up-to-date information on pressing issues shaping the transatlantic relationship.</p>
         <p>The Transatlantic Barometer’s main fixture is a website that provides users with a synopsis of the policy positions and engagement of 31 key transatlantic actors: the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states. The Barometer provides users with two ways of accessing information. First, users can click on featured topics, generating a carousel of all transatlantic stakeholder positions. Alternatively, users can click on individual actors, revealing a carousel connecting the stakeholder to all featured topics. The Barometer also offers explanatory animations, written analyses, and infographics to highlight the factors driving country-specific policy.</p>
       </div>
       <div class="section-panel | stack">
         <h2 class="h5">Methodology</h2>
-        <p>The project team regularly identifies pressing topics shaping the transatlantic relationship. The team then engages with subject matter experts on both sides of the Atlantic to determine the best approach to encapsulate each topic. All information is reviewed by a comprehensive list of knowledge partners including diplomats, think tank experts, and academic institutions.</p>
+        <p>The Barometer team regularly identifies pressing topics shaping the transatlantic relationship, in conversations with experts on both sides of the Atlantic. The team then drafts policy entries centered around statistical data, official government documents, multilateral reports, and current legislation. The primary sources for all referenced information are transparently cited next to each policy overview. When additional clarification on a country’s position is needed, the Barometer team contacts subject matter experts from that country. All information goes through an extensive peer review process, and the Barometer team regularly solicits feedback from the diplomatic, policy, and academic community.</p>
         
         <h2 class="h5">Related Projects</h2>
         <ul class="homepage__related-projects | stack">
           <li>
-            <a href="https://transatlanticperiscope.org/" target="_blank" rel="noopener">
-              Transatlantic Periscope
+            <a href="https://www.bfna.org/" target="_blank" rel="noopener">
+              Bertelsmann Foundation North America
               <span class="icon" size="xs">open_in_new</span>
             </a>
           </li>
           <li>
-            <a href="https://www.bfna.org/archives/transatlantic-trends-2022/" target="_blank" rel="noopener">
-              Transatlantic Trends 2022
+            <a href="https://transatlanticperiscope.org/" target="_blank" rel="noopener">
+              Transatlantic Periscope
               <span class="icon" size="xs">open_in_new</span>
             </a>
           </li>
@@ -46,14 +46,14 @@
             </a>
           </li>
           <li>
-            <a href="https://www.bertelsmann-stiftung.de/en/our-projects/sustainable-governance-indicators-sgi" target="_blank" rel="noopener">
-              Sustainable Governance Indicators (SGI)
+            <a href="https://www.bertelsmann-stiftung.de/en/our-projects/eupinions" target="_blank" rel="noopener">
+              Eupinions
               <span class="icon" size="xs">open_in_new</span>
             </a>
           </li>
           <li>
-            <a href="https://www.bertelsmann-stiftung.de/en/our-projects/eupinions" target="_blank" rel="noopener">
-              Eupinions
+            <a href="http://bti-project.org" target="_blank" rel="noopener">
+              Bertelsmann Transformation Index (BTI)
               <span class="icon" size="xs">open_in_new</span>
             </a>
           </li>
@@ -66,7 +66,7 @@
 
 <script setup>
 const tabs = [
-  { label: 'Regions', slot: 'regions', count: 0, class: '' },
+  { label: 'Countries', slot: 'regions', count: 0, class: '' },
   { label: 'Topics', slot: 'topics', count: 0, class: '' },
 ]
 

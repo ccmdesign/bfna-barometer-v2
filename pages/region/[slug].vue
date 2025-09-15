@@ -134,17 +134,17 @@ onMounted(() => {
       </hgroup>
     </template>
     <template #column_right>
-      <bar-button el="button" @click="data.showRegionSelector = !data.showRegionSelector" class="align-self:end justify-self:end" color="faded" variant="primary">Change Region <span class="icon" v-if="!data.showRegionSelector">arrow_downward</span><span class="icon" v-else>cancel</span></bar-button>
+      <bar-button el="button" @click="data.showRegionSelector = !data.showRegionSelector" class="align-self:end justify-self:end" color="faded" variant="primary">Change Country <span class="icon" v-if="!data.showRegionSelector">arrow_downward</span><span class="icon" v-else>cancel</span></bar-button>
     </template>
   </bar-hero>
 
   <bar-section v-if="data.showRegionSelector" color="faded">
-    <h2 class="h4">Change the country</h2>
+    <h2 class="h4">Change country</h2>
     <bar-flags />
   </bar-section>
 
   <bar-section  color="faded">
-    <h2 class="h4">Change the topic</h2>
+    <h2 class="h4">Change topic</h2>
     <div class="topic-selector | flex | justify-content:center | padding-top:s">
       <bar-button size="xs" color="gray" variant="primary" @click="handleArchivedTopics"><span class="icon">inventory_2</span> View Archived Topics</bar-button>
     </div>

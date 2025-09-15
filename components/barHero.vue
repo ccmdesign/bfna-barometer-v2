@@ -31,7 +31,7 @@ const playYoutubeVideo = () => {
           <p class="font-size:1 | color:base-40-tint">This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
 
           <div class="cluster">
-            <bar-button variant="primary" color="white" @click="goDownToMapSection"><span>Start Now</span><span class="icon">arrow_downward</span></bar-button>
+            <bar-button variant="primary" color="white" @click="goDownToMapSection"><span>Start</span><span class="icon">arrow_downward</span></bar-button>
             <bar-button variant="primary" color="faded" @click="playYoutubeVideo"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
           </div>
         </slot>
@@ -82,6 +82,9 @@ const playYoutubeVideo = () => {
 .hero-content__inner {
   @media (max-width: 1024px) {
     padding-top: var(--space-m);
+  }
+  :deep(hgroup) {
+    align-items: flex-start;
   }
 }
 
