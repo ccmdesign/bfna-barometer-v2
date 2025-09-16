@@ -53,7 +53,7 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
       <bar-button variant="link" color="base" size="small" @click="emit('removeTopic', topic)" class="print:hidden"><span class="icon">close</span></bar-button>
     </div>
     <div class="switcher ">
-      <div v-for="(statement, countryCode) in Object.values(topic.statements)" :key="countryCode" class="section-panel | stack">
+      <div v-for="(statement, countryCode) in Object.values(topic.statements)" :key="countryCode" class="section-panel | stack align-items:flex-start">
         <bar-flag :country="statement.country" size="small" class="compare-flag" />
         <div>
           <h3 class="h2">{{ getCountryName(statement.country) }}</h3>

@@ -38,12 +38,29 @@ const chartWrapper = ref(null);
 
 const chartHeight = ref(0);
 
+const toggleAllLabel = computed(() => {
+  return hiddenCountries.value.length ? 'Select all' : 'Deselect all'
+})
+
 const isMarkerVisible = computed(() => props.dataset.vizMarkers);
 const isBarVisible = (countryCode) => !hiddenCountries.value.includes(countryCode);
 
 const hiddenCountries = ref([])
+
+const allCountryCodes = computed(() => {
+  return (countries.value || []).map(c => c.country || c.label)
+})
+
 const handleCountryVisibility = ({ countryCode, visible }) => {
 
+  if (countryCode === '__ALL__') {
+    if (!visible) {
+      hiddenCountries.value = [...allCountryCodes.value]
+    } else {
+      hiddenCountries.value = []
+    }
+    return
+  }
   if (!visible) {
     if (!hiddenCountries.value.includes(countryCode)) {
       hiddenCountries.value.push(countryCode)
@@ -291,6 +308,16 @@ onUpdated(() => {
           </li>
         </ul>
       </div>
+      <div class="tags | cluster print:hidden" centered>
+        <bar-tag
+          :country-name="toggleAllLabel"
+          country-code="__ALL__"
+          color="base-10"
+          @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
+        >
+          {{ toggleAllLabel }}
+        </bar-tag>
+      </div>
       <div class="tags | cluster padding-bottom:l print:hidden" centered>
         <bar-tag
           color="base-10"
@@ -331,7 +358,7 @@ onUpdated(() => {
   gap: var(--gap);
   padding-inline: var(--space-s);
   padding-top: calc(var(--space-xs) + var(--legend-height));
-  padding-bottom: calc(var(--space-xs) + var(--legend-height));
+  padding-bottom: calc(var(--space-m) + var(--legend-height));
 }
 
 .label {
@@ -343,6 +370,7 @@ onUpdated(() => {
 
 .event__year {
   font-weight: bold;
+  transform: rotate(45deg);
 }
 
 .marker {

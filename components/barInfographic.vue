@@ -12,6 +12,16 @@
     </div>
     <div class="tags | cluster print:hidden" centered>
       <bar-tag
+        :country-name="toggleAllLabel"
+        country-code="__ALL__"
+        color="base-10"
+        @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
+      >
+        {{ toggleAllLabel }}
+      </bar-tag>
+    </div>
+    <div class="tags | cluster print:hidden" centered>
+      <bar-tag
         v-for="item in countries"
         :key="item.country"
         :country-name="getCountryName(item.country)"
@@ -50,6 +60,14 @@ const visibleCountries = computed(() => {
   return (data.countries || []).filter(item => !hiddenCountries.value.includes(item.country))
 })
 
+const allCountryCodes = computed(() => {
+  return (data.countries || []).map(c => c.country)
+})
+
+const toggleAllLabel = computed(() => {
+  return hiddenCountries.value.length ? 'Select all' : 'Deselect all'
+})
+
 const barScale = computed(() => {
   const vals = (data.countries || []).map(item => item.val)
   const max = Math.max(...vals, 0)
@@ -60,6 +78,14 @@ const barScale = computed(() => {
 
 
 const handleCountryVisibility = ({ countryCode, visible }) => {
+  if (countryCode === '__ALL__') {
+    if (!visible) {
+      hiddenCountries.value = [...allCountryCodes.value]
+    } else {
+      hiddenCountries.value = []
+    }
+    return
+  }
   if (!visible) {
     if (!hiddenCountries.value.includes(countryCode)) {
       hiddenCountries.value.push(countryCode)
@@ -79,8 +105,6 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 1024px) { flex-direction: row; }
-
   align-items: center;
   justify-content: flex-end;
   aspect-ratio: 16/6;
@@ -88,6 +112,8 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
   gap: var(--gap);
   padding-inline: var(--space-s);
   padding-top: calc(var(--space-xs) + var(--legend-height));
+
+  @media (min-width: 1024px) { flex-direction: row; }
 
 }
 

@@ -57,6 +57,10 @@ const handleMouseLeave = () => {
 
 .flag--small {
   height: 60px;
+  
+  img {
+    height: 60px;
+  }
 }
 
 .flag:not(.flag--small):hover {
