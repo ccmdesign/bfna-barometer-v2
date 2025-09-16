@@ -71,23 +71,23 @@ const scrollRight = () => {
   const gap = 32 // gap entre itens (--space-2xl)
   const totalItemWidth = itemWidth + gap
   
-  
   const scrollLeft = reel.scrollLeft
   const containerWidth = reel.clientWidth
   const maxScrollLeft = reel.scrollWidth - containerWidth
   
-  
   const visibleItems = Math.floor(containerWidth / totalItemWidth)
-  
-  
   const currentItemIndex = Math.floor(scrollLeft / totalItemWidth)
-  const targetItemIndex = Math.min(
-    Math.floor(maxScrollLeft / totalItemWidth),
-    currentItemIndex + visibleItems
-  )
-  
- 
-  const targetScrollLeft = targetItemIndex * totalItemWidth
+  const maxIndex = Math.floor(maxScrollLeft / totalItemWidth)
+
+  let targetScrollLeft
+  // Se não houver mais itens suficientes à direita, vai direto ao fim
+  if (currentItemIndex + visibleItems >= maxIndex) {
+    targetScrollLeft = maxScrollLeft
+  } else {
+    const targetItemIndex = Math.min(maxIndex, currentItemIndex + visibleItems)
+    targetScrollLeft = targetItemIndex * totalItemWidth
+  }
+
   reel.scrollTo({
     left: targetScrollLeft,
     behavior: 'smooth'
