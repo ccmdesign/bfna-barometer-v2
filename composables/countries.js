@@ -20,7 +20,7 @@ export const useCountries = () => {
     if (!countriesData.value) {
       return []
     }
-    const otherCountries = countriesData.value.filter(c => c.code.toLowerCase() !== 'eu')
+    const otherCountries = countriesData.value.filter(c => c.code?.toLowerCase() !== 'eu')
     return [{ code: 'eu', name: 'European Union' }, ...otherCountries]
   })
 
@@ -33,7 +33,7 @@ export const useCountries = () => {
   function getCountryCode(name) {
     if (!countriesWithEU.value) return undefined
     const country = countriesWithEU.value.find(
-      country => country.name.toLowerCase() === name.toLowerCase()
+      country => country?.name?.toLowerCase() === name?.toLowerCase()
     )
     return country ? country.code : undefined
   }

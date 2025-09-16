@@ -21,7 +21,7 @@
       <div class="section-panel | stack">
         <h2 class="h5">About</h2>
         <p>There is no closer geopolitical relationship than the transatlantic alliance. Yet, it is often difficult to know how individual countries are engaging on important issues impacting the larger community. With that challenge in mind, the Bertelsmann Foundation has developed the Transatlantic Barometer, an interactive digital platform that provides up-to-date information on pressing issues shaping the transatlantic relationship.</p>
-        <p>The Transatlantic Barometer’s main fixture is a website that provides users with a synopsis of the policy positions and engagement of 31 key transatlantic actors: the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states. The Barometer provides users with two ways of accessing information. First, users can click on featured topics, generating a carousel of all transatlantic stakeholder positions. Alternatively, users can click on individual actors, revealing a carousel connecting the stakeholder to all featured topics. The Barometer also offers explanatory animations, written analyses, and infographics to highlight the factors driving country-specific policy.</p>
+        <p>The Transatlantic Barometer provides users with a synopsis of policy positions and engagement for 31 key actors: the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states. The Barometer provides users with two ways of accessing information. First, users can click on featured topics, generating a carousel of each stakeholder’s position on a common issue. Alternatively, users can click on individual countries, which will provide that actor’s position on all Barometer topics. The Barometer also offers expert interviews, explanatory animations, written analyses, and infographics to further contextualize these complex issues for the benefit of policy experts and the public alike.</p>
       </div>
       <div class="section-panel | stack">
         <h2 class="h5">Methodology</h2>
@@ -48,7 +48,7 @@
             </a>
           </li>
           <li>
-            <a href="https://www.bertelsmann-stiftung.de/en/our-projects/eupinions" target="_blank" rel="noopener">
+            <a href="http://eupinions.eu" target="_blank" rel="noopener">
               Eupinions
               <span class="icon" size="xs">open_in_new</span>
             </a>

@@ -111,12 +111,12 @@ watch(chartData, () => {
             v-for="(i, index) in chartData"
             :key="index"
             class="ranking__item | country"
-            :class="{'hidden': !isBarVisible(i.country.toLowerCase())}"
-            :title="`${i.ranking} - ${getCountryName(i.country.toLowerCase())}`"
+            :class="{'hidden': !isBarVisible(i.country?.toLowerCase())}"
+            :title="`${i.ranking} - ${getCountryName(i.country?.toLowerCase())}`"
           >
             <p class="country__ranking">{{ i.ranking }}</p>
-            <bar-flag :country="i.country.toLowerCase()" size="small" :style="{maxWidth: '42px'}"></bar-flag>
-            <div class="country__spacer" :style="{'background-color': highlight.includes(i.country.toLowerCase()) ? 'var(--base-color)' : 'var(--accent-color)' }"></div>
+            <bar-flag :country="i.country?.toLowerCase()" size="small" :style="{maxWidth: '42px'}"></bar-flag>
+            <div class="country__spacer" :style="{'background-color': highlight.includes(i.country?.toLowerCase()) ? 'var(--base-color)' : 'var(--accent-color)' }"></div>
             <p class="country__country">{{ i.country }}</p>
           </li>
         </ul>

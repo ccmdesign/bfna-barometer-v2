@@ -19,9 +19,6 @@ const timelineStore = useTimelineStore();
 
 const countries = computed(() => {
   return (infographicData || []).slice().sort((a, b) => {
-    const nameA = getCountryName(a.country || a.label).toLowerCase();
-    const nameB = getCountryName(b.country || b.label).toLowerCase();
-    return nameA.localeCompare(nameB);
   });
 });
 
