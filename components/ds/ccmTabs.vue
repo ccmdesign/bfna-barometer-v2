@@ -5,7 +5,7 @@
         v-for="(tab, index) in props.tabs"
         :key="index"
         :class="['tab-button', { active: activeTab === index }]"
-        @click="activeTab = index">
+        @click="setActiveTab(index)">
           {{ tab.label }} 
           <span class="tab-button__count" v-if="tab.count">({{ tab.count }})</span>
         </button>
@@ -38,7 +38,31 @@ const props = defineProps({
   }
 })
 
+const route = useRoute()
+const router = useRouter()
+
 const activeTab = ref(0)
+
+const syncFromQuery = () => {
+  const q = route.query.activeTab
+  const raw = Array.isArray(q) ? q[0] : q
+  const idx = parseInt(raw ?? '', 10)
+  if (!Number.isNaN(idx) && idx >= 0 && idx < props.tabs.length) {
+    activeTab.value = idx
+  }
+}
+
+syncFromQuery()
+
+watch(() => route.query.activeTab, () => {
+  syncFromQuery()
+})
+
+const setActiveTab = (index) => {
+  if (index === activeTab.value) return
+  activeTab.value = index;
+  router.replace({ query: { ...route.query, activeTab: String(index) } })
+}
 </script>
 
 <style scoped>
