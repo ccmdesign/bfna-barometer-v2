@@ -1,5 +1,5 @@
 <template>
-  <bar-hero id="hero" />
+  <bar-hero id="hero" :video="true" />
   
   <bar-section>
     <p class="highlight | text-align:center">The site will spotlight trending transatlantic topics and find potential alignment between the United States, Canada, the United Kingdom, and the European Union as well as its 27 member states.</p>

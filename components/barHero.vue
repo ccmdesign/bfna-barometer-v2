@@ -1,4 +1,10 @@
 <script setup>
+const props = defineProps({
+  video: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const goDownToMapSection = () => {
   const mapSection = document.getElementById('map');
@@ -19,6 +25,10 @@ const playYoutubeVideo = () => {
 
 <template>
   <ccm-hero class="hero">
+    <video class="hero__video-loop" v-if="video" autoplay loop muted >
+      <source src="/assets/teaser.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
     <bar-topbar id="topbar" />
     <div class="hero-content | padding-block:2xl">
       <div class="hero-content__inner | stack">
@@ -124,5 +134,16 @@ const playYoutubeVideo = () => {
   position: absolute;
   bottom: 0;
   grid-column: full-start / full-end;
+}
+
+.hero__video-loop {
+  grid-column: full-start / full-end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  object-fit: cover;
 }
 </style>
