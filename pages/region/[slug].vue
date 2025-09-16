@@ -239,4 +239,13 @@ color: var(--white-color);
 #infographics .section-title {
 text-align: center;
 }
+
+:deep(.tab-button) {
+  @media (max-width: 1300px) {
+    font-size: var(--size-0);
+  }
+  @media (max-width: 1024px) {
+    font-size: var(--size--1);
+  }
+}
 </style>
