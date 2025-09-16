@@ -2,12 +2,16 @@
   <ccm-footer class="bar-footer">
     <div class="footer-content | subgrid | stack | text-align:center">
       <h2 class="h2">Subscribe for Updates</h2>
-      <p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>
+      <!--<p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>-->
       <div class="switcher">
         <input type="text" placeholder="Name" class="input" />
         <input type="email" placeholder="Email" class="input" />
       </div>
       <bar-button class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button>
+      <div class="pb">
+        <span>Powered by</span>
+        <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation">
+      </div>
     </div>
     <bar-by-line />
     <barCurve />
@@ -58,5 +62,14 @@
   top: 0;
   grid-column: full-start / full-end;
   transform: rotate(180deg);
+}
+
+.pb {
+  display: flex;
+  text-transform: uppercase;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--size--2);
 }
 </style>

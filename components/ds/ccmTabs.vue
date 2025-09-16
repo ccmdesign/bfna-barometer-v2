@@ -9,6 +9,10 @@
           {{ tab.label }} 
           <span class="tab-button__count" v-if="tab.count">({{ tab.count }})</span>
         </button>
+        <div class="ccm-tabs__extra">
+          <slot name="extra">
+          </slot>
+        </div>
     </div>
 
     <div :class="['ccm-tabs__content | subgrid', props.tabs[activeTab].class]">
@@ -46,6 +50,7 @@ const activeTab = ref(0)
 }
 
 .ccm-tabs__tabs {
+  position: relative;
   cursor: pointer;
   background-color: transparent;
   margin-inline: var(--space-2xs);
@@ -73,6 +78,7 @@ const activeTab = ref(0)
   line-height: 180%;
   letter-spacing: -1%;
   font-size: var(--size-1);
+  padding-bottom: var(--space-xs);
   @media (max-width: 768px) { font-size: var(--size-0); }
 }
 
@@ -99,5 +105,10 @@ const activeTab = ref(0)
   display: grid;
   grid-template-columns: subgrid;
   padding-block: var(--space-m);
+}
+
+.ccm-tabs__extra {
+  position: absolute;
+  right: 0;
 }
 </style>
