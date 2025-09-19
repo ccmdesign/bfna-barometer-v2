@@ -6,7 +6,7 @@
   </bar-section>
   <ccm-tabs :tabs="tabs" centered> <!-- TODO: had to use the ccmTabs components because the barTabs didn't properly inherit the slots and functionality-->
     <template #extra>
-      <bar-button el="a" href="/compare" color="gray" size="s" variant="primary">Compare</bar-button>
+      <!--<bar-button el="a" href="/compare" color="gray" size="s" variant="primary">Compare</bar-button>-->
     </template>
     <template #regions>
       <bar-map-section id="map" />
@@ -70,6 +70,7 @@
 const tabs = [
   { label: 'Countries', slot: 'regions', count: 0, class: '' },
   { label: 'Topics', slot: 'topics', count: 0, class: '' },
+  { label: 'Compare', to: '/compare', type: 'link', class: '' },
 ]
 
 // Reactive filter state

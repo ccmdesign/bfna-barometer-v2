@@ -1,22 +1,34 @@
 <template>
   <div class="ccm-tabs | subgrid" :centered="props.centered">
     <div class="ccm-tabs__tabs | subgrid reel" >
-      <button 
-        v-for="(tab, index) in props.tabs"
-        :key="index"
-        :class="['tab-button', { active: activeTab === index }]"
-        @click="setActiveTab(index)">
-          {{ tab.label }} 
+      <template v-for="(tab, index) in props.tabs" :key="index">
+        <NuxtLink
+          v-if="isLinkTab(tab)"
+          :to="tab.to"
+          :external="tab.external"
+          :target="tab.target"
+          :rel="tab.rel"
+          :class="tabClasses(index, tab)">
+          {{ tab.label }}
+          <span class="tab-button__count" v-if="tab.count">({{ tab.count }})</span>
+        </NuxtLink>
+        <button
+          v-else
+          type="button"
+          :class="tabClasses(index, tab)"
+          @click="setActiveTab(index)">
+          {{ tab.label }}
           <span class="tab-button__count" v-if="tab.count">({{ tab.count }})</span>
         </button>
+      </template>
         <div class="ccm-tabs__extra">
           <slot name="extra">
           </slot>
         </div>
     </div>
 
-    <div :class="['ccm-tabs__content | subgrid', props.tabs[activeTab].class]">
-      <slot :name="props.tabs[activeTab].slot" :class="props.tabs[activeTab].class">
+    <div :class="['ccm-tabs__content | subgrid', activeTabData.class]">
+      <slot :name="activeTabData.slot" :class="activeTabData.class">
         <p>No content</p>
       </slot>
     </div>
@@ -28,8 +40,8 @@ const props = defineProps({
   tabs: {
     type: Array,
     default: () => [
-      { label: 'Tab 1', slot: 'tab1', count: 0, class: '' },
-      { label: 'Tab 2', slot: 'tab2', count: 0, class: '' },
+      { label: 'Tab 1', slot: 'tab1', count: 0, class: '', type: 'tab' },
+      { label: 'Tab 2', slot: 'tab2', count: 0, class: '', type: 'tab' },
     ]
   },
   centered: {
@@ -41,15 +53,41 @@ const props = defineProps({
 const route = useRoute()
 const router = useRouter()
 
-const activeTab = ref(0)
+const isLinkTab = (tab) => {
+  if (!tab) return false
+  if (tab.type) {
+    if (tab.type === 'link') {
+      return typeof tab.to === 'string'
+    }
+    return false
+  }
+  return typeof tab.to === 'string'
+}
+
+const findFirstContentTabIndex = () => {
+  const idx = props.tabs.findIndex(tab => !isLinkTab(tab))
+  return idx === -1 ? 0 : idx
+}
+
+const activeTab = ref(findFirstContentTabIndex())
+
+const activeTabData = computed(() => props.tabs[activeTab.value] || {})
+
+const tabClasses = (index, tab) => [
+  'tab-button',
+  { active: activeTab.value === index && !isLinkTab(tab) }
+]
 
 const syncFromQuery = () => {
   const q = route.query.activeTab
   const raw = Array.isArray(q) ? q[0] : q
   const idx = parseInt(raw ?? '', 10)
-  if (!Number.isNaN(idx) && idx >= 0 && idx < props.tabs.length) {
+  if (!Number.isNaN(idx) && idx >= 0 && idx < props.tabs.length && !isLinkTab(props.tabs[idx])) {
     activeTab.value = idx
+    return
   }
+
+  activeTab.value = findFirstContentTabIndex()
 }
 
 syncFromQuery()
@@ -58,8 +96,14 @@ watch(() => route.query.activeTab, () => {
   syncFromQuery()
 })
 
+watch(() => props.tabs, () => {
+  if (activeTab.value >= props.tabs.length || isLinkTab(props.tabs[activeTab.value])) {
+    activeTab.value = findFirstContentTabIndex()
+  }
+}, { deep: true })
+
 const setActiveTab = (index) => {
-  if (index === activeTab.value) return
+  if (index === activeTab.value || isLinkTab(props.tabs[index])) return
   activeTab.value = index;
   router.replace({ query: { ...route.query, activeTab: String(index) } })
 }
