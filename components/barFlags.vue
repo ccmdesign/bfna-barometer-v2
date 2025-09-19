@@ -149,7 +149,7 @@ const scrollRight = () => {
 /* Temp */
 .reel-item {
   @media (min-width: 768px) {
-    width: 100px;
+    /* width: 100px; */
     scroll-snap-align: center;
     flex-shrink: 0;
     /* margin-inline: var(--space-s); */
