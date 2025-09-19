@@ -102,3 +102,27 @@
 @media print {
   .print\:hidden { display: none !important; }
 }
+
+
+
+
+.fx-flip-3d {
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.fx-flip-3d.is-back {
+  transform: rotateY(180deg);
+}
+
+.fx-flip-3d__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.fx-flip-3d__face--back {
+  transform: rotateY(180deg);
+}
