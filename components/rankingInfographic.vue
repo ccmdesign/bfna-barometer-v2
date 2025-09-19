@@ -115,13 +115,13 @@ watch(chartData, () => {
             :title="`${i.ranking} - ${getCountryName(i.country?.toLowerCase())}`"
           >
             <p class="country__ranking">{{ i.ranking }}</p>
-            <bar-flag :country="i.country?.toLowerCase()" size="small" :style="{maxWidth: '42px'}"></bar-flag>
+            <bar-flag class="bar-flag--infographic" :country="i.country?.toLowerCase()" size="small" :style="{maxWidth: '42px'}"></bar-flag>
             <div class="country__spacer" :style="{'background-color': highlight.includes(i.country?.toLowerCase()) ? 'var(--base-color)' : 'var(--accent-color)' }"></div>
             <p class="country__country">{{ i.country }}</p>
           </li>
         </ul>
       </div>
-      <div class="tags | cluster | margin-top:m print:hidden" centered>
+      <div class="tags | cluster | margin-block:m print:hidden" centered>
         <bar-tag
           :country-name="toggleAllLabel"
           country-code="__ALL__"
@@ -146,6 +146,19 @@ watch(chartData, () => {
 </template>
 
 <style scoped lang="scss">
+
+.bar-flag--infographic {
+  height: 24px;
+  border-radius: 2px !important;
+  
+  :deep(img) { 
+    width: auto; 
+    height: 24px;
+    
+  }
+  
+}
+
 .ranking-infographic__chart-wrapper {
   --scale: 5px;
 }
