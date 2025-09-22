@@ -343,7 +343,7 @@ onUpdated(() => {
   flex-direction: column;
   
 
-  @media (min-width: 1440px) { 
+  @media (min-width: 3840px) { 
     height: var(--chart-height);
     flex-direction: row; 
     margin-bottom: var(--space-l-xl);
@@ -360,14 +360,14 @@ onUpdated(() => {
 
 .label {
   min-width: 20ch;
-  @media (min-width: 1440px) { max-width: 23ch; }
+  @media (min-width: 3840px) { max-width: 23ch; }
   overflow: hidden;
   white-space: pre-wrap;
 }
 
 .event__year {
   font-weight: bold;
-  @media (min-width: 1440px) {
+  @media (min-width: 3840px) {
     transform: rotate(45deg);  
   }
   
@@ -403,10 +403,10 @@ onUpdated(() => {
 
 .timeline {
   width: 100%;
-  @media (min-width: 1440px) { width: 90%; }
+  @media (min-width: 3840px) { width: 90%; }
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 3840px) {
   .timeline {
     display: flex;
     flex-direction: column;
@@ -443,12 +443,12 @@ onUpdated(() => {
     margin-right: var(--space-m);
     text-align: left;
 
-    @media (max-width: 1440px) {
+    @media (max-width: 3840px) {
       width: 40px;
       margin-right: var(--space-m);
     }
 
-    @media (min-width: 1441px) {
+    @media (min-width: 3841px) {
       text-align: right; 
       flex: 1;
     }
@@ -459,7 +459,7 @@ onUpdated(() => {
     flex: 1;
     text-align: left;
 
-    @media (min-width: 1440px) { text-align: right; }
+    @media (min-width: 3840px) { text-align: right; }
   }
 
   .event__extra {
@@ -481,7 +481,7 @@ onUpdated(() => {
   }
 }
 
-@media (min-width: 1441px) {
+@media (min-width: 3841px) {
   .timeline {
     display: flex;
     justify-content: space-between;
@@ -574,7 +574,7 @@ onUpdated(() => {
   }
 }
 
-@media (min-width: 1441px) {
+@media (min-width: 3841px) {
   .timeline {
     padding-top: var(--space-s);
   }
