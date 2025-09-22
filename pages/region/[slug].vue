@@ -179,7 +179,7 @@ onMounted(() => {
   <bar-section id="infographics" v-if="tabs && tabs.length">
     <h2 class="section-title ">infographics</h2>
 
-    <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s text-align:center">
+    <ccm-tabs :tabs="tabs" class="infographics-tabs | padding-top:s">
       <template v-for="(infgc, index) in infographicsByCountry" :key="infgc.infographicId" v-slot:[`tab${index}`]>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="[infgc.highlight]" />
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
@@ -233,7 +233,7 @@ color: var(--white-color);
 
 .infographics-tabs :deep(.ccm-tabs__tabs) {
   text-align: center;
-  justify-content: center;
+  justify-content: start;
 }
 
 #infographics .section-title {

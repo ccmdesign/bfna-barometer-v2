@@ -305,7 +305,7 @@ onUpdated(() => {
           </li>
         </ul>
       </div>
-      <div class="tags | cluster print:hidden" centered>
+      <div class="tags | cluster | margin-block:m print:hidden" centered>
         <bar-tag
           :country-name="toggleAllLabel"
           country-code="__ALL__"
@@ -343,7 +343,7 @@ onUpdated(() => {
   flex-direction: column;
   
 
-  @media (min-width: 1024px) { 
+  @media (min-width: 1440px) { 
     height: var(--chart-height);
     flex-direction: row; 
     margin-bottom: var(--space-l-xl);
@@ -360,14 +360,17 @@ onUpdated(() => {
 
 .label {
   min-width: 20ch;
-  @media (min-width: 1024px) { max-width: 23ch; }
+  @media (min-width: 1440px) { max-width: 23ch; }
   overflow: hidden;
   white-space: pre-wrap;
 }
 
 .event__year {
   font-weight: bold;
-  transform: rotate(45deg);
+  @media (min-width: 1440px) {
+    transform: rotate(45deg);  
+  }
+  
 }
 
 .marker {
@@ -400,10 +403,10 @@ onUpdated(() => {
 
 .timeline {
   width: 100%;
-  @media (min-width: 1024px) { width: 90%; }
+  @media (min-width: 1440px) { width: 90%; }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
   .timeline {
     display: flex;
     flex-direction: column;
@@ -440,12 +443,12 @@ onUpdated(() => {
     margin-right: var(--space-m);
     text-align: left;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1440px) {
       width: 40px;
       margin-right: var(--space-m);
     }
 
-    @media (min-width: 1025px) {
+    @media (min-width: 1441px) {
       text-align: right; 
       flex: 1;
     }
@@ -456,7 +459,7 @@ onUpdated(() => {
     flex: 1;
     text-align: left;
 
-    @media (min-width: 1024px) { text-align: right; }
+    @media (min-width: 1440px) { text-align: right; }
   }
 
   .event__extra {
@@ -478,7 +481,7 @@ onUpdated(() => {
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1441px) {
   .timeline {
     display: flex;
     justify-content: space-between;
@@ -540,10 +543,23 @@ onUpdated(() => {
     justify-content: flex-end;
     padding-bottom: calc(var(--height) * 1.6rem + 1rem);
     width: max-content;
+    max-width: 100%;
   }
 
   .event__list li {
     white-space: nowrap;
+  }
+
+  .timeline__item:first-child {
+    max-width: 10ch;
+    .event__list {
+      max-width: 23ch;
+    }
+    * { white-space: wrap; }
+  }
+
+  .event__list li:nth-child(2) {
+    text-align: right;
   }
 
   .event__year {
@@ -558,7 +574,7 @@ onUpdated(() => {
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1441px) {
   .timeline {
     padding-top: var(--space-s);
   }
