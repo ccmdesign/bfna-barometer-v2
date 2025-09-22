@@ -283,8 +283,9 @@ onUpdated(() => {
           >
             <ul class="event__list" ref="eventList">
               <li v-for="(j, idx) in i.labels" :key="`label-${idx}`">
-                <div ref="lineLabel" class="label" :key="idx" v-if="j.countries
-                      .filter((z) => isBarVisible(z)).some(x=> x)">
+                <div ref="lineLabel" class="label" :key="idx" 
+                     :class="{ 'hide-label': !j.countries.filter((z) => isBarVisible(z)).some(x=> x) }"
+                     v-show="j.countries.filter((z) => isBarVisible(z)).some(x=> x)">
                   <!--<span>{{ j.month }}</span> - --><strong>{{
                     j.countries
                       .filter((z) => isBarVisible(z))
@@ -294,9 +295,11 @@ onUpdated(() => {
                 </div>
               </li>
               <li v-for="(j, idx) in i.markers" :key="`marker-${idx}`">
-                <div class="label" :key="idx" v-if="j.markerKeys.filter((z) => isMarkerVisible[z]).some(x=>x)">
+                <div class="label" :key="idx" 
+                     :class="{ 'hide-label': !j.markerKeys.filter((z) => isMarkerVisible[z]).some(x=>x) }"
+                     v-show="j.markerKeys.filter((z) => isMarkerVisible[z]).some(x=>x)">
                   <span class="marker">{{ j.month }}</span> - <strong>{{
-                    j.markers.filter((z, index) => (isMarkerVisible[j.markerKeys[index]])).join(", ")
+                    j.markers.filter((_, index) => (isMarkerVisible[j.markerKeys[index]])).join(", ")
                   }}</strong>
                 </div>
               </li>
@@ -341,12 +344,17 @@ onUpdated(() => {
 
   display: flex;
   flex-direction: column;
+  max-width: 75%;
+  margin-inline: auto;
   
 
   @media (min-width: 3840px) { 
     height: var(--chart-height);
     flex-direction: row; 
     margin-bottom: var(--space-l-xl);
+  }
+
+  @media (min-width: 1440px) {
   }
   
   align-items: end;
@@ -584,7 +592,16 @@ onUpdated(() => {
 .hide-line .event__list,
 .hide-line::after,
 .hide-label {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+.event__year,
+.event__list,
+.event::after,
+.label {
+  transition: opacity 0.3s ease-out;
 }
 
 // @media (min-width: 40em) and (max-width: 1079px) {

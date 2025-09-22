@@ -3,8 +3,9 @@
     <div class="bar-infographic__chart-wrapper" :style="{ '--bar-scale': barScale }">
       <div
         class="bar-infographic__country"
-        v-for="item in visibleCountries"
+        v-for="item in countries"
         :key="item.country"
+        :class="{ 'hidden-country': hiddenCountries.includes(item.country) }"
       >
         <div class="bar-infographic__country-score" :style="{ '--score': item.val, 'background-color': highlight.includes(item.country) ? 'var(--base-color)' : 'var(--accent-color)' }" :score="item.val"></div>
         <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>
@@ -220,4 +221,21 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
   padding-block: var(--space-l);
   @media (max-width: 1024px) { display: none; }
 }
+
+.bar-infographic__country {
+  transition: opacity 0.3s ease-out, display 0.3s ease-out allow-discrete;
+}
+
+.hidden-country {
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+}
+
+@starting-style {
+  .bar-infographic__country:not(.hidden-country) {
+    opacity: 0;
+  }
+}
+
 </style>
