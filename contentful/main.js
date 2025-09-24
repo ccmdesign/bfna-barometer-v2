@@ -293,7 +293,7 @@ const getCodeByCountryCamelCase = {
   canada: "ca", 
   croatia: "hr", 
   cyprus: "cy", 
-  czechRepublic: "cz", 
+  czechia: "cz", 
   denmark: "dk", 
   estonia: "ee", 
   europeanUnion: "eu", 
