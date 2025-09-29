@@ -313,6 +313,7 @@ onUpdated(() => {
           :country-name="toggleAllLabel"
           country-code="__ALL__"
           color="base-10"
+          :visible="hiddenCountries.length === 0"
           @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
         >
           {{ toggleAllLabel }}
@@ -592,7 +593,7 @@ onUpdated(() => {
 .hide-line .event__list,
 .hide-line::after,
 .hide-label {
-  opacity: 0;
+  opacity: 0.2;
   pointer-events: none;
   transition: opacity 0.3s ease-out;
 }

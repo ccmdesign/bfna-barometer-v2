@@ -1,5 +1,5 @@
 <template>
-  <div class="tag" @click="toggleVisibility" :visible="isVisible" :country-name="countryName" :country-code="countryCode" :color="color">
+  <div class="tag" @click="toggleVisibility" :visible="visible" :country-name="countryName" :country-code="countryCode" :color="color">  
     <slot>
       {{ countryName }}
     </slot>
@@ -22,18 +22,20 @@ const props = defineProps({
     type: String,
     required: false,
     default: 'base-05'
+  },
+  visible: {
+    type: Boolean,
+    required: false,
+    default: true
   }
 })
 
-const isVisible = ref(true)
-
 const toggleVisibility = () => {
-  isVisible.value = !isVisible.value
-  emit('toggleCountryVisibility', { countryCode: props.countryCode, visible: isVisible.value })
+  emit('toggleCountryVisibility', { countryCode: props.countryCode, visible: !props.visible })
 }
 
 const icon = computed(() => {
-  return isVisible.value ? 'visibility' : 'visibility_off'
+  return props.visible ? 'visibility' : 'visibility_off'
 })
 
 </script>

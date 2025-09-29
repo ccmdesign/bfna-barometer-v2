@@ -16,6 +16,7 @@
         :country-name="toggleAllLabel"
         country-code="__ALL__"
         color="base-10"
+        :visible="hiddenCountries.length === 0"
         @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
       >
         {{ toggleAllLabel }}
@@ -227,8 +228,7 @@ const handleCountryVisibility = ({ countryCode, visible }) => {
 }
 
 .hidden-country {
-  opacity: 0;
-  display: none;
+  opacity: 0.1;
   pointer-events: none;
 }
 

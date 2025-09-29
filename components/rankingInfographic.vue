@@ -126,6 +126,7 @@ watch(chartData, () => {
           :country-name="toggleAllLabel"
           country-code="__ALL__"
           color="base-10"
+          :visible="hiddenCountries.length === 0"
           @toggleCountryVisibility="(pay) => handleCountryVisibility(pay)"
         >
           {{ toggleAllLabel }}
@@ -228,5 +229,5 @@ watch(chartData, () => {
   margin: 0;
 }
 
-.hidden { display: none; }
+.hidden { opacity: 0.1; }
 </style>
