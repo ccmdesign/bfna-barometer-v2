@@ -112,6 +112,7 @@ const getContentfulTopics = () => {
               infographicId: item.sys.id,
               infographicType: item.sys.contentType ? item.sys.contentType.sys.id : '',
               title: item.fields ? item.fields.title : '',
+              scaleLimit: item.fields ? item.fields.scaleLimit : null,
               slug: item.fields ? slugify(item.fields.title) : '',
               infographicDescription: item.fields && item.fields.description ? item.fields.description : item.fileds ? item.fields.title : '',
               infographicAxisLabel: item.fields ? item.fields.axisLabel : '',

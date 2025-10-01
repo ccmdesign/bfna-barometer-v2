@@ -73,7 +73,7 @@ const handleActiveTopic = async () => {
       return {
         indicator: infographic.title,
         score: country?.val,
-        scale: scale,
+        scale: infographic.scaleLimit ? infographic.scaleLimit :scale,
         type: infographic.infographicType,
       }
     } else {
