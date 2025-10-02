@@ -20,11 +20,22 @@ const playYoutubeVideo = () => {
     lazyYouTubeRef.value.loadVideo()
   }
 }
+
+const data = reactive({
+  video: false
+})
   
 </script>
 
 <template>
   <ccm-hero class="hero">
+    <div class="video-container" v-if="data.video">
+      <button class="video-container__close" @click="data.video = false"><span class="icon">close</span></button>
+      <video v-if="video" autoplay >
+        <source src="/assets/video.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
     <video class="hero__video-loop" v-if="video" autoplay loop muted >
       <source src="/assets/teaser.mp4" type="video/mp4" />
       Your browser does not support the video tag.
@@ -42,7 +53,7 @@ const playYoutubeVideo = () => {
 
           <div class="cluster">
             <bar-button variant="primary" color="white" @click="goDownToMapSection"><span>Start</span><span class="icon">arrow_downward</span></bar-button>
-            <bar-button variant="primary" color="faded" @click="playYoutubeVideo"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
+            <bar-button variant="primary" color="faded" @click="data.video = true"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
           </div>
         </slot>
       </div>
@@ -146,4 +157,34 @@ const playYoutubeVideo = () => {
   z-index: 0;
   object-fit: cover;
 }
+
+.video-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  max-height: 80vh;
+  max-width: 95vw;
+  aspect-ratio: 16/9;
+  z-index: 99;
+  transform: translate(-50%, -50%);
+  background: var(--base-color);
+  padding: var(--space-xl);
+  video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/9;
+  }
+}
+
+  .video-container__close {
+    position: absolute;
+    top: var(--space-s);
+    right: var(--space-s);
+    background: none;
+    border: none;
+    color: var(--white-color);
+    cursor: pointer;
+  }
 </style>
