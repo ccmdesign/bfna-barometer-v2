@@ -145,9 +145,8 @@ const setActiveTab = (index) => {
   text-decoration: none;
   line-height: 180%;
   letter-spacing: -1%;
-  font-size: var(--size-1);
+  font-size: var(--size-0);
   padding-bottom: var(--space-xs);
-  @media (max-width: 768px) { font-size: var(--size-0); }
 }
 
 .tab-button__count {
