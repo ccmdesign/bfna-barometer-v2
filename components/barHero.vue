@@ -82,6 +82,14 @@ const data = reactive({
   grid-template-rows: auto 1fr auto;
   position: relative;
   overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--base-color) 35%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
   & > * {
     position: relative;
     z-index: 3;
@@ -97,6 +105,7 @@ const data = reactive({
     right: 0;
     height: 1px;
     background: var(--bar-curve-color);
+    z-index: 3;
   }
 }
 
@@ -155,7 +164,10 @@ const data = reactive({
   right: 0;
   bottom: 0;
   z-index: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .video-container {
