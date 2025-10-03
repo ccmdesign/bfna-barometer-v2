@@ -25,7 +25,7 @@
   </bar-section>
 
   <bar-section>
-    <bar-map-section id="map" :topic="topic.slug" />
+    <bar-map-section id="map" :topic="topic.slug" :archived="topic.isArchived" />
   </bar-section>
 
   <bar-footer id="footer" />

@@ -37,7 +37,7 @@ const data = reactive({
       </video>
     </div>
     <video class="hero__video-loop" v-if="video" autoplay loop muted >
-      <source src="/assets/teaser.mp4" type="video/mp4" />
+      <source src="/assets/teaser.webm" type="video/webm" />
       Your browser does not support the video tag.
     </video>
     <bar-topbar id="topbar" />

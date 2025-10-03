@@ -5,8 +5,9 @@ definePageMeta({
 })
 
 const route = useRoute()
+const archived = route.query?.archived === 'true'
 const { getCountryName } = useCountries()
-const showArchivedTopics = ref(false)
+const showArchivedTopics = ref(archived)
 const statementStore = useStatementStore()
 const statement = ref(null)
 const activeTopic = ref(null)

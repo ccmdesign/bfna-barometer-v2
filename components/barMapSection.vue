@@ -5,7 +5,7 @@
       class="map-section__map | subgrid" 
       :hovered-country="hoveredCountry" 
     />
-    <bar-flags :topic="topic"
+    <bar-flags :topic="topic" :archived="archived"
       class="map-section__flags | subgrid" 
       controls="true" 
       @flag-hover="handleFlagHover"
@@ -18,6 +18,10 @@
 const props = defineProps({
   topic: {
     type: String
+  },
+  archived: {
+    type: Boolean,
+    default: false
   }
 })
 

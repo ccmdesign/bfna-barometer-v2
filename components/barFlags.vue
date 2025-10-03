@@ -4,6 +4,10 @@ import { useCountries } from '~/composables/countries'
 const props = defineProps({
   topic: {
     type: String
+  },
+  archived: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -21,7 +25,7 @@ const handleCountryFlag = (country) => {
       name: `region-slug`,
       path: country,
       params: { slug: country },
-      query: { topic: props.topic }
+      query: { topic: props.topic, archived: props.archived }
     });
   } else {
     router.push({
