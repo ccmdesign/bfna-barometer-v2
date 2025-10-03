@@ -141,12 +141,17 @@ const setActiveTab = (index) => {
   background-color: transparent;
   padding: 0;
   margin: 0;
+  color: inherit;
   text-align: center;
   text-decoration: none;
   line-height: 180%;
   letter-spacing: -1%;
   font-size: var(--size-0);
   padding-bottom: var(--space-xs);
+}
+
+.tab-button:visited {
+  color: inherit;
 }
 
 .tab-button__count {
