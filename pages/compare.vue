@@ -206,22 +206,24 @@ const handleDownloadCSV = () => {
   downloadCSV(csv);
 }
 
-const performPrint = async () => {
-  if(import.meta.client) {
-    const printJS = (await import('print-js')).default;
-    printJS({
-      printable: 'report-pdf',
-      type: 'html',
-      targetStyles: ['*'],
-      ignoreElements: ['print:btn-more-details', 'print:btn-remove-topic','print:tags-all','print:tags-countries'],
-      documentTitle: 'Country Comparison Report',
-      css: '/css/print.css',
-    });
-  }
-}
+// const performPrint = async () => {
+//   if(import.meta.client) {
+//     const printJS = (await import('print-js')).default;
+//     await nextTick(); // Ensure DOM is updated before printing
+//     printJS({
+//       printable: 'report-pdf',
+//       type: 'html',
+//       maxWidth: 800,
+//       targetStyles: ['*'],
+//       ignoreElements: ['print:btn-more-details', 'print:btn-remove-topic','print:tags-all','print:tags-countries'],
+//       documentTitle: 'Country Comparison Report',
+//       css: '/css/print.css',
+//     });
+//   }
+// }
 
-const handleDownloadPDF = () => {
-  performPrint();
+const handleDownloadPDF = async () => {
+  window.print();
 }
 
 const scrollToTop = () => {
