@@ -32,7 +32,9 @@
     </div>
   </bar-section>
   
-  <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)" />
+  <div id="report-pdf" style="display: contents;">
+    <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)" />
+  </div>
   
   <bar-section v-if="statements" class="print:hidden">
     <div class="repel">
@@ -204,8 +206,22 @@ const handleDownloadCSV = () => {
   downloadCSV(csv);
 }
 
+const performPrint = async () => {
+  if(import.meta.client) {
+    const printJS = (await import('print-js')).default;
+    printJS({
+      printable: 'report-pdf',
+      type: 'html',
+      targetStyles: ['*'],
+      ignoreElements: ['print:btn-more-details', 'print:btn-remove-topic','print:tags-all','print:tags-countries'],
+      documentTitle: 'Country Comparison Report',
+      css: '/css/print.css',
+    });
+  }
+}
+
 const handleDownloadPDF = () => {
-  window.print();
+  performPrint();
 }
 
 const scrollToTop = () => {

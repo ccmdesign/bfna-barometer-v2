@@ -39,7 +39,7 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     class="compare-box | stack | margin-bottom:m"
     v-bind="attrs"
   >
-    <div class="cluster">
+    <div class="cluster | print:cluster">
       <hgroup split-right>
         <h4 class="h6 | print:only">
           Comparison: 
@@ -50,7 +50,7 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
         <h2 class="h1">{{ topic.title }}</h2>
         <p>{{ topic.description }}</p>
       </hgroup>
-      <bar-button variant="link" color="base" size="small" @click="emit('removeTopic', topic)" class="print:hidden"><span class="icon">close</span></bar-button>
+      <bar-button id="print:btn-remove-topic" variant="link" color="base" size="small" @click="emit('removeTopic', topic)" class="print:hidden"><span class="icon">close</span></bar-button>
     </div>
     <div class="switcher ">
       <div v-for="(statement, countryCode) in Object.values(topic.statements)" :key="countryCode" class="section-panel | stack align-items:flex-start">
@@ -59,7 +59,7 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
           <h3 class="h2">{{ getCountryName(statement.country) }}</h3>
           <p>{{ statement.description }}</p>
         </div>
-        <bar-button @click="handleMoreDetails(statement.country)" class="print:hidden">More details</bar-button>
+        <bar-button id="print:btn-more-details" @click="handleMoreDetails(statement.country)" class="print:hidden">More details</bar-button>
       </div>
     </div>
 

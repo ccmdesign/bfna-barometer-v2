@@ -84,13 +84,13 @@
     }
 
     /* Hide non-essential UI elements */
-    .print\:hidden,
+    /* .print\:hidden,
     .bar-hero,
     .bar-topbar,
     .bar-footer,
     .bar-button {
       display: none !important;
-    }
+    } */
 
          /* Compare box with page breaks - no horizontal lines */
      .compare-box:not(:first-child) {
@@ -98,12 +98,20 @@
      }
 
      .compare-box {
-       border: none;
+       border: none !important;
        border-radius: 0 !important;
-       margin-inline: 0;
-       padding-inline: 0;
+       margin-inline: 0 !important;
+       padding-inline: 0 !important;
        page-break-inside: avoid;
      }
+
+    .print\:cluster {
+      padding-bottom: 3rem !important;
+    }
+    
+    .infographic-container {
+      background-color: transparent !important;
+    }
 
      /* Add top margin to first compare box for logo space */
      .compare-box:first-child {
