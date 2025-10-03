@@ -121,7 +121,7 @@ watch(chartData, () => {
           </li>
         </ul>
       </div>
-      <div class="tags | cluster | margin-block:m print:hidden" centered>
+      <div id="print:tags-all" class="tags | cluster | margin-block:m print:hidden" centered>
         <bar-tag
           :country-name="toggleAllLabel"
           country-code="__ALL__"
@@ -132,7 +132,7 @@ watch(chartData, () => {
           {{ toggleAllLabel }}
         </bar-tag>
       </div>
-      <div class="tags | cluster | padding-bottom:l print:hidden" centered>
+      <div id="print:tags-countries" class="tags | cluster | padding-bottom:l print:hidden" centered>
         <bar-tag
           color="base-10"
           v-for="item in countries"
