@@ -254,7 +254,7 @@ onMounted(async () => {
 
     @media (max-width: 768px) {
     grid-column: 1;
-    margin-left: 0.8rem;
+    margin-left: 0.2rem;
   }
  }
 
