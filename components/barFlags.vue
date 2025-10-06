@@ -178,7 +178,9 @@ const scrollRight = () => {
 }
 
 .reel-item:last-child {
-  margin-right: var(--space-xl);
+  @media (min-width: 768px) {
+    margin-right: var(--space-xl);
+  }
 }
 
 .reel-item-label {
