@@ -116,6 +116,10 @@ watch(
 
 }
 
+.topic-card {
+  min-height: 9rem;
+}
+
 .filter-button {
   @media (max-width: 36em) {
     flex-grow: 1;
@@ -136,6 +140,8 @@ watch(
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--base-gutter);
+  
+  @media (max-width: 768px) { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));}
 }
 
 .archived-active {
