@@ -31,7 +31,7 @@ const data = reactive({
   <ccm-hero class="hero">
     <div class="video-container" v-if="data.video">
       <button class="video-container__close" @click="data.video = false"><span class="icon">close</span></button>
-      <video v-if="video" autoplay >
+      <video v-if="video" autoplay allowfullscreen controls >
         <source src="/assets/video.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
