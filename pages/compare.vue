@@ -251,6 +251,11 @@ onMounted(async () => {
 <style scoped>
  :deep(.hero-content) {
   grid-template-columns: 1fr;
+
+    @media (max-width: 768px) {
+    grid-column: 1;
+    margin-left: 1.5rem;
+  }
  }
 
  hgroup {
