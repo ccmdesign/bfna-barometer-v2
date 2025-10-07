@@ -12,7 +12,7 @@
       <bar-map-section id="map" />
     </template>
     <template #topics>
-      <bar-topics-section :topics="topics" @show-topics="(pay) => handleFilters(pay)" />
+      <bar-topics-section :topics="topics" :loading="pending" @show-topics="(pay) => handleFilters(pay)" />
     </template>
   </ccm-tabs>
 
@@ -74,21 +74,25 @@ const tabs = [
 ]
 
 // Reactive filter state
-const filters = ref({})
+const filters = reactive({
+  archived: false,
+  tag: null,
+  sort: 'DESC'
+})
 
 // Fetch topics based on filters
-const { data: topics } = await useAsyncData('topics', () => {
+const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('topics', () => {
   let query = queryCollection('topics')
   // Always use boolean for isArchived
-  const archived = typeof filters.value.archived === 'boolean' ? filters.value.archived : false
+  const archived = typeof filters.archived === 'boolean' ? filters.archived : false
   query = query.where('isArchived', '=', archived)
-  
-  if (filters.value.tag && filters.value.tag !== 'all') {
-    query = query.where('tagsAsString', 'LIKE', `%${filters.value.tag.toUpperCase()}%`)
+
+  if (filters.tag && filters.tag !== 'all') {
+    query = query.where('tagsAsString', 'LIKE', `%${filters.tag.toUpperCase()}%`)
   }
 
-  if (filters.value.sort) {
-    query = query.order('periodWithDay', filters.value.sort)
+  if (filters.sort) {
+    query = query.order('periodWithDay', filters.sort)
   } else {
     // fallback to default sorting
     query = query.order('periodWithDay', 'DESC')
@@ -96,11 +100,18 @@ const { data: topics } = await useAsyncData('topics', () => {
 
   return query.all()
 
-}, { watch: [filters] })
+}, {
+  watch: [
+    () => filters.archived,
+    () => filters.tag,
+    () => filters.sort
+  ]
+})
 
 // Update filters and refetch data
-const handleFilters = (payload) => {
-  filters.value = { ...filters.value, ...payload }
+const handleFilters = async (payload) => {
+  Object.assign(filters, payload)
+  await refreshTopics()
 }
 
 </script>

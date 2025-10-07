@@ -107,6 +107,14 @@ const setActiveTab = (index) => {
   activeTab.value = index;
   router.replace({ query: { ...route.query, activeTab: String(index) } })
 }
+
+// Clean up query param when component unmounts to avoid pollution
+onUnmounted(() => {
+  const { activeTab, ...rest } = route.query
+  if (activeTab !== undefined) {
+    router.replace({ query: rest })
+  }
+})
 </script>
 
 <style scoped>

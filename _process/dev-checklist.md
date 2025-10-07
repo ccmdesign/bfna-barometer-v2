@@ -8,6 +8,7 @@
 
 ## Analytics e SEO
 - [ ] Google Analytics e GTM (Must Have)
+- [ ] Configurar MS Clarity (Must Have)
 - [ ] Implementamos o Google Analytics Tracking? (Must Have)
 - [ ] Criamos o atributo para o cliente e para o projeto no GA? (Must Have)
 - [ ] Compartilhamos com o cliente? Quais e-mails do cliente vamos adicionar? (Must Have)

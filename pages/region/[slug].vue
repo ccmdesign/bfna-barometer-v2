@@ -14,14 +14,14 @@ const activeTopic = ref(null)
 statement.value = statementStore.getStatementBySlug(route.params.slug)
 
 // Fetch topics based on filters
-const { data: topics } = await useAsyncData('topics', () => {
+const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('topics', () => {
   let query = queryCollection('topics')
   // Always use boolean for isArchived
   query = query.select('title', 'slug', 'new', 'active', 'topicId', 'period', 'periodWithDay', 'isArchived', 'infographics')
   const archived = typeof showArchivedTopics.value === 'boolean' ? showArchivedTopics.value : false
   query = query.where('isArchived', '=', archived)
   query = query.order('periodWithDay', 'DESC')
-  
+
   return query.all()
 
 }, { watch: [showArchivedTopics] })
@@ -95,8 +95,9 @@ const handleActiveTopic = async () => {
   })
 }
 
-const handleArchivedTopics = () => {
+const handleArchivedTopics = async () => {
   showArchivedTopics.value = !showArchivedTopics.value;
+  await refreshTopics()
 }
 
 const tabs = ref(null)
@@ -116,12 +117,22 @@ const data = reactive({
 
 
 onMounted(() => {
-  const selected = topics.value.find(topic => topic.slug === route.query.topic)
-  if (selected) {
-    handleSelectedTopic(selected.topicId)
+  // Ensure topics are loaded first
+  if (topics.value && topics.value.length > 0) {
+    const selected = topics.value.find(topic => topic.slug === route.query.topic)
+    if (selected) {
+      handleSelectedTopic(selected.topicId)
+    }
+    handleActiveTopic();
   }
-  handleActiveTopic();
 })
+
+// Watch for topics to load and initialize active topic
+watch(topics, (newTopics) => {
+  if (newTopics && newTopics.length > 0 && !activeTopic.value) {
+    handleActiveTopic();
+  }
+}, { immediate: true })
 
 </script>
 
@@ -147,7 +158,7 @@ onMounted(() => {
   <bar-section  color="faded">
     <h2 class="h4">Change topic</h2>
     <div class="topic-selector | flex | justify-content:center | padding-top:s">
-      <bar-button size="xs" color="gray" variant="primary" @click="handleArchivedTopics"><span class="icon">inventory_2</span> View Archived Topics</bar-button>
+      <bar-button size="xs" color="gray" variant="primary" :disabled="pending" @click="handleArchivedTopics"><span class="icon">inventory_2</span> View Archived Topics</bar-button>
     </div>
     <div class="topic-selector | flex gap:xs | justify-content:center | padding-top:s">
       <bar-button size="xs" :color="topic.active ? 'base' : 'white'" variant="primary" v-for="topic in topics" :key="topic.title" @click="handleSelectedTopic(topic.topicId)">{{ topic.title }} <span class="topic-date">{{ topic.period }}</span> <span class="topic-new" v-if="topic.new">new</span></bar-button>

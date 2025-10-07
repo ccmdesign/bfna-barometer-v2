@@ -3,6 +3,10 @@ const props = defineProps({
   topics: {
     type: Array,
     required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -63,15 +67,15 @@ watch(
 <template>
   <bar-section class="topics-section">
     <div class="topics-section__filters | cluster">
-      <select class="bar-select" name="topic-filter" id="topic-filter" split-left v-model="selectedTag" @change="handleFilters">
+      <select class="bar-select" name="topic-filter" id="topic-filter" split-left v-model="selectedTag" @change="handleFilters" :disabled="loading">
         <option value="all">All Categories</option>
         <option v-for="item of tags" :value="item">{{ item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() }}</option>
       </select>
-      <bar-button class="filter-button" variant="primary" color="base-faded" size="s" @click="handleSort(sortedBy)">
+      <bar-button class="filter-button" variant="primary" color="base-faded" size="s" :disabled="loading" @click="handleSort(sortedBy)">
         <span class="icon" size="xs">sort</span>
         Sorted by: {{ sortedBy }}
       </bar-button>
-      <bar-button class="filter-button" :class="{'archived-active': showArchivedTopics }" variant="primary" color="base-faded" size="s" split-right @click="handleArchivedTopics">
+      <bar-button class="filter-button" :class="{'archived-active': showArchivedTopics }" variant="primary" color="base-faded" size="s" split-right :disabled="loading" @click="handleArchivedTopics">
         <span class="icon" size="xs">archive</span>
         View Archived Topics
       </bar-button>
