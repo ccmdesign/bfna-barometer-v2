@@ -36,7 +36,7 @@ const data = reactive({
         Your browser does not support the video tag.
       </video>
     </div>
-    <video class="hero__video-loop" v-if="video" autoplay loop muted >
+    <video class="hero__video-loop" v-if="video" autoplay loop muted playsinline >
       <source src="/assets/teaser.webm" type="video/webm" />
       Your browser does not support the video tag.
     </video>
