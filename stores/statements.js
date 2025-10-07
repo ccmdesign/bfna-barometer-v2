@@ -5,12 +5,14 @@ export const useStatementStore = defineStore('statements', {
   state: () => {
     return {
       // all these properties will have their type inferred automatically
-      statements: []
+      statements: [],
+      isLoaded: false
     }
   },
   actions: {
     setStatements(statements) {
       this.statements = statements
+      this.isLoaded = true
     },
   },
   getters: {
