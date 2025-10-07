@@ -153,21 +153,25 @@
 
     /* Infographic styling for print */
     .infographic-container {
-      page-break-inside: avoid;
-      break-inside: avoid;
       max-width: 100%;
-      overflow: hidden;
+      position: relative;
     }
 
-    /* Scale down large infographics to fit page */
+    /* Allow bar charts to break across pages, but keep other infographics together */
+    .infographic-container:not(:has(.bar-infographic__chart-wrapper)) {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Scale down all infographics by 10% to fit page */
     .infographic-container > div,
     .bar-infographic__chart-wrapper,
     .timeline-infographic__chart-wrapper,
     .ranking-infographic__chart-wrapper,
     #choropleth {
       max-width: 100%;
-      transform-origin: top left;
-      overflow: visible;
+      transform: scale(0.9);
+      transform-origin: top center;
     }
 
     /* Ensure SVG elements scale properly */
