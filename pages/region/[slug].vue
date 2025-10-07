@@ -15,7 +15,7 @@ const activeTopic = ref(null)
 statement.value = statementStore.getStatementBySlug(route.params.slug)
 
 // Fetch topics based on filters
-const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('topics', () => {
+const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('detail-topics', () => {
   let query = queryCollection('topics')
   // Always use boolean for isArchived
   query = query.select('title', 'slug', 'new', 'active', 'topicId', 'period', 'periodWithDay', 'isArchived', 'infographics')
