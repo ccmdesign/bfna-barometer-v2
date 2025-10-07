@@ -24,7 +24,7 @@
   <bar-section class="margin-top:m print:hidden">
           <div v-if="statements" class="cluster">
         <span split-left>Export Comparison:</span>
-        <bar-button variant="secondary" color="base" size="s" @click="handleDownloadPDF" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+        <bar-button variant="secondary" color="base" size="s" @click="handleDownloadPDF" :class="{ 'export-download-btn': !statements.length }" :disabled="isPreparingPDF"><span class="icon">{{ isPreparingPDF ? 'hourglass_empty' : 'vertical_align_bottom' }}</span>{{ isPreparingPDF ? 'Preparing PDF...' : 'PDF' }}</bar-button>
         <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon" >vertical_align_bottom</span>CSV</bar-button>
       </div>
     <div v-else>
@@ -33,7 +33,7 @@
   </bar-section>
   
   <div id="report-pdf" style="display: contents;">
-    <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)" />
+    <bar-compare-box v-if="statements" class="margin-bottom:l" :dataset="statements" @remove-topic="(pay) => handleRemoveTopic(pay)" @all-charts-ready="handleAllChartsReady" />
   </div>
   
   <bar-section v-if="statements" class="print:hidden">
@@ -42,7 +42,7 @@
 
               <div class="cluster">
           <span split-left>Export Comparison:</span>
-          <bar-button variant="secondary" color="base" size="s" @click="handleDownloadPDF"><span class="icon">vertical_align_bottom</span>PDF</bar-button>
+          <bar-button variant="secondary" color="base" size="s" @click="handleDownloadPDF" :disabled="isPreparingPDF"><span class="icon">{{ isPreparingPDF ? 'hourglass_empty' : 'vertical_align_bottom' }}</span>{{ isPreparingPDF ? 'Preparing PDF...' : 'PDF' }}</bar-button>
           <bar-button variant="secondary" color="base" size="s" @click="handleDownloadCSV" :class="{ 'export-download-btn': !statements.length }"><span class="icon">vertical_align_bottom</span>CSV</bar-button>
         </div>
     </div>
@@ -206,24 +206,43 @@ const handleDownloadCSV = () => {
   downloadCSV(csv);
 }
 
-// const performPrint = async () => {
-//   if(import.meta.client) {
-//     const printJS = (await import('print-js')).default;
-//     await nextTick(); // Ensure DOM is updated before printing
-//     printJS({
-//       printable: 'report-pdf',
-//       type: 'html',
-//       maxWidth: 800,
-//       targetStyles: ['*'],
-//       ignoreElements: ['print:btn-more-details', 'print:btn-remove-topic','print:tags-all','print:tags-countries'],
-//       documentTitle: 'Country Comparison Report',
-//       css: '/css/print.css',
-//     });
-//   }
-// }
+// PDF export state
+const isPreparingPDF = ref(false)
+const chartsReadyPromise = ref(null)
+const resolveChartsReady = ref(null)
+
+const handleAllChartsReady = () => {
+  if (resolveChartsReady.value) {
+    resolveChartsReady.value()
+  }
+}
 
 const handleDownloadPDF = async () => {
-  window.print();
+  if (!statements.value || !statements.value.length) return
+
+  isPreparingPDF.value = true
+
+  // Create a promise that will be resolved when all charts are ready
+  chartsReadyPromise.value = new Promise((resolve) => {
+    resolveChartsReady.value = resolve
+  })
+
+  try {
+    // Wait for all charts to be ready or timeout after 5 seconds
+    await Promise.race([
+      chartsReadyPromise.value,
+      new Promise(resolve => setTimeout(resolve, 5000))
+    ])
+
+    // Give a little extra time for final renders
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    // Trigger print
+    window.print()
+  } finally {
+    isPreparingPDF.value = false
+    resolveChartsReady.value = null
+  }
 }
 
 const scrollToTop = () => {

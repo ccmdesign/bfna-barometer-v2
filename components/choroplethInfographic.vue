@@ -1,4 +1,5 @@
 <script setup>
+const emit = defineEmits(['chart-ready'])
 const props = defineProps({
   dataset: {
     type: Object
@@ -165,6 +166,10 @@ onMounted(() => {
 
   mapContainer?.appendChild(chartLegend);
 
+  // Emit chart-ready after all rendering is complete
+  nextTick(() => {
+    emit('chart-ready')
+  })
 });
 
 </script>

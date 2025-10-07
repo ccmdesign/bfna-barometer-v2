@@ -1,4 +1,5 @@
 <script setup>
+const emit = defineEmits(['chart-ready'])
 const props = defineProps({
   dataset: {
     type: Object,
@@ -89,7 +90,11 @@ onMounted(() => {
     country: c.country.toUpperCase(),
     ranking: i + 1
   }));
-  nextTick(renderTimelineHeights);
+  nextTick(() => {
+    renderTimelineHeights()
+    // Emit chart-ready after rendering is complete
+    emit('chart-ready')
+  });
   window.addEventListener('resize', renderTimelineHeights);
 });
 

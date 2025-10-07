@@ -8,7 +8,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['removeTopic']);
+const emit = defineEmits(['removeTopic', 'all-charts-ready']);
 const { getCountryName } = useCountries()
 const attrs = useAttrs();
 
@@ -28,6 +28,34 @@ const highlightCodes = computed(() =>
 
 const isCountryInInfographic = (codesToCheck, infographic) =>{
   return codesToCheck.some(code => Object.keys(infographic.vizCountries).includes(code));
+}
+
+// Track chart rendering status
+const chartsReady = ref(0)
+const totalCharts = computed(() => {
+  let count = 0
+  props.dataset.forEach(topic => {
+    if (topic.infographics) {
+      topic.infographics.forEach(infgc => {
+        if (!['customInfographic', 'treemapChart'].includes(infgc.infographicType)) {
+          if (infgc.infographicType === 'timelineChart') {
+            if (isCountryInInfographic(highlightCodes.value, infgc)) count++
+          } else {
+            count++
+          }
+        }
+      })
+    }
+  })
+  return count
+})
+
+const handleChartReady = () => {
+  chartsReady.value++
+  // Check if all charts are ready
+  if (chartsReady.value >= totalCharts.value) {
+    emit('all-charts-ready')
+  }
 }
 
 </script>
@@ -64,13 +92,13 @@ const isCountryInInfographic = (codesToCheck, infographic) =>{
     </div>
 
     <!-- <bar-infographic /> -->
-    <div class="infographic-container print:hidden" v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
+    <div class="infographic-container" v-for="(infgc, index) in topic.infographics" :key="infgc.infographicId" :class="{ 'compare-timeline': infgc.infographicType === 'timelineChart' }">
       <div v-if="!['customInfographic', 'treemapChart'].includes(infgc.infographicType)">
         <h3 v-if="isCountryInInfographic(highlightCodes, infgc)" class="h4 padding-block:l text-align:center">{{ infgc.title }}</h3>
-        <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" />
-        <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart' && isCountryInInfographic(highlightCodes, infgc)" :dataset="infgc" :highlight="highlightCodes" />
-        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" />
-        <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="highlightCodes" />
+        <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
+        <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart' && isCountryInInfographic(highlightCodes, infgc)" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
+        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
+        <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
       </div>
     </div>
   </bar-section>

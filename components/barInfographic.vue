@@ -38,6 +38,7 @@
 
 <script setup>
 const { getCountryName } = useCountries()
+const emit = defineEmits(['chart-ready'])
 const { data } = defineProps({
   data: {
     type: Object,
@@ -55,6 +56,13 @@ const { data } = defineProps({
 
 const countries = computed(() => {
   return data.countries || []
+})
+
+// Emit chart-ready after component is mounted and rendered
+onMounted(() => {
+  nextTick(() => {
+    emit('chart-ready')
+  })
 })
 
 const hiddenCountries = ref([])

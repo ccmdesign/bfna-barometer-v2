@@ -2,6 +2,7 @@
 import { onMounted, onUpdated, nextTick, watch, ref, computed } from 'vue'
 import { useTimelineStore } from '@/stores/timeline'
 
+const emit = defineEmits(['chart-ready'])
 const props = defineProps({
   dataset: {
     type: Object,
@@ -261,6 +262,10 @@ const getAccentColor = (labels) => {
 onMounted(() => {
   renderTimelineHeights();
   setChartHeight();
+  // Emit chart-ready after rendering is complete
+  nextTick(() => {
+    emit('chart-ready')
+  })
 });
 onUpdated(() => {
   renderTimelineHeights();
