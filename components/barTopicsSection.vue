@@ -1,4 +1,6 @@
 <script setup>
+import { useFilterTags } from '~/stores/filter';
+
 const props = defineProps({
   topics: {
     type: Array,
@@ -10,8 +12,12 @@ const props = defineProps({
   }
 })
 
+
+const { tags, archivedTags } = useFilterTags();
 const selectedTag = ref('all')
-const tags = ref([])
+const currenttags = computed(() => {
+  return showArchivedTopics.value ? archivedTags : tags;
+});
 
 const emit = defineEmits(['show-topics'])
 const handleFilters = () => {
@@ -49,17 +55,11 @@ const handleArchivedTopics = () => {
 watch(
   () => [props.topics, showArchivedTopics.value],
   () => {
-    const tagSet = new Set();
-    props.topics.forEach(topic => {
-      (topic.tags || []).forEach(tag => tagSet.add(tag.toUpperCase()));
-    });
-    tags.value = Array.from(tagSet);
     // Reset selectedTag if current tag is not present
-    if (selectedTag.value !== 'all' && !tags.value.includes(selectedTag.value)) {
+    if (selectedTag.value !== 'all' && !currenttags.value.includes(selectedTag.value)) {
       selectedTag.value = 'all';
     }
   },
-  { immediate: true, deep: true }
 );
 
 </script>
@@ -69,7 +69,7 @@ watch(
     <div class="topics-section__filters | cluster">
       <select class="bar-select" name="topic-filter" id="topic-filter" split-left v-model="selectedTag" @change="handleFilters" :disabled="loading">
         <option value="all">All Categories</option>
-        <option v-for="item of tags" :value="item">{{ item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() }}</option>
+        <option v-for="item of currenttags" :value="item">{{ item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() }}</option>
       </select>
       <bar-button class="filter-button" variant="primary" color="base-faded" size="s" :disabled="loading" @click="handleSort(sortedBy)">
         <span class="icon" size="xs">sort</span>

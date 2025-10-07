@@ -106,10 +106,11 @@ const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('to
     () => filters.tag,
     () => filters.sort
   ]
-})
+}, { deep: true })
 
 // Update filters and refetch data
 const handleFilters = async (payload) => {
+
   Object.assign(filters, payload)
   await refreshTopics()
 }
