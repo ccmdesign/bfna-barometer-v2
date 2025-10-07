@@ -12,8 +12,6 @@ const statementStore = useStatementStore()
 const statement = ref(null)
 const activeTopic = ref(null)
 
-// Wait for statements to be loaded before accessing them
-await until(() => statementStore.isLoaded).toBe(true)
 statement.value = statementStore.getStatementBySlug(route.params.slug)
 
 // Fetch topics based on filters
