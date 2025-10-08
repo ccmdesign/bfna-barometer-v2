@@ -1,5 +1,5 @@
 <template>
-  <div class="ccm-tabs | subgrid" :centered="props.centered">
+  <div id="ccm-tabs" class="ccm-tabs | subgrid" :centered="props.centered">
     <div class="ccm-tabs__tabs | subgrid reel" >
       <template v-for="(tab, index) in props.tabs" :key="index">
         <NuxtLink

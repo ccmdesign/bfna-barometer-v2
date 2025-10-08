@@ -6,10 +6,10 @@ const props = defineProps({
   }
 })
 
-const goDownToMapSection = () => {
-  const mapSection = document.getElementById('map');
-  if (mapSection) {
-    mapSection.scrollIntoView({ behavior: 'smooth' });
+const goDownToInteractiveSection = () => {
+  const interactiveSection = document.getElementById('ccm-tabs');
+  if (interactiveSection) {
+    interactiveSection.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
@@ -52,7 +52,7 @@ const data = reactive({
           <p class="font-size:1 | color:base-40-tint">This interactive multimedia site provides its users with quick facts, visual representations, and reliable information on pressing transatlantic challenges.</p>
 
           <div class="cluster">
-            <bar-button variant="primary" color="white" @click="goDownToMapSection"><span>Start</span><span class="icon">arrow_downward</span></bar-button>
+            <bar-button variant="primary" color="white" @click="goDownToInteractiveSection"><span>Start</span><span class="icon">arrow_downward</span></bar-button>
             <bar-button variant="primary" color="faded" @click="data.video = true"><span class="icon">play_arrow</span><span>Watch Video</span></bar-button>
           </div>
         </slot>
