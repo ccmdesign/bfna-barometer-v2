@@ -162,9 +162,6 @@ onUnmounted(() => {
   color: inherit;
 }
 
-.tab-button__count {
-}
-
 .tab-button.active {
   font-weight: 700;
   position: relative;
