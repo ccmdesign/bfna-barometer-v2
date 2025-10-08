@@ -9,13 +9,22 @@
         <p>{{ topic.description }}</p>
       </hgroup>
     </template>
-    <template #column_right v-if="topic.video">
+    <template #column_right v-if="topic.video || topic.deepDive">
       <youtube-player
         v-if="topic.video"
         :video-url="topic.video"
         :title="topic.title"
         class="video"
       />
+      <youtube-player
+        v-if="topic.deepDive.includes('youtube')"
+        :video-url="topic.deepDive"
+        :title="topic.title"
+        class="video"
+      />
+      <a v-if="!topic.deepDive.includes('youtube')" :href="topic.deepDive" target="_blank" rel="noopener">
+        <bar-button visual="primary" size="s" color="accent">Deep Dive</bar-button>
+      </a>
     </template>
   </bar-hero>
 
@@ -36,6 +45,7 @@ const route = useRoute()
 const { data: topic } = await useAsyncData('topic', () => queryCollection('topics')
   .where('slug', '=', route.params?.slug)
   .first())
+
 
 </script>
 

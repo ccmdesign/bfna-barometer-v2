@@ -110,6 +110,7 @@ const data = reactive({
 }
 
 .hero-content__inner {
+  gap: 1rem;
   @media (max-width: 1024px) {
     padding-top: var(--space-m);
   }

@@ -48,8 +48,16 @@ export const useYouTube = () => {
     if (!url) return null
     
     try {
+      // Suporta URLs com parâmetros extras e diferentes domínios (incluindo m.youtube.com)
       const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/)([a-zA-Z0-9_-]{11})/
+        // youtube.com/watch?v=VIDEO_ID (com outros parâmetros)
+        /(?:youtube\.com|m\.youtube\.com)\/watch.*[?&]v=([a-zA-Z0-9_-]{11})/,
+        // youtu.be/VIDEO_ID
+        /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+        // youtube.com/embed/VIDEO_ID
+        /(?:youtube\.com|m\.youtube\.com)\/embed\/([a-zA-Z0-9_-]{11})/,
+        // youtube.com/v/VIDEO_ID
+        /(?:youtube\.com|m\.youtube\.com)\/v\/([a-zA-Z0-9_-]{11})/
       ]
       
       for (const pattern of patterns) {
