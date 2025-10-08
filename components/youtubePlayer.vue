@@ -33,7 +33,7 @@
 import { useYouTube } from '~/composables/useYouTube'
 
 const props = defineProps({
-  videoId: {
+  videoUrl: {
     type: String,
     required: true
   },
@@ -48,12 +48,13 @@ const props = defineProps({
   }
 })
 
-const { getThumbnail } = useYouTube()
+const { extractVideoId, getThumbnail } = useYouTube()
 
 const loaded = ref(false)
+const videoId = computed(() =>{ return extractVideoId(props.videoUrl)})
 
-const thumbnailUrl = computed(() => getThumbnail(props.videoId, props.thumbnailQuality))
-const embedUrl = computed(() => `https://www.youtube.com/embed/${props.videoId}?autoplay=1`)
+const thumbnailUrl = computed(() => getThumbnail(videoId.value, props.thumbnailQuality))
+const embedUrl = computed(() => `https://www.youtube.com/embed/${videoId.value}?autoplay=1`)
 
 const loadVideo = () => {
   loaded.value = true

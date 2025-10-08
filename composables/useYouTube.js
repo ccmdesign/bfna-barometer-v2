@@ -73,8 +73,7 @@ export const useYouTube = () => {
    * @param {string} quality - Qualidade da thumbnail ('default', 'hq', 'mq', 'sd', 'maxres')
    * @returns {string|null} URL da thumbnail ou null se não encontrado
    */
-  const getThumbnail = (url, quality = 'hq') => {
-    const videoId = extractVideoId(url)
+  const getThumbnail = (videoId, quality = 'hq') => {
     if (!videoId) return null
     
     const qualities = {

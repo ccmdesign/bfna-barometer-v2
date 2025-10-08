@@ -59,13 +59,13 @@ const data = reactive({
       </div>
       <div class="hero-content__inner | stack">
         <slot name="column_right">
-          <LazyYouTube 
+          <!-- <LazyYouTube 
             v-if="useRouter().currentRoute.value.name === 'index'"
             ref="lazyYouTubeRef"
             video-id="ervofXVlR_w"
             title="Transatlantic Barometer Introduction Video"
             class="hero__video"
-          />
+          /> -->
         </slot>
       </div>
     </div>

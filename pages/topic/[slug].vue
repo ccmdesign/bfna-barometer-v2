@@ -10,9 +10,9 @@
       </hgroup>
     </template>
     <template #column_right v-if="topic.video">
-      <LazyYouTube 
-        v-if="videoId"
-        :video-id="videoId"
+      <youtube-player
+        v-if="topic.video"
+        :video-url="topic.video"
         :title="topic.title"
         class="video"
       />
@@ -32,20 +32,10 @@
 </template>
 
 <script setup>
-import { useYouTube } from '~/composables/useYouTube'
 const route = useRoute()
 const { data: topic } = await useAsyncData('topic', () => queryCollection('topics')
   .where('slug', '=', route.params?.slug)
   .first())
-
-const { extractVideoId } = useYouTube()
-
-const videoId = computed(() => {
-  if (!topic.value?.video) return null
-  return extractVideoId(topic.value.video)
-})
-
-
 
 </script>
 
