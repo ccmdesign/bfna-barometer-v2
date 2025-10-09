@@ -22,7 +22,7 @@
         :title="topic.title"
         class="video"
       />
-      <a v-if="!topic.deepDive.includes('youtube')" :href="topic.deepDive" target="_blank" rel="noopener">
+      <a v-if="topic.deepDive && !topic.deepDive.includes('youtube')" :href="topic.deepDive" target="_blank" rel="noopener">
         <bar-button visual="primary" size="s" color="accent">Deep Dive</bar-button>
       </a>
     </template>
