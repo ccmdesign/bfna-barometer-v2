@@ -25,13 +25,13 @@
       </div>
       <div class="section-panel | stack">
         <h2 class="h5">Methodology</h2>
-        <p>The Barometer team regularly identifies pressing topics shaping the transatlantic relationship, in conversations with experts on both sides of the Atlantic. The team then drafts policy entries centered around statistical data, official government documents, multilateral reports, and current legislation. The primary sources for all referenced information are transparently cited next to each policy overview. When additional clarification on a country’s position is needed, the Barometer team contacts subject matter experts from that country. All information goes through an extensive peer review process, and the Barometer team regularly solicits feedback from the diplomatic, policy, and academic community.</p>
+        <p>The Barometer team continuously identifies pressing topics shaping the transatlantic relationship, through ongoing dialogue with experts on both sides of the Atlantic. Each policy entry is centered around statistical data, official government documents, multilateral reports, and current legislation. The primary sources for all referenced information are transparently cited next to each policy overview. When additional clarification on a country’s position is needed, the Barometer team consults subject matter experts from that country. All information goes through an extensive peer review process, and the Barometer team regularly solicits feedback from the diplomatic, policy, and academic community.</p>
         
         <h2 class="h5">Related Projects</h2>
         <ul class="homepage__related-projects | stack">
           <li>
             <a href="https://www.bfna.org/" target="_blank" rel="noopener">
-              Bertelsmann Foundation North America
+              Bertelsmann Foundation
               <span class="icon" size="xs">open_in_new</span>
             </a>
           </li>

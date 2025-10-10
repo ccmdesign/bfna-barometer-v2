@@ -66,7 +66,7 @@ const handleActiveTopic = async () => {
       if (infographic.infographicType === 'timelineChart' && country) {
         return {
           indicator: infographic.title,
-          score: country?.val,
+          score: infographic.infographicValuesAsPercentage ? country?.val + `%` : country?.val,
           period: formatedDate(country),
           type: infographic.infographicType,
         }
@@ -74,7 +74,7 @@ const handleActiveTopic = async () => {
 
       return {
         indicator: infographic.title,
-        score: country?.val,
+        score: infographic.infographicValuesAsPercentage ? country?.val + `%` : country?.val,
         scale: infographic.scaleLimit ? infographic.scaleLimit :scale,
         type: infographic.infographicType,
       }

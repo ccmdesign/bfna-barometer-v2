@@ -7,7 +7,7 @@
         :key="item.country"
         :class="{ 'hidden-country': hiddenCountries.includes(item.country) }"
       >
-        <div class="bar-infographic__country-score" :style="{ '--score': item.val, 'background-color': highlight.includes(item.country) ? 'var(--base-color)' : 'var(--accent-color)' }" :score="item.val"></div>
+        <div class="bar-infographic__country-score" :style="{ '--score': item.val, 'background-color': highlight.includes(item.country) ? 'var(--base-color)' : 'var(--accent-color)' }" :score="data.infographicValuesAsPercentage ? item.val + '%' : item.val"></div>
         <div class="bar-infographic__country-name">{{ item.country.toUpperCase() }}</div>
       </div>
     </div>
