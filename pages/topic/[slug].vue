@@ -10,13 +10,14 @@
       </hgroup>
     </template>
     <template #column_right v-if="topic.video">
-      <h2 v-if="topic.video" style="margin: 0 auto 1rem">Expert Interview</h2>
-      <youtube-player
-        v-if="topic.video"
-        :video-url="topic.video"
-        :title="topic.title"
-        class="video"
-      />
+      <div class="video-block">
+        <h4 class="video-block__title">Expert Interview</h4>
+        <youtube-player
+          :video-url="topic.video"
+          :title="topic.title"
+          class="video"
+        />
+      </div>
     </template>
   </bar-hero>
 
@@ -68,11 +69,23 @@ hgroup {
   --bar-curve-color: var(--white-color);
 }
 
+.video-block {
+  display: grid;
+  gap: var(--space-s);
+  justify-items: start;
+  margin-inline: auto;
+  width: min(100%, 1024px);
+}
+
+.video-block__title {
+  margin: 0;
+}
 
 .video {
   display: flex;
-  justify-self: center;
-  margin: auto;
+  justify-self: stretch;
+  width: 100%;
+  margin: 0;
   aspect-ratio: 16/9;
   max-width: 1024px;
   object-fit: cover;
