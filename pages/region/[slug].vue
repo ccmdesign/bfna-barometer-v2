@@ -46,6 +46,11 @@ const infographicsByCountry = ref([])
 const data_cards = ref([])
 const handleActiveTopic = async () => {
   infographicsByCountry.value = []
+
+  const addPercentageSymbol = (infographic, value) => {
+    return infographic.infographicValuesAsPercentage ? `${value}%` : value
+  }
+
   activeTopic.value = topics.value.find(topic => topic.active)
   statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
   
@@ -75,7 +80,7 @@ const handleActiveTopic = async () => {
       return {
         indicator: infographic.title,
         score: infographic.infographicValuesAsPercentage ? country?.val + `%` : country?.val,
-        scale: infographic.scaleLimit ? infographic.scaleLimit :scale,
+        scale: infographic.scaleLimit ? addPercentageSymbol(infographic, infographic.scaleLimit) : addPercentageSymbol(infographic, scale),
         type: infographic.infographicType,
       }
     } else {

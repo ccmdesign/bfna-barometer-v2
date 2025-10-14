@@ -27,7 +27,7 @@ const props = defineProps({
 
   h2 {
     font-weight: 700;
-    font-size: calc(var(--size-5) * 1.25);
+    font-size: calc(var(--size-4) * 1.25);
     letter-spacing: -1%;
 
     span {
