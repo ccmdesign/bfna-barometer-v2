@@ -14,6 +14,12 @@ const activeTopic = ref(null)
 
 statement.value = statementStore.getStatementBySlug(route.params.slug)
 
+watch(() => statementStore.isLoaded, (loaded) => {
+  if (loaded && !statement.value) {
+    statement.value = statementStore.getStatementBySlug(route.params.slug)
+  }
+}, { immediate: true })
+
 // Fetch topics based on filters
 const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('detail-topics', () => {
   let query = queryCollection('topics')
@@ -127,32 +133,40 @@ const countryName = computed(() => {
 
 const activeTopicTitle = computed(() => activeTopic.value?.title || '')
 
-const seoData = async () => {
-  await nextTick() // Ensure reactivity is updated
-  const baseTitle = 'Transatlantic Barometer'
-  const regionTitle = countryName.value ? `${baseTitle} - ${countryName.value}` : baseTitle
-  const fullTitle = activeTopicTitle.value ? `${regionTitle} on ${activeTopicTitle.value}` : regionTitle
-  const description = statement.value?.description || baseTitle
-  const url = statement.value?.slug ? `https://transatlanticbarometer.org/region/${statement.value.slug}` : 'https://transatlanticbarometer.org/region'
-  const countryFlag = statement.value?.country ? `https://flagcdn.com/w320/${statement.value.country.toLowerCase()}.png` : '/assets/abstract.webp'
+const baseSeoTitle = 'Transatlantic Barometer'
+const seoTitle = computed(() => {
+  const regionTitle = countryName.value ? `${baseSeoTitle} - ${countryName.value}` : baseSeoTitle
+  return activeTopicTitle.value ? `${regionTitle} on ${activeTopicTitle.value}` : regionTitle
+})
+
+const seoDescription = computed(() => statement.value?.description || baseSeoTitle)
+const seoUrl = computed(() => statement.value?.slug ? `https://transatlanticbarometer.org/region/${statement.value.slug}` : 'https://transatlanticbarometer.org/region')
+const seoImage = computed(() => statement.value?.country ? `https://flagcdn.com/w320/${statement.value.country.toLowerCase()}.png` : '/assets/abstract.webp')
+
+useHead(() => {
+  const title = seoTitle.value
+  const description = seoDescription.value
+  const url = seoUrl.value
+  const image = seoImage.value
 
   return {
-    description,
-    ogTitle: fullTitle,
-    ogDescription: description,
-    ogImage: countryFlag,
-    ogUrl: url,
-    twitterTitle: fullTitle,
-    twitterDescription: description,
-    twitterImage: countryFlag,
-    twitterCard: 'summary'
+    title,
+    meta: [
+      { name: 'description', content: description, key: 'description' },
+      { property: 'og:title', content: title, key: 'og:title' },
+      { property: 'og:description', content: description, key: 'og:description' },
+      { property: 'og:image', content: image, key: 'og:image' },
+      { property: 'og:url', content: url, key: 'og:url' },
+      { name: 'twitter:title', content: title, key: 'twitter:title' },
+      { name: 'twitter:description', content: description, key: 'twitter:description' },
+      { name: 'twitter:image', content: image, key: 'twitter:image' },
+      { name: 'twitter:card', content: 'summary', key: 'twitter:card' }
+    ],
+    link: [
+      { rel: 'canonical', href: url, key: 'canonical' }
+    ]
   }
-}
-
-watch([statement, activeTopic], async () => {
-  const seo = await seoData()
-  useSeoMeta(seo)
-}, { immediate: true })
+})
 
 onMounted(() => {
   // Ensure topics are loaded first
