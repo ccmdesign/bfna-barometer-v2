@@ -132,7 +132,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/clarity.client.js' }
     
   ],
-  ssr: true,
+  ssr: false,
   experimental: {
     clientFallback: true
   },
