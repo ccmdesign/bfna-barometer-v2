@@ -32,15 +32,6 @@ export default defineNuxtConfig({
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { name: "description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship between the US, Canada, UK, and EU." },
         { name: "keywords", content: "transatlantic, policy, EU, United States, Canada, United Kingdom, politics, international relations" },
-        { property: "og:title", content: "Transatlantic Barometer - Interactive Policy Platform" },
-        { property: "og:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." },
-        { property: "og:image", content: "/assets/abstract.webp" },
-        { property: "og:url", content: "https://transatlanticbarometer.org" },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Transatlantic Barometer - Interactive Policy Platform" },
-        { name: "twitter:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." },
-        { name: "twitter:image", content: "/assets/abstract.webp" }
       ],
       link: [
         // DNS prefetch for external resources
