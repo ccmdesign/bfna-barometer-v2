@@ -126,46 +126,58 @@ const data = reactive({
   showRegionSelector: false
 })
 
-const countryName = computed(() => {
-  const countryCode = statement.value?.country
-  return countryCode ? getCountryName(countryCode) : ''
-})
+// const countryName = computed(() => {
+//   const countryCode = statement.value?.country
+//   return countryCode ? getCountryName(countryCode) : ''
+// })
 
-const activeTopicTitle = computed(() => activeTopic.value?.title || '')
+// const activeTopicTitle = computed(() => activeTopic.value?.title || '')
 
-const baseSeoTitle = 'Transatlantic Barometer'
-const seoTitle = computed(() => {
-  const regionTitle = countryName.value ? `${baseSeoTitle} - ${countryName.value}` : baseSeoTitle
-  return activeTopicTitle.value ? `${regionTitle} on ${activeTopicTitle.value}` : regionTitle
-})
+// const baseSeoTitle = 'Transatlantic Barometer'
+// const seoTitle = computed(() => {
+//   const regionTitle = countryName.value ? `${baseSeoTitle} - ${countryName.value}` : baseSeoTitle
+//   return activeTopicTitle.value ? `${regionTitle} on ${activeTopicTitle.value}` : regionTitle
+// })
 
-const seoDescription = computed(() => statement.value?.description || baseSeoTitle)
-const seoUrl = computed(() => statement.value?.slug ? `https://transatlanticbarometer.org/region/${statement.value.slug}` : 'https://transatlanticbarometer.org/region')
-const seoImage = computed(() => statement.value?.country ? `https://flagcdn.com/w320/${statement.value.country.toLowerCase()}.png` : '/assets/abstract.webp')
+// const seoDescription = computed(() => statement.value?.description || baseSeoTitle)
+// const seoUrl = computed(() => statement.value?.slug ? `https://transatlanticbarometer.org/region/${statement.value.slug}` : 'https://transatlanticbarometer.org/region')
+// const seoImage = computed(() => statement.value?.country ? `https://flagcdn.com/w320/${statement.value.country.toLowerCase()}.png` : '/assets/abstract.webp')
 
-useHead(() => {
-  const title = seoTitle.value
-  const description = seoDescription.value
-  const url = seoUrl.value
-  const image = seoImage.value
+// useHead(() => {
+//   const title = seoTitle.value
+//   const description = seoDescription.value
+//   const url = seoUrl.value
+//   const image = seoImage.value
 
-  return {
-    title,
-    meta: [
-      { name: 'description', content: description, key: 'description' },
-      { property: 'og:title', content: title, key: 'og:title' },
-      { property: 'og:description', content: description, key: 'og:description' },
-      { property: 'og:image', content: image, key: 'og:image' },
-      { property: 'og:url', content: url, key: 'og:url' },
-      { name: 'twitter:title', content: title, key: 'twitter:title' },
-      { name: 'twitter:description', content: description, key: 'twitter:description' },
-      { name: 'twitter:image', content: image, key: 'twitter:image' },
-      { name: 'twitter:card', content: 'summary', key: 'twitter:card' }
-    ],
-    link: [
-      { rel: 'canonical', href: url, key: 'canonical' }
-    ]
-  }
+//   return {
+//     title,
+//     meta: [
+//       { name: 'description', content: description, key: 'description' },
+//       { property: 'og:title', content: title, key: 'og:title' },
+//       { property: 'og:description', content: description, key: 'og:description' },
+//       { property: 'og:image', content: image, key: 'og:image' },
+//       { property: 'og:url', content: url, key: 'og:url' },
+//       { name: 'twitter:title', content: title, key: 'twitter:title' },
+//       { name: 'twitter:description', content: description, key: 'twitter:description' },
+//       { name: 'twitter:image', content: image, key: 'twitter:image' },
+//       { name: 'twitter:card', content: 'summary', key: 'twitter:card' }
+//     ],
+//     link: [
+//       { rel: 'canonical', href: url, key: 'canonical' }
+//     ]
+//   }
+// })
+
+useSeoMeta({
+  description: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  ogTitle: 'Transatlantic Barometer - Interactive Policy Platform',
+  ogDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  ogImage: '/assets/barometer-logo.svg',
+  ogUrl: 'https://transatlanticbarometer.org',
+  twitterTitle: 'Transatlantic Barometer - Interactive Policy Platform',
+  twitterDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  twitterImage: '/assets/barometer-logo.svg',
+  twitterCard: 'summary'
 })
 
 onMounted(() => {

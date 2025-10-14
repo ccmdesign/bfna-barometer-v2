@@ -51,7 +51,7 @@ export default defineNuxtConfig({
         { rel: "preload", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap", as: "style", onload: "this.onload=null;this.rel='stylesheet'" },
         { rel: "noscript", innerHTML: "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap'>" },
         { rel: "preload", href: "/assets/barometer-logo.svg", as: "image", type: "image/svg+xml" },
-        { rel: "preload", href: "/assets/abstract.webp", as: "image", type: "image/webp" },
+        { rel: "prefetch", href: "/assets/abstract.webp", as: "image" },
         { rel: "preload", href: "/assets/barometer-footer.svg", as: "image", type: "image/svg+xml" },
         // Mobile favicon and app icons
         { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon.ico" },
