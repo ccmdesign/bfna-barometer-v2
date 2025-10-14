@@ -72,11 +72,11 @@ useSeoMeta({
   description: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
   ogTitle: 'Transatlantic Barometer - Interactive Policy Platform',
   ogDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
-  ogImage: '/assets/barometer-logo.svg',
+  ogImage: '/assets/logo.png',
   ogUrl: 'https://transatlanticbarometer.org',
   twitterTitle: 'Transatlantic Barometer - Interactive Policy Platform',
   twitterDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
-  twitterImage: '/assets/barometer-logo.svg',
+  twitterImage: '/assets/logo.png',
   twitterCard: 'summary'
 })
 

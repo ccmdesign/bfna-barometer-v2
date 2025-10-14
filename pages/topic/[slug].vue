@@ -39,27 +39,15 @@ const { data: topic } = await useAsyncData('topic', () => queryCollection('topic
   .where('slug', '=', route.params?.slug)
   .first())
 
-// useSeoMeta({
-//   description: topic.value.description,
-//   ogTitle: `Transatlantic Barometer - ${topic.value.title}`,
-//   ogDescription: topic.value.description,
-//   ogImage: '/assets/abstract.webp',
-//   ogUrl: `https://transatlanticbarometer.org/topic/${topic.value.slug}`,
-//   twitterTitle: `Transatlantic Barometer - ${topic.value.title}`,
-//   twitterDescription: topic.value.description,
-//   twitterImage: '/assets/abstract.webp',
-//   twitterCard: 'summary'
-// })
-
 useSeoMeta({
   description: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
   ogTitle: 'Transatlantic Barometer - Interactive Policy Platform',
   ogDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
-  ogImage: '/assets/barometer-logo.svg',
+  ogImage: '/assets/logo.png',
   ogUrl: 'https://transatlanticbarometer.org',
   twitterTitle: 'Transatlantic Barometer - Interactive Policy Platform',
   twitterDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
-  twitterImage: '/assets/barometer-logo.svg',
+  twitterImage: '/assets/logo.png',
   twitterCard: 'summary'
 })
 
