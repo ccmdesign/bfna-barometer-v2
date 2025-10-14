@@ -200,6 +200,7 @@ const scrollRight = () => {
   display: flex;
   justify-content: center;
   gap: var(--space-xs);
+  padding-bottom: var(--space-m);
   
   
 }
