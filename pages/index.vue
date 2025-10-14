@@ -67,6 +67,19 @@
 </template>
 
 <script setup>
+
+useSeoMeta({
+  description: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  ogTitle: 'Transatlantic Barometer - Interactive Policy Platform',
+  ogDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  ogImage: '/assets/barometer-logo.svg',
+  ogUrl: 'https://transatlanticbarometer.org',
+  twitterTitle: 'Transatlantic Barometer - Interactive Policy Platform',
+  twitterDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  twitterImage: '/assets/barometer-logo.svg',
+  twitterCard: 'summary'
+})
+
 const tabs = [
   { label: 'Countries', slot: 'regions', count: 0, class: '' },
   { label: 'Topics', slot: 'topics', count: 0, class: '' },

@@ -120,7 +120,39 @@ const data = reactive({
   showRegionSelector: false
 })
 
+const countryName = computed(() => {
+  const countryCode = statement.value?.country
+  return countryCode ? getCountryName(countryCode) : ''
+})
 
+const activeTopicTitle = computed(() => activeTopic.value?.title || '')
+
+const seoData = async () => {
+  await nextTick() // Ensure reactivity is updated
+  const baseTitle = 'Transatlantic Barometer'
+  const regionTitle = countryName.value ? `${baseTitle} - ${countryName.value}` : baseTitle
+  const fullTitle = activeTopicTitle.value ? `${regionTitle} on ${activeTopicTitle.value}` : regionTitle
+  const description = statement.value?.description || baseTitle
+  const url = statement.value?.slug ? `https://transatlanticbarometer.org/region/${statement.value.slug}` : 'https://transatlanticbarometer.org/region'
+  const countryFlag = statement.value?.country ? `https://flagcdn.com/w320/${statement.value.country.toLowerCase()}.png` : '/assets/abstract.webp'
+
+  return {
+    description,
+    ogTitle: fullTitle,
+    ogDescription: description,
+    ogImage: countryFlag,
+    ogUrl: url,
+    twitterTitle: fullTitle,
+    twitterDescription: description,
+    twitterImage: countryFlag,
+    twitterCard: 'summary'
+  }
+}
+
+watch([statement, activeTopic], async () => {
+  const seo = await seoData()
+  useSeoMeta(seo)
+}, { immediate: true })
 
 onMounted(() => {
   // Ensure topics are loaded first

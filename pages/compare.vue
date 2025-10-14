@@ -249,6 +249,18 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+useSeoMeta({
+  description: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  ogTitle: 'Transatlantic Barometer - Interactive Policy Platform',
+  ogDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  ogImage: '/assets/barometer-logo.svg',
+  ogUrl: 'https://transatlanticbarometer.org/compare',
+  twitterTitle: 'Transatlantic Barometer - Interactive Policy Platform',
+  twitterDescription: 'An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship.',
+  twitterImage: '/assets/barometer-logo.svg',
+  twitterCard: 'summary'
+})
+
 onMounted(async () => {
   // Initialize availableCountries with all countries
   availableCountries.value = await Promise.all(countries.value.map(async code => ({
