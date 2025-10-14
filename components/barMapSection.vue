@@ -42,9 +42,9 @@ const handleFlagLeave = () => {
   border-top: 1px solid var(--base-color-10-alpha);
   border-bottom: 1px solid var(--base-color-20-alpha);
 
-  @media (min-width: 769px) and (max-width: 1340px) {
+  /* @media (min-width: 769px) and (max-width: 1340px) {
     height: 55vh;
-  }
+  } */
   
 }
 
@@ -60,10 +60,11 @@ const handleFlagLeave = () => {
 }
 
 .map-section__flags {
-  @media (min-width: 768px) { position: absolute; } 
-  bottom: var(--space-m);
   max-width: 100%;
+  
+  @media (min-width: 1340px) {
+    position: absolute;
+    bottom: var(--space-m);
+  }
 }
 </style>
-
-
