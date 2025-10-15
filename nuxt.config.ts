@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://barometer-v2.netlify.app';
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -34,13 +36,13 @@ export default defineNuxtConfig({
         { name: "keywords", content: "transatlantic, policy, EU, United States, Canada, United Kingdom, politics, international relations" },
         { property: "og:title", content: "Transatlantic Barometer - Interactive Policy Platform" },
         { property: "og:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." },
-        { property: "og:image", content: "/assets/logo.png" },
+        { property: "og:image", content: `${siteUrl}/assets/logo.png` },
         { property: "og:url", content: "https://transatlanticbarometer.org" },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: "Transatlantic Barometer - Interactive Policy Platform" },
         { name: "twitter:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." },
-        { name: "twitter:image", content: "/assets/logo.png" }       
+        { name: "twitter:image", content: `${siteUrl}/assets/logo.png` }       
       ],
       link: [
         // DNS prefetch for external resources
