@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      siteUrl,
       contentfulSpace: process.env.CONTENTFUL_SPACE_ID || '',
       contentfulToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
     }
