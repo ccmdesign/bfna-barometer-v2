@@ -38,6 +38,7 @@ export default defineNuxtConfig({
         { property: "og:title", content: "Transatlantic Barometer - Interactive Policy Platform" },
         { property: "og:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." },
         { property: "og:image", content: `${siteUrl}/assets/logo.png` },
+        { property: "og:logo", content: `${siteUrl}/assets/logo.png` },
         { property: "og:url", content: "https://transatlanticbarometer.org" },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
