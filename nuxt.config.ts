@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://barometer-v2.netlify.app';
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://transatlanticbarometer.org';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       contentfulToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
     }
   },
-  site: { "url": "https://barometer-v2.netlify.app/" },
+  site: { "url": "https://transatlanticbarometer.org/" },
   sitemap: {
     hostname: 'https://transatlanticbarometer.org',
     gzip: true,
