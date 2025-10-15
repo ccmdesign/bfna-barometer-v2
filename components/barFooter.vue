@@ -1,13 +1,13 @@
 <template>
   <ccm-footer class="bar-footer">
     <div class="footer-content | subgrid | stack | text-align:center">
-      <h2 class="h2">Subscribe for Updates</h2>
+      <!-- <h2 class="h2">Subscribe for Updates</h2> -->
       <!--<p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>-->
-      <div class="switcher">
+      <!-- <div class="switcher">
         <input type="text" placeholder="Name" class="input" />
         <input type="email" placeholder="Email" class="input" />
       </div>
-      <bar-button class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button>
+      <bar-button class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button> -->
       <div class="pb">
         <span>Powered by</span>
         <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation">
