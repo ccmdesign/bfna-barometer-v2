@@ -5,11 +5,11 @@
         <h1>404 - Page Not Found</h1>
         <p>Sorry, the page you're looking for doesn't exist.</p>
         <div class="button-group | cluster">
-          <bar-button el="nuxt-link" to="/" color="base" variant="primary">
+          <bar-button el="button" color="base" variant="primary" @click="goHome">
             <span class="icon">home</span>
             Go Home
           </bar-button>
-          <bar-button el="button" @click="$router.back()" color="faded" variant="primary">
+          <bar-button el="button" @click="goBack" color="faded" variant="primary">
             <span class="icon">arrow_back</span>
             Go Back
           </bar-button>
@@ -32,7 +32,25 @@
   <bar-footer />
 </template>
 
-<script setup>
+<script setup lang="ts">
+const nuxtError = useError();
+const router = useRouter();
+
+const goHome = () => {
+  if (nuxtError.value) {
+    clearError({ redirect: '/' });
+    return;
+  }
+  router.push('/');
+};
+
+const goBack = () => {
+  if (nuxtError.value) {
+    clearError();
+  }
+  router.back();
+};
+
 useHead({
   title: '404 - Page Not Found - Transatlantic Barometer',
   meta: [
