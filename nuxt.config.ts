@@ -12,7 +12,9 @@ export default defineNuxtConfig({
     public: {
       siteUrl,
       contentfulSpace: process.env.CONTENTFUL_SPACE_ID || '',
-      contentfulToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
+      contentfulToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+      mailchimpApiKey: process.env.MAILCHIMP_API_KEY || '',
+      mailchimpListId: process.env.MAILCHIMP_AUDIENCE_ID || '',
     }
   },
   site: { "url": "https://transatlanticbarometer.org/" },
