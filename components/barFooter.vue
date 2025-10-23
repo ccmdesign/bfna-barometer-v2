@@ -1,13 +1,16 @@
 <template>
   <ccm-footer class="bar-footer">
     <div class="footer-content | subgrid | stack | text-align:center">
-      <!-- <h2 class="h2">Subscribe for Updates</h2> -->
-      <!--<p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>-->
-      <!-- <div class="switcher">
-        <input type="text" placeholder="Name" class="input" />
-        <input type="email" placeholder="Email" class="input" />
+      <h2 class="h2">Subscribe for Updates</h2>
+      <p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>
+      <form @submit.prevent="submitForm" class="stack | text-align:center">
+      <div class="message" v-if="message" :class="{'message--success': success, 'message--failure': !success}">{{ message }}</div>
+      <div class="switcher">
+        <input v-model="name" type="text" placeholder="Name" class="input" />
+        <input v-model="email" type="email" placeholder="Email" class="input" />
       </div>
-      <bar-button class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button> -->
+      <bar-button type="submit" class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button>
+      </form>
       <div class="pb">
         <span>Powered by</span>
         <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation">
@@ -19,7 +22,33 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 
+const name = ref('')
+const email = ref('')
+const message = ref('')
+const success = ref(false)
+
+const submitForm = async () => {
+  message.value = '';
+  success.value = false;
+  
+  try {
+    const res = await $fetch('/api/mailchimp/subscribe', {
+      method: 'POST',
+      body: { name: name.value, email: email.value }
+    })
+    
+    // Atribuir os valores do retorno da requisição
+    success.value = res.success
+    message.value = res.message
+    
+  } catch (err) {
+    success.value = false
+    message.value = 'Error while subscribing to our newsletter. Please contact us for support.'
+    console.log('Error:', message.value)
+  }
+}
 </script>
 
 <style scoped lang="scss">
