@@ -3,14 +3,14 @@
     <div class="footer-content | subgrid | stack | text-align:center">
       <h2 class="h2">Subscribe for Updates</h2>
       <p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>
-      <form @submit.prevent="submitForm" class="stack | text-align:center">
+      <!--<form @submit.prevent="submitForm" class="stack | text-align:center">
       <div class="message" v-if="message" :class="{'message--success': success, 'message--failure': !success}">{{ message }}</div>
       <div class="switcher">
         <input v-model="name" type="text" placeholder="Name" class="input" />
         <input v-model="email" type="email" placeholder="Email" class="input" />
       </div>
       <bar-button type="submit" class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button>
-      </form>
+      </form>-->
       <div class="pb">
         <span>Powered by</span>
         <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation">
