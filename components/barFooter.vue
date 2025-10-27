@@ -75,29 +75,22 @@ const handleSubmit = async () => {
   isSubmitting.value = true
   
   try {
-    // Usar JSONP para contornar CORS
-    const script = document.createElement('script')
-    const callbackName = 'mailchimpCallback_' + Date.now()
+    // Usar fetch com no-cors
+    const formData = new FormData()
+    formData.append('EMAIL', email.value)
+    formData.append('b_53fc7e266c23506906a0a602f_d1267f2349', '')
     
-    window[callbackName] = (data) => {
-      if (data.result === 'success') {
-        success.value = true
-        message.value = 'Thank you for subscribing! Please check your email to confirm your subscription.'
-        email.value = ''
-      } else {
-        success.value = false
-        message.value = data.msg || 'There was an error subscribing. Please try again.'
-      }
-      isSubmitting.value = false
-      document.head.removeChild(script)
-      delete window[callbackName]
-    }
+    const response = await fetch('https://bfna.us20.list-manage.com/subscribe/post?u=53fc7e266c23506906a0a602f&id=d1267f2349&f_id=00cc6de6f0', {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors' // Isso permite a requisição mas não permite ler a resposta
+    })
     
-    // Usar a versão JSONP da URL do Mailchimp
-    const url = `https://bfna.us20.list-manage.com/subscribe/post-json?u=53fc7e266c23506906a0a602f&id=d1267f2349&c=${callbackName}&EMAIL=${encodeURIComponent(email.value)}`
-    
-    script.src = url
-    document.head.appendChild(script)
+    // Como não podemos ler a resposta com no-cors, assumimos sucesso
+    success.value = true
+    message.value = 'Thank you for subscribing! Please check your email to confirm your subscription.'
+    email.value = ''
+    isSubmitting.value = false
     
   } catch (error) {
     console.error('Subscription error:', error)
@@ -159,31 +152,12 @@ const handleSubmit = async () => {
   align-items: center;
   font-size: var(--size--2);
 }
+
 .message {
   padding: var(--space-sm);
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-sm);
-  
-  &--success {
-    background-color: var(--success-color, #d4edda);
-    color: var(--success-text-color, #155724);
-    border: 1px solid var(--success-border-color, #c3e6cb);
-  }
-  
-  &--failure {
-    background-color: var(--error-color, #f8d7da);
-    color: var(--error-text-color, #721c24);
-    border: 1px solid var(--error-border-color, #f5c6cb);
-  }
+  color: var(--white-color);
 }
 
-.input--error {
-  border-color: var(--error-color, #dc3545);
-}
-
-.error-message {
-  color: var(--error-color, #dc3545);
-  font-size: var(--size--2);
-  margin-top: var(--space-xs);
-}
 </style>
