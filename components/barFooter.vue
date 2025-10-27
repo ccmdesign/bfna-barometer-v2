@@ -3,14 +3,35 @@
     <div class="footer-content | subgrid | stack | text-align:center">
       <h2 class="h2">Subscribe for Updates</h2>
       <p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>
-      <!--<form @submit.prevent="submitForm" class="stack | text-align:center">
-      <div class="message" v-if="message" :class="{'message--success': success, 'message--failure': !success}">{{ message }}</div>
-      <div class="switcher">
-        <input v-model="name" type="text" placeholder="Name" class="input" />
-        <input v-model="email" type="email" placeholder="Email" class="input" />
-      </div>
-      <bar-button type="submit" class="align-self:center justify-self:center" color="accent" variant="primary">Submit Now <span class="icon">arrow_forward</span></bar-button>
-      </form>-->
+      <form @submit.prevent="handleSubmit" class="stack | text-align:center" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
+        <div class="message" v-if="message" :class="{'message--success': success, 'message--failure': !success}">
+          {{ message }}
+        </div>
+        <div class="switcher">
+          <input 
+            type="email" 
+            name="EMAIL" 
+            id="mce-EMAIL" 
+            v-model="email"
+            placeholder="Email" 
+            class="input" 
+            :class="{'input--error': emailError}"
+            required
+          />
+          <div v-if="emailError" class="error-message">{{ emailError }}</div>
+        </div>
+        <input type="hidden" name="b_53fc7e266c23506906a0a602f_d1267f2349" tabindex="-1" value="">
+        <bar-button 
+          type="submit" 
+          class="align-self:center justify-self:center" 
+          color="accent" 
+          variant="primary"
+          :disabled="isSubmitting"
+        >
+          {{ isSubmitting ? 'Subscribing...' : 'Submit Now' }} 
+          <span class="icon">arrow_forward</span>
+        </bar-button>
+      </form>
       <div class="pb">
         <span>Powered by</span>
         <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation">
@@ -24,32 +45,62 @@
 <script setup>
 import { ref } from 'vue'
 
-const name = ref('')
 const email = ref('')
 const message = ref('')
 const success = ref(false)
+const isSubmitting = ref(false)
+const emailError = ref('')
 
-const submitForm = async () => {
-  message.value = '';
-  success.value = false;
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const handleSubmit = async () => {
+  emailError.value = ''
+  message.value = ''
+  
+  if (!email.value) {
+    emailError.value = 'Email is required'
+    return
+  }
+  
+  if (!validateEmail(email.value)) {
+    emailError.value = 'Please enter a valid email address'
+    return
+  }
+  
+  if (isSubmitting.value) return
+  
+  isSubmitting.value = true
   
   try {
-    const res = await $fetch('/api/mailchimp/subscribe', {
+    // Usar fetch com no-cors
+    const formData = new FormData()
+    formData.append('EMAIL', email.value)
+    formData.append('b_53fc7e266c23506906a0a602f_d1267f2349', '')
+    
+    const response = await fetch('https://bfna.us20.list-manage.com/subscribe/post?u=53fc7e266c23506906a0a602f&id=d1267f2349&f_id=00cc6de6f0', {
       method: 'POST',
-      body: { name: name.value, email: email.value }
+      body: formData,
+      mode: 'no-cors' // Isso permite a requisição mas não permite ler a resposta
     })
     
-    // Atribuir os valores do retorno da requisição
-    success.value = res.success
-    message.value = res.message
+    // Como não podemos ler a resposta com no-cors, assumimos sucesso
+    success.value = true
+    message.value = 'Thank you for subscribing! Please check your email to confirm your subscription.'
+    email.value = ''
+    isSubmitting.value = false
     
-  } catch (err) {
+  } catch (error) {
+    console.error('Subscription error:', error)
     success.value = false
-    message.value = 'Error while subscribing to our newsletter. Please contact us for support.'
-    console.log('Error:', message.value)
+    message.value = 'There was an error subscribing. Please try again.'
+    isSubmitting.value = false
   }
 }
 </script>
+
 
 <style scoped lang="scss">
 .bar-footer {
@@ -101,4 +152,12 @@ const submitForm = async () => {
   align-items: center;
   font-size: var(--size--2);
 }
+
+.message {
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+  color: var(--white-color);
+}
+
 </style>
