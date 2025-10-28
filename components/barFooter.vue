@@ -88,7 +88,7 @@ const handleSubmit = async () => {
     
     // Como não podemos ler a resposta com no-cors, assumimos sucesso
     success.value = true
-    message.value = 'Thank you for subscribing! Please check your email to confirm your subscription.'
+    message.value = 'Thank you for subscribing!'
     email.value = ''
     isSubmitting.value = false
     
