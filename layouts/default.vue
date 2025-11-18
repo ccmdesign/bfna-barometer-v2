@@ -1,8 +1,9 @@
 <template>
   <ccm-master-grid>
-    
+
     <slot />
   </ccm-master-grid>
+  <nc-cookie-consent />
 </template>
 
 <style>
