@@ -1,12 +1,12 @@
 import Papa from 'papaparse'
-import { get, set } from 'lodash'
+import { set } from 'lodash'
 
-export const downloadCSV = (csv) => {
+export const downloadCSV = (csv, selectedCountries='') => {
     // Create a download link
   const blob = new Blob([csv], { type: 'text/csv' })
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
-  link.download = 'comparison-data.csv'
+  link.download = `comparison-data-${selectedCountries}.csv`
   link.click()
   URL.revokeObjectURL(link.href)
 }
@@ -110,56 +110,55 @@ export const statementsToCSV = (statements) => {
   const csvData = []
 
   statements.forEach(topic => {
-    const baseRow = {
-      'Topic': topic.title,
-      'Description': topic.description
-    }
+    const topicTitle = topic.title || ''
+    const topicDescription = topic.description || ''
+    const topicStatements = topic.statements || {}
 
-    // Get all country codes from statements
-    const countryCodes = Object.keys(topic.statements || {})
-    
-    if (countryCodes.length === 0) {
-      csvData.push(baseRow)
+    if (!Array.isArray(topic.infographics)) {
       return
     }
 
-    // Create a row for each topic with country-specific data
-    const row = { ...baseRow }
-    
-    countryCodes.forEach(countryCode => {
-      const statement = topic.statements[countryCode]
-      const countryPrefix = countryCode.toUpperCase()
-      
-      if (statement) {
-        row[`${countryPrefix} Statement`] = statement.description || ''
-        
-        // Add links if they exist
-        if (statement.links && Array.isArray(statement.links)) {
-          statement.links.forEach((link, index) => {
-            if (link.label && link.url) {
-              row[`${countryPrefix} Link ${index + 1} Label`] = link.label
-              row[`${countryPrefix} Link ${index + 1} URL`] = link.url
-            }
-          })
-        }
-      } else {
-        row[`${countryPrefix} Statement`] = 'No data available'
+    topic.infographics.forEach(infographic => {
+      if (!infographic || infographic.infographicType === 'customInfographic') {
+        return
       }
-    })
 
-    // Add infographics data if available
-    if (topic.infographics && Array.isArray(topic.infographics)) {
-      topic.infographics.forEach((infographic, index) => {
-        if (infographic.title) {
-          row[`Infographic ${index + 1} Title`] = infographic.title
-          row[`Infographic ${index + 1} Type`] = infographic.infographicType || ''
-          row[`Infographic ${index + 1} Description`] = infographic.infographicDescription || ''
+      const vizCountries = infographic.vizCountries || {}
+      const countryKeys = Array.isArray(vizCountries)
+        ? vizCountries
+        : Object.keys(vizCountries).filter(key => vizCountries[key])
+
+      if (!countryKeys.length) {
+        return
+      }
+
+      const countries = Array.isArray(infographic.countries) ? infographic.countries : []
+      const valuesByCountry = countries.reduce((acc, countryEntry) => {
+        if (countryEntry && typeof countryEntry.country === 'string') {
+          acc[countryEntry.country] = countryEntry.val ?? ''
         }
-      })
-    }
+        return acc
+      }, {})
 
-    csvData.push(row)
+      countryKeys.forEach(countryCode => {
+        const row = {
+          'Topic Title': topicTitle,
+          'Topic Description': topicDescription,
+          'Infographic Title': infographic.title || '',
+          'Infographic Type': infographic.infographicType || '',
+          'Country Code': countryCode,
+          'Country Value': valuesByCountry[countryCode] ?? '',
+          'Country Description': (topicStatements[countryCode] && topicStatements[countryCode].description) || ''
+        }
+
+        csvData.push(row)
+      })
+    })
   })
+
+  if (!csvData.length) {
+    return ''
+  }
 
   return Papa.unparse(csvData, { header: true })
 }

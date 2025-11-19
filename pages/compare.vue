@@ -202,8 +202,9 @@ watch([selectedCountries, selectedTopics], () => {
 const handleDownloadCSV = () => {
   if (!statements.value || !statements.value.length) return;
 
-  const csv = objectToCSV(statements.value)
-  downloadCSV(csv);
+  const csv = statementsToCSV(statements.value);
+  downloadCSV(csv, selectedCountries.value.join('-'));
+
 }
 
 // PDF export state
