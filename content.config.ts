@@ -16,14 +16,7 @@ export default defineContentConfig({
     statements: defineCollection({
       source: 'statements/*.json',
       type: 'data',
-      // Define custom schema for docs collection
-      schema: z.object({
-        id: z.string(),
-        slug: z.string(),
-        countryCode: z.string(),
-        statements: z.array(z.any()), // Adjust type if you know the structure
-        topicsByCountry: z.array(z.string())
-      })
+      schema: z.any()
     }),
     topics: defineCollection({
       source: 'topics/*.json',
@@ -42,8 +35,8 @@ export default defineContentConfig({
         infographic: z.string(),
         video: z.string(),
         deepDive: z.string(),
-        infographicsType2: z.array(z.any()),
-        infographics: z.array(z.any()),
+        infographicsType2: z.array(z.unknown()),
+        infographics: z.array(z.unknown()),
         category: z.string(),
         tags: z.array(z.string()),
         tagsAsString: z.string(),

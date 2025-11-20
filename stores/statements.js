@@ -29,8 +29,8 @@ export const useStatementStore = defineStore('statements', {
     },
     getStatementByTopic: (state) => {
       return (topicId, code) => {
-        const statement = state.statements.find(statement => statement.countryCode === code)
-        return statement.statements.find(statement => statement.topic === topicId) || null
+        const statement = state.statements.find(statement => statement.meta.countryCode === code)
+        return statement.meta.statements.find(statement => statement.topic === topicId) || null
       }
     },
     getStatementByTopicAndCountryCode: (state) => {
