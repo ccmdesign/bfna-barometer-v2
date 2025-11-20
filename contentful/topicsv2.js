@@ -19,13 +19,6 @@ const getMarker = (fields, infographicsList) => {
   }
 }
 
-const setDateInterval = (date, day) => {
-  let newDate = new Date(Number(date))
-  newDate.setDate(date.getDate() + day)
-
-  return newDate
-}
-
 const getExtra = (extras) => {
   let result = {}
   for(let i of extras) {
@@ -189,17 +182,22 @@ const getTopics = async () => {
     };
   });
 
-  if(topics){
-    let mostRecentlty = Object.values(topics)[0];
-    for (let id in topics){
-      // BAR-199 ordenar pelo mais recente considerando o período.
-      // a flag aparece dentro do período de 30 dias a partir da data inicial.
-      let topic = topics[id]
-      let initialDate = new Date(topic.periodWithDay)
-      let interval = setDateInterval(initialDate, 30)
-      
-      topic.id === mostRecentlty.id || new Date() <= interval ? topic.new = true : topic.new = false;
-      topic.id === mostRecentlty.id || new Date() <= interval ? topic.active = true : topic.active = false;
+  if (topics) {
+    const getTopicTimestamp = (topic) => {
+      const date = new Date(topic.periodWithDay);
+      return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+    };
+
+    const mostRecentlty = Object.values(topics).reduce((latest, topic) => {
+      if (!latest) return topic;
+      return getTopicTimestamp(topic) > getTopicTimestamp(latest) ? topic : latest;
+    }, null);
+
+    for (const id in topics) {
+      const topic = topics[id];
+      const isMostRecent = mostRecentlty && topic.id === mostRecentlty.id;
+      topic.new = Boolean(isMostRecent);
+      topic.active = Boolean(isMostRecent);
     }
   }
 
