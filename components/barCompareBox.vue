@@ -58,6 +58,10 @@ const handleChartReady = () => {
   }
 }
 
+const getValidStatements = (statements) => {
+  return Object.values(statements).filter(s => s);
+}
+
 </script>
 
 <template>
@@ -71,8 +75,8 @@ const handleChartReady = () => {
       <hgroup split-right>
         <h4 class="h6 | print:only">
           Comparison: 
-          <template v-if="Object.values(topic.statements).length === 2">
-            {{ getCountryName(Object.values(topic.statements)[0].country) }} and {{ getCountryName(Object.values(topic.statements)[1].country) }}
+          <template v-if="getValidStatements(topic.statements).length === 2">
+            {{ getCountryName(getValidStatements(topic.statements)[0].country) }} and {{ getCountryName(getValidStatements(topic.statements)[1].country) }}
           </template>
         </h4>
         <h2 class="h1">{{ topic.title }}</h2>
@@ -82,12 +86,19 @@ const handleChartReady = () => {
     </div>
     <div class="switcher ">
       <div v-for="(statement, countryCode) in Object.values(topic.statements)" :key="countryCode" class="section-panel | stack align-items:flex-start">
-        <bar-flag :country="statement.country" size="small" class="compare-flag" />
-        <div>
-          <h3 class="h2">{{ getCountryName(statement.country) }}</h3>
-          <p>{{ statement.description }}</p>
-        </div>
-        <bar-button id="print:btn-more-details" @click="handleMoreDetails(statement.country)" class="print:hidden">More details</bar-button>
+        <template v-if="statement">
+          <bar-flag :country="statement.country" size="small" class="compare-flag" />
+          <div>
+            <h3 class="h2">{{ getCountryName(statement.country) }}</h3>
+            <p>{{ statement.description }}</p>
+          </div>
+          <bar-button id="print:btn-more-details" @click="handleMoreDetails(statement.country)" class="print:hidden">More details</bar-button>
+        </template>
+        <template v-else>
+           <div class="empty-state">
+            <p>No data available for this country.</p>
+          </div>
+        </template>
       </div>
     </div>
 
