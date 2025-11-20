@@ -283,41 +283,41 @@ const getCodeByCountry = {
   "Zambia": "zm",
   "Zimbabwe": "zw",
   "African Union": "africanUnion",
-  "European Union":	"eu"
+  "European Union": "eu"
 }
 
 const getCodeByCountryCamelCase = {
-  austria: "at", 
-  belgium: "be", 
-  bulgaria: "bg", 
-  canada: "ca", 
-  croatia: "hr", 
+  austria: "at",
+  belgium: "be",
+  bulgaria: "bg",
+  canada: "ca",
+  croatia: "hr",
   cyprus: "cy",
-  czechRepublic: "cz", 
-  czechia: "cz", 
-  denmark: "dk", 
-  estonia: "ee", 
-  europeanUnion: "eu", 
-  finland: "fi", 
-  france: "fr", 
-  germany: "de", 
-  greece: "gr", 
-  hungary: "hu", 
-  ireland: "ie", 
-  italy: "it", 
-  latvia: "lv", 
-  lithuania: "lt", 
-  luxembourg: "lu", 
-  malta: "mt", 
-  netherlands: "nl", 
-  poland: "pl", 
-  portugal: "pt", 
-  romania: "ro", 
-  slovakia: "sk", 
-  slovenia: "si", 
-  spain: "es", 
-  sweden: "se", 
-  unitedKingdom: "gb", 
+  czechRepublic: "cz",
+  czechia: "cz",
+  denmark: "dk",
+  estonia: "ee",
+  europeanUnion: "eu",
+  finland: "fi",
+  france: "fr",
+  germany: "de",
+  greece: "gr",
+  hungary: "hu",
+  ireland: "ie",
+  italy: "it",
+  latvia: "lv",
+  lithuania: "lt",
+  luxembourg: "lu",
+  malta: "mt",
+  netherlands: "nl",
+  poland: "pl",
+  portugal: "pt",
+  romania: "ro",
+  slovakia: "sk",
+  slovenia: "si",
+  spain: "es",
+  sweden: "se",
+  unitedKingdom: "gb",
   unitedStates: "us"
 }
 
@@ -334,13 +334,13 @@ const checkFolder = (dirName) => {
   });
 }
 
-const writeContent = async (item, folder, log=false) => {
+const writeContent = async (item, folder, log = false) => {
   const dir = `./content/${folder}`;
-  
+
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
-  while(!(await checkFolder(dir))) {
+  while (!(await checkFolder(dir))) {
     console.log('waiting for folder to be created');
   }
 
@@ -352,7 +352,7 @@ const writeContent = async (item, folder, log=false) => {
     }
   );
 
-  if(log) console.log(`WRITING ${folder}: `, item.slug + ".json");
+  if (log) console.log(`WRITING ${folder}: `, item.slug + ".json");
 
 }
 
@@ -373,7 +373,7 @@ const getImageAssetUrl = (url) => {
   if (url && !url.startsWith('https://')) {
     url = 'https:' + url.replace(/^https?:\/\//, '');
   }
-  return `${url}?w=800&fm=webp&q=80&fit=fill`;
+  return `${url}?w=2000&fm=webp&q=80&fit=fill`;
 };
 
 module.exports = {

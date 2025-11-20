@@ -72,6 +72,15 @@ const handleActiveTopic = async () => {
   activeTopic.value = topics.value.find(topic => topic.active)
   statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
   
+  if (!statement.value) {
+    // Try to fetch if not found in store
+    const { data: statements } = await useAsyncData('statements', () => queryCollection('statements').all())
+    statementStore.setStatements(statements.value);
+    statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
+  }
+
+  if (!statement.value) return;
+
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
     if (infographic.infographicType !== 'customInfographic' && infographic.infographicType !== 'treemapChart') {
       const country = infographic.countries.find(item => item.country === statement.value.country)
@@ -80,7 +89,7 @@ const handleActiveTopic = async () => {
         return val > max ? val : max;
       }, 0) + (infographic.infographicType === 'rankingChart' ? 1 : 0); // Ensure scale is at least 1 for ranking charts, because the value problably the first country is 0
 
-      if (!country?.val) {
+      if (country?.val === undefined || country?.val === null) {
         return undefined;
       } else {
         infographicsByCountry.value.unshift({...infographic, highlight: statement.value.country})

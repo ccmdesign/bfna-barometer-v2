@@ -29,8 +29,9 @@ export const useStatementStore = defineStore('statements', {
     },
     getStatementByTopic: (state) => {
       return (topicId, code) => {
-        const statement = state.statements.find(statement => statement.meta.countryCode === code)
-        return statement.meta.statements.find(statement => statement.topic === topicId) || null
+        const statement = state.statements.find(statement => statement.countryCode === code)
+        if (!statement) return null
+        return statement.statements.find(statement => statement.topic === topicId) || null
       }
     },
     getStatementByTopicAndCountryCode: (state) => {
@@ -41,8 +42,8 @@ export const useStatementStore = defineStore('statements', {
         //  title: 'democracy',
         //  description: 'Governance & Democracy, May ‘25',
         //  statements:[
-          //  us: statement,
-          //  ca: statement,
+        //  us: statement,
+        //  ca: statement,
         //]
         //  }]
 
@@ -65,9 +66,9 @@ export const useStatementStore = defineStore('statements', {
               // Find the statement for this topic in this country
               const matched = countryStatement.statements.find(s => s.topic === topic.topicId)
               if (matched) {
-          topicObj.statements[code] = matched
+                topicObj.statements[code] = matched
               } else {
-          topicObj.statements[code] = null
+                topicObj.statements[code] = null
               }
             } else {
               topicObj.statements[code] = null

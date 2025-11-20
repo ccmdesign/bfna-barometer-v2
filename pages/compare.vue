@@ -138,12 +138,18 @@ const handleRemoveTopic = (topic) => {
 }
 
 const statementStore = useStatementStore()
-const handleStatementsFromSelectedCountries = () => {
+const handleStatementsFromSelectedCountries = async () => {
   if (selectedCountries.value.length < 2) {
     return;
   }
   
   if (!selectedTopics.value.length) return;
+
+  if (!statementStore.statements.length) {
+    const { data: statements } = await useAsyncData('statements', () => queryCollection('statements').all())
+    statementStore.setStatements(statements.value);
+  }
+
   statements.value = statementStore.getStatementByTopicAndCountryCode(selectedTopics.value, selectedCountries.value);
 
 }
