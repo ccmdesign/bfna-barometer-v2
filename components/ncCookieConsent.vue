@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="visible"
+    v-if="isCookieModalVisible"
     class="cookie-consent"
     role="dialog"
     aria-live="polite"
@@ -43,21 +43,11 @@
       </div>
     </div>
   </div>
-  <div v-else-if="hasSavedConsent" class="cookie-consent__manage">
-    <button
-      type="button"
-      class="cookie-consent__manage-button"
-      @click="openPreferences"
-      aria-label="Manage cookies"
-    >
-      <span aria-hidden="true" class="material-symbols-outlined">cookie</span>
-    </button>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
-import { useCookie, useCookieConsent } from '#imports';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { useCookie, useCookieConsent, useCookieControl } from '#imports';
 
 type ConsentCategoryKey = 'functional' | 'statistic' | 'marketing';
 
@@ -92,6 +82,7 @@ const categories: ConsentCategory[] = [
 ];
 
 const { state } = useCookieConsent();
+const { isCookieModalVisible, closeCookieModal, openCookieModal } = useCookieControl();
 
 const normalizeConsent = (value: Partial<Record<ConsentCategoryKey, boolean>>) => {
   const normalized = {} as Record<ConsentCategoryKey, boolean>;
@@ -124,8 +115,6 @@ const consentCookie = useCookie('nc_cookie_consent', {
 });
 
 const pending = reactive<Record<ConsentCategoryKey, boolean>>(normalizeConsent(state.value));
-
-const visible = ref(false);
 
 const hasSavedConsent = computed(() => Boolean(consentCookie.value?.acknowledged));
 
@@ -177,7 +166,7 @@ const setConsent = (payload: Partial<Record<ConsentCategoryKey, boolean>>) => {
   const normalized = normalizeConsent(payload);
   applyConsentState(normalized);
   persistConsent(normalized);
-  visible.value = false;
+  closeCookieModal();
 };
 
 const handleAcceptAll = () =>
@@ -196,10 +185,12 @@ const handleReject = () =>
 
 const handleSavePreferences = () => setConsent(normalizeConsent(pending));
 
-const openPreferences = () => {
-  Object.assign(pending, normalizeConsent(state.value));
-  visible.value = true;
-};
+// Watch for modal opening to sync pending state
+watch(isCookieModalVisible, (newValue) => {
+  if (newValue) {
+    Object.assign(pending, normalizeConsent(state.value));
+  }
+});
 
 onMounted(() => {
   const saved = consentCookie.value;
@@ -207,9 +198,9 @@ onMounted(() => {
   Object.assign(pending, normalized);
   if (saved?.acknowledged) {
     applyConsentState(normalized);
-    visible.value = false;
+    closeCookieModal();
   } else {
-    visible.value = true;
+    openCookieModal();
   }
 });
 </script>
@@ -353,37 +344,6 @@ onMounted(() => {
 .cookie-consent__primary:hover,
 .cookie-consent__primary:focus-visible {
   transform: translateY(-1px);
-}
-
-.cookie-consent__manage {
-  position: fixed;
-  bottom: var(--space-s);
-  right: var(--space-s);
-  z-index: 1000;
-}
-
-.cookie-consent__manage-button {
-  border-color: hsla(var(--white-hsl), 0.4);
-  background-color: var(--base-color);
-  color: var(--white-color);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  padding: 0;
-  border-radius: 50%;
-}
-
-.cookie-consent__manage-button .material-symbols-outlined {
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.cookie-consent__manage-button:hover,
-.cookie-consent__manage-button:focus-visible {
-  opacity: 0.85;
 }
 
 @media (max-width: 640px) {

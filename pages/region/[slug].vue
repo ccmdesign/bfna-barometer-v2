@@ -73,7 +73,7 @@ const handleActiveTopic = async () => {
   statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
   
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
-    if (infographic.infographicType !== 'customInfographic') {
+    if (infographic.infographicType !== 'customInfographic' && infographic.infographicType !== 'treemapChart') {
       const country = infographic.countries.find(item => item.country === statement.value.country)
       const scale = infographic.countries.reduce((max, item) => {
         const val = Number(item.val);

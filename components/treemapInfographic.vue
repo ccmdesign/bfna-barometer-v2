@@ -12,39 +12,87 @@ const store = useTreemapStore()
 const treemap = computed(() => props.dataset)
 const colorsMap = computed(() => store.treeMapColors)
 
-function getColor(group) {
-  for (let i = 0 ; i < colorsMap.value.length; i++) {
-    const color = colorsMap.value[i]
-    if(color.group === group) {
-      store.updateTreeMapColorCount({group, count: 1})
-      return [i + 1, color.count]
+// Default color palette
+const defaultColors = [
+  '#2E2E3A', // Dark Blue (Base)
+  '#F2CC8F', // Gold/Yellow
+  '#81B29A', // Green
+  '#E07A5F', // Terra Cotta
+  '#3D405B', // Slate Blue
+  '#F4F1DE', // Off White
+  '#D4A373', // Tan
+  '#6D597A', // Purple
+  '#B56576', // Rose
+  '#E56B6F', // Salmon
+  '#EAAC8B', // Peach
+]
+
+function assignColors() {
+  store.setTreeMapColors(null) // Reset colors
+  
+  // Sort cells by value to match Treemap layout logic (usually largest to smallest)
+  // This ensures the largest blocks get the first colors in the palette
+  const sortedCells = [...treemap.value.cells].sort((a, b) => b.value - a.value)
+  
+  sortedCells.forEach(cell => {
+    // Check if group already has a color (in case of duplicates, though unlikely for top level)
+    const existing = store.treeMapColors.find(c => c.group === cell.name)
+    if (!existing) {
+      store.setTreeMapColors({ group: cell.name, count: 1 })
     }
+  })
+}
+
+function getColor(group) {
+  const index = store.treeMapColors.findIndex(c => c.group === group)
+  if (index !== -1) {
+    return defaultColors[index % defaultColors.length]
   }
-  store.setTreeMapColors({group, count: 1})
-  return [colorsMap.value.length, 1]
+  return defaultColors[0] // Fallback
+}
+
+// Helper to calculate contrast color (black or white) based on background hex
+function getContrastColor(hexcolor) {
+  // If color is not hex (e.g. hsl), default to white for safety or implement conversion
+  if (!hexcolor || !hexcolor.startsWith('#')) return '#FFFFFF'
+
+  // Convert hex to RGB
+  const r = parseInt(hexcolor.substr(1, 2), 16)
+  const g = parseInt(hexcolor.substr(3, 2), 16)
+  const b = parseInt(hexcolor.substr(5, 2), 16)
+  
+  // Calculate YIQ ratio
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
+  
+  // Return black for bright colors, white for dark colors
+  return (yiq >= 128) ? '#000000' : '#FFFFFF'
 }
 
 function createTreemap() {
+  // Simplified text formatting: just split by spaces to allow natural wrapping
+  // or don't split at all and let CSS handle it. 
+  // D3 text wrapping usually requires manual tspans or a foreignObject (div).
+  // Since we are using divs (HTML), we can just let the browser wrap the text.
+  // We'll return the full string and let CSS handle the wrapping.
   const formatText = (text) => {
-    if(text.length > 1) {
-      return [text[0], text.slice(1).join(' ')]
-    }
-    return text
+    return [text] 
   }
 
   const chartCells = [...treemap.value.cells].map((cell) => {
     const list = []
-    if(cell.multipleValues) {
+    if (cell.multipleValues) {
       cell.multipleValues.forEach((mv, index) => {
-        if(index === cell.multipleValues.length - 1) {
+        if (index === cell.multipleValues.length - 1) {
           list.push({
             name: cell.name + mv.key,
             value: mv.value,
+            group: cell.name
           })
-        } else{
+        } else {
           list.push({
             name: mv.key,
             value: mv.value,
+            group: cell.name
           })
         }
       })
@@ -52,6 +100,7 @@ function createTreemap() {
       list.push({
         name: cell.name,
         value: cell.value,
+        group: cell.name
       })
     }
     return {
@@ -68,7 +117,7 @@ function createTreemap() {
   const width = 100
   const height = 100
 
-  const treemapLayout = d3.treemap().size([`${width}`, `${height}`])
+  const treemapLayout = d3.treemap().size([width, height]).padding(0)
 
   const root = d3
     .hierarchy(data)
@@ -78,6 +127,7 @@ function createTreemap() {
   treemapLayout(root)
 
   const container = d3.select(chartRef.value)
+  container.selectAll("*").remove()
 
   const cell = container
     .selectAll("div")
@@ -85,30 +135,37 @@ function createTreemap() {
     .enter()
     .append("div")
     .attr("class", "treemap-group")
-    .style("left", (d) => `${d.x0}% `)
+    .style("left", (d) => `${d.x0}%`)
     .style("top", (d) => `${d.y0}%`)
     .style("width", (d) => `${d.x1 - d.x0}%`)
     .style("height", (d) => `${d.y1 - d.y0}%`)
-    .attr("treemap-name", (d) => d.data.name)
-    .attr("treemap-color", d => { 
-      while (d.depth > 1) d = d.parent
-      const [x, y] = getColor(d.data.name)
-      return `${x}_${y}` 
+    .style("background-color", (d) => {
+      return getColor(d.parent.data.name)
     })
+    .attr("title", (d) => `${d.data.name}: ${d.data.value}`)
 
   cell
     .append("div")
     .attr("class", "treemap-text")
+    .style("color", (d) => {
+      const bgColor = getColor(d.parent.data.name)
+      return getContrastColor(bgColor)
+    })
     .selectAll("p")
-    .data(d => formatText(d.data.name.split(/(?=[A-Z][a-z])|\s+/g)))
+    .data(d => formatText(d.data.name))
     .join("p")
     .text(d => d)
 }
 
 onMounted(() => {
-  store.setTreeMapColors(null)
+  assignColors()
   createTreemap()
 })
+
+watch(() => props.dataset, () => {
+  assignColors()
+  createTreemap()
+}, { deep: true })
 </script>
 
 
@@ -118,169 +175,144 @@ onMounted(() => {
       <div class="treemap-wrapper">
         <h4 class="title">{{ dataset.title }}</h4>
         <div ref="chartRef" class="treemap-container"></div>
+        
         <div class="treemap__legend">
-          <span class="treemap__label" v-for="item in treemap.cells" :treemap-color="(colorsMap.indexOf(colorsMap.filter(x => x.group === item.name)[0]) + 1)">{{
-            item.name
-          }}</span>
+          <div 
+            class="treemap__legend-item" 
+            v-for="(item, index) in treemap.cells" 
+            :key="item.name"
+          >
+            <span 
+              class="treemap__legend-swatch" 
+              :style="{ backgroundColor: getColor(item.name) }"
+            ></span>
+            <span class="treemap__legend-label">{{ item.name }}</span>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .treemap-infographic__chart-wrapper {
-
-  --legend-height: 45px;
   --gap: var(--space-xs);
 
   display: flex;
   flex-direction: column;
-
-  @media (min-width: 1024px) { flex-direction: row; }
-
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16/6;
   position: relative;
   gap: var(--gap);
   padding-inline: var(--space-s);
-  padding-top: calc(var(--space-xs) + var(--legend-height));
-
+  padding-top: var(--space-m);
+  width: 100%;
 }
 
 .treemap-wrapper {
-  padding-inline: 1rem;
-  width: 60vw;
-  height: 40svh;
-  margin-top: 6rem;
+  width: 100%;
+  max-width: 1024px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
 
-  @media screen and (min-width: 960px) {
-    transform: translateY(-100px);
-  }
-
-  @media screen and (max-height: 720px) {
-    margin-top: 60px;
-    height: 30svh;
-  }
+.title {
+  text-align: center;
+  margin-bottom: var(--space-s);
 }
 
 .treemap-container {
-  margin-top: var(--space-s);
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
   position: relative;
-  display: flex;
   width: 100%;
-  height: 100%;
-  max-width: 100%;
+  aspect-ratio: 16/9;
+  background-color: var(--base-color-05-tint);
+  box-shadow: var(--box-shadow-m);
+  border-radius: var(--border-radius-m);
+  overflow: hidden;
 }
 
+/* Legend Styles */
 .treemap__legend {
   display: flex;
-  gap: var(--space-2xs);
+  flex-wrap: wrap;
   justify-content: center;
+  gap: var(--space-s);
   margin-top: var(--space-s);
 }
 
-.treemap__label {
-  display: inline-block;
-  font-family: sans-serif;
-  font-weight: bold;
-  border-radius: 4px;
-  color: color-mix(in srgb, var(--_color) 30%, var(--white-color));
-  background-color: var(--_color);
-  border: 2px solid var(--_color, black);
-  padding: var(--space-s) 1rem;
+.treemap__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--size--1);
+  color: var(--base-color);
 }
 
-.treemap-group {
+.treemap__legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.treemap__legend-label {
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* D3 Chart Styles (Global within component) */
+:deep(.treemap-group) {
   position: absolute;
   box-sizing: border-box;
-  background-color: color-mix(in srgb, var(--_color) var(--_percentage), var(--white-color));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
-.treemap-item {
-  width: 100%;
-  height: 100%;
-  background-color: var(--_color);
-  border: 1px solid var(--_color);
+:deep(.treemap-group:hover) {
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  filter: brightness(1.1);
 }
 
-.treemap-text {
+:deep(.treemap-text) {
   font-family: sans-serif;
-  font-size: 16px;
-  font-weight: var(--_weight-normal, bold);
-  color: color-mix(in srgb, var(--_color) 30%, var(--white-color));
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 4px;
+  left: 4px;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  
+  /* Allow wrapping but limit overflow */
+  max-width: calc(100% - 8px);
+  max-height: calc(100% - 8px);
+  overflow: hidden;
+  white-space: normal; /* Allow wrapping */
+  word-wrap: break-word;
+  
+  /* Limit to 3 lines to prevent overflow in small cells */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
 
-  & :not(:first-child) {
-    font-weight: normal;
+:deep(.treemap-text p) {
+  margin: 0;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  :deep(.treemap-text) {
+    font-size: 14px;
+    top: 8px;
+    left: 8px;
   }
-}
-
-[treemap-color$="_1"] {
-  --_percentage: 100%
-}
-[treemap-color$="_2"] {
-  --_percentage: 90%
-}
-[treemap-color$="_2"] {
-  --_weight-normal: normal
-}
-[treemap-color$="_3"] {
-  --_percentage: 80%
-}
-[treemap-color$="_3"] {
-  --_weight-normal: normal
-}
-[treemap-color$="_4"] {
-  --_percentage: 70%
-}
-[treemap-color$="_4"] {
-  --_weight-normal: normal
-}
-[treemap-color$="_5"] {
-  --_percentage: 60%
-}
-[treemap-color$="_5"] {
-  --_weight-normal: normal
-}
-[treemap-color$="_6"] {
-  --_percentage: 50%
-}
-[treemap-color$="_6"] {
-  --_weight-normal: normal
-}
-[treemap-color$="_7"] {
-  --_percentage: 30%
-}
-[treemap-color$="_8"] {
-  --_percentage: 20%
-}
-[treemap-color$="_9"] {
-  --_percentage: 10%
-}
-
-[treemap-color^="1"] {
-  --_color: hsl(199, 84%, 20%);
-}
-
-[treemap-color^="2"] {
-  --_color: hsl(33, 100%, 49%);
-}
-
-[treemap-color^="3"] {
-  --_color: #3d405b;
-}
-
-[treemap-color^="4"] {
-  --_color: #81b29a;
-}
-
-[treemap-color^="5"] {
-  --_color: #f2cc8f;
 }
 </style>
 
