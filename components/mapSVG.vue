@@ -47,7 +47,8 @@ watch(
 
 const handleCountryClick = (event) => {
   const countryId = event.target.id
-  navigateTo(`/region/${countryId}`)
+  if(countries.value.includes(countryId))
+    navigateTo(`/region/${countryId}`)
 }
 
 </script>
