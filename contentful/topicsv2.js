@@ -181,7 +181,7 @@ const getTopics = async () => {
           vizCountries: vizCountriesObj,
           vizMarkers: vizMarkersObj,
           customInfographicFile: {
-            url: item.fields && item.fields.file && item.fields.file ? item.fields.file.fields.file.url : '',
+            url: item.fields && item.fields.file && item.fields.file ? main.getImageAssetUrl(item.fields.file.fields.file.url) : '',
             title: item.fields && item.fields.file && item.fields.file.fields ? item.fields.file.fields.title : ''
           }
         }

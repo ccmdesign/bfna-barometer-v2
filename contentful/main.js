@@ -369,6 +369,13 @@ const formatCountryName = (countryName) => {
 }
 
 
+const getImageAssetUrl = (url) => {
+  if (url && !url.startsWith('https://')) {
+    url = 'https:' + url.replace(/^https?:\/\//, '');
+  }
+  return `${url}?w=800&fm=webp&q=80&fit=fill`;
+};
+
 module.exports = {
   contentfulClient,
   slugify,
@@ -376,5 +383,6 @@ module.exports = {
   writeContent,
   getCodeByCountry,
   getCodeByCountryCamelCase,
-  formatCountryName
+  formatCountryName,
+  getImageAssetUrl
 }
