@@ -18,8 +18,8 @@ export const useStatementStore = defineStore('statements', {
   getters: {
     getStatementBySlug: (state) => {
       return (slug) => {
-        const statement = state.statements.find(statement => statement.countryCode === slug)
-        return statement || null
+        const statement = state.statements.find(statement => statement.meta.countryCode === slug)
+        return statement?.meta || null
       }
     },
     getStatementsByCountry: (state) => {
@@ -29,9 +29,8 @@ export const useStatementStore = defineStore('statements', {
     },
     getStatementByTopic: (state) => {
       return (topicId, code) => {
-        const statement = state.statements.find(statement => statement.countryCode === code)
-        if (!statement) return null
-        return statement.statements.find(statement => statement.topic === topicId) || null
+        const statement = state.statements.find(statement => statement.meta.countryCode === code)
+        return statement.meta.statements.find(statement => statement.topic === topicId) || null
       }
     },
     getStatementByTopicAndCountryCode: (state) => {
@@ -61,10 +60,10 @@ export const useStatementStore = defineStore('statements', {
             statements: {}
           }
           countryCodes.forEach(code => {
-            const countryStatement = state.statements.find(statement => statement.countryCode === code)
+            const countryStatement = state.statements.find(statement => statement.meta.countryCode === code)
             if (countryStatement) {
               // Find the statement for this topic in this country
-              const matched = countryStatement.statements.find(s => s.topic === topic.topicId)
+              const matched = countryStatement.meta.statements.find(s => s.topic === topic.topicId)
               if (matched) {
                 topicObj.statements[code] = matched
               } else {

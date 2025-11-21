@@ -146,7 +146,7 @@ const handleStatementsFromSelectedCountries = async () => {
   if (!selectedTopics.value.length) return;
 
   if (!statementStore.statements.length) {
-    const { data: statements } = await useAsyncData('statements', () => queryCollection('statements').all())
+    const { data: statements } = await useAsyncData('compare-statements', () => queryCollection('statements').all())
     statementStore.setStatements(statements.value);
   }
 
