@@ -6,6 +6,11 @@ const props = defineProps({
   hoveredCountry: {
     type: String,
     default: ''
+  },
+  topic: {
+    type: String,
+    default: '',
+    required: false
   }
 })
 
@@ -45,10 +50,21 @@ watch(
   }
 )
 
+const route = useRoute();
+const router = useRouter();
 const handleCountryClick = (event) => {
   const countryId = event.target.id
-  if(countries.value.includes(countryId))
-    navigateTo(`/region/${countryId}`)
+  if(countries.value.includes(countryId) && route.name !== 'index') {    
+    router.push({
+      name: `region-slug`,
+      path: countryId,
+      params: { slug: countryId },
+      query: { topic: props.topic, archived: props.archived }
+    });
+  } else {
+    if(countries.value.includes(countryId))
+      navigateTo(`/region/${countryId}`)
+  }
 }
 
 </script>

@@ -106,7 +106,7 @@ const handleActiveTopic = async () => {
 
       return {
         indicator: infographic.title,
-        score: infographic.infographicValuesAsPercentage ? country?.val + `%` : country?.val,
+        score: infographic.infographicValuesAsPercentage ? country?.val + `%` : infographic.infographicType === 'rankingChart' ? country?.val + 1: country?.val,
         scale: infographic.scaleLimit ? addPercentageSymbol(infographic, infographic.scaleLimit) : addPercentageSymbol(infographic, scale),
         type: infographic.infographicType,
       }

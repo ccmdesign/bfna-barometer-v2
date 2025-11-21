@@ -3,7 +3,8 @@
     <mapSVG 
       v-if="!isMobile" 
       class="map-section__map | subgrid" 
-      :hovered-country="hoveredCountry" 
+      :hovered-country="hoveredCountry"
+      :topic="topic" 
     />
     <bar-flags :topic="topic" :archived="archived"
       class="map-section__flags | subgrid" 
