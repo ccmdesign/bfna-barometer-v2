@@ -41,12 +41,7 @@ const handleFlagLeave = () => {
 <style scoped>
 .map-section {
   border-top: 1px solid var(--base-color-10-alpha);
-  border-bottom: 1px solid var(--base-color-20-alpha);
-
-  /* @media (min-width: 769px) and (max-width: 1340px) {
-    height: 55vh;
-  } */
-  
+  border-bottom: 1px solid var(--base-color-20-alpha);  
 }
 
 .map-section,
