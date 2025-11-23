@@ -124,7 +124,7 @@ const scrollRight = () => {
 
 <style scoped>
 .reel {
-  padding-block: var(--space-xl) var(--space-s);
+  padding-block: var(--space-xs) var(--space-s);
   padding-inline: var(--space-xl);
 
   @media (min-width: 768px) {
