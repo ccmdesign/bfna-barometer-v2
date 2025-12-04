@@ -1,7 +1,7 @@
 <template>
   <div class="bar-indicator-card | stack" :data="data">
     <h2 v-if="data.period">{{ data.period }}</h2>
-    <h2 v-else>{{ data.score }}<span> / {{ data.scale }}</span></h2>
+    <h2 v-else>{{ data.score }}<span v-if="data.displayScaleLimit"> / {{ data.scale }}</span></h2>
     <h3>{{ data.indicator }}</h3>
   </div>
 </template>

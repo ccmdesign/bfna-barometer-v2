@@ -108,6 +108,7 @@ const handleActiveTopic = async () => {
         indicator: infographic.title,
         score: infographic.infographicValuesAsPercentage ? country?.val + `%` : infographic.infographicType === 'rankingChart' ? country?.val + 1: country?.val,
         scale: infographic.scaleLimit ? addPercentageSymbol(infographic, infographic.scaleLimit) : addPercentageSymbol(infographic, scale),
+        displayScaleLimit: infographic.infographicType === 'barChart' ? infographic.highestCountryValueAsScaleLimit : true,
         type: infographic.infographicType,
       }
     } else {

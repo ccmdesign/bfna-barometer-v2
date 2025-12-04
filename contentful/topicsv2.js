@@ -153,6 +153,8 @@ const getTopics = async () => {
           slug: item.fields ? main.slugify(item.fields.title) : '',
           infographicDescription: item.fields && item.fields.description ? item.fields.description : item.fileds ? item.fields.title : '',
           infographicAxisLabel: item.fields ? item.fields.axisLabel : '',
+          scaleLimit: item.fields ? item.fields.scaleLimit : null,
+          highestCountryValueAsScaleLimit: item.fields ? item.fields.highestCountryValueAsScaleLimit : null,
           infographicValuesAsPercentage: item.fields ? item.fields.valuesAsPercentage : '',
           orientation: item.fields ? item.fields.orientation : '',
           cells: item.fields ? item.fields.cells : [],
