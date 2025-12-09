@@ -1,0 +1,3 @@
+/:topic/:country	/region/:country?topic=:topic	301
+/:country([a-z]{2})	/region/:country	301
+/:topic	/topic/:topic	301
