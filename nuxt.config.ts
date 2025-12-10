@@ -6,7 +6,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/content', '@pinia/nuxt', '@nuxtjs/sitemap', 'nuxt-gtag', '@weareheavy/nuxt-cookie-consent'],
   gtag: {
-    id: 'G-CF6DQ2RYX7'
+    id: 'G-CF6DQ2RYX7',
+    config: {
+      send_page_view: false
+    }
   },
   runtimeConfig: {
     public: {
@@ -149,7 +152,8 @@ export default defineNuxtConfig({
   },
   plugins: [
     { src: '~/plugins/clarityConsent.client.ts' },
-    { src: '~/plugins/performance.client.js' }
+    { src: '~/plugins/performance.client.js' },
+    { src: '~/plugins/gtag-pageview.client.ts' }
   ],
   ssr: false,
   experimental: {
