@@ -1,0 +1,54 @@
+import fs from 'fs';
+import { rimraf } from 'rimraf';
+import * as common from './common.js';
+
+
+const objectContructor = async (dir, fs) => {
+  try {
+    // use this list to add fields from junction tables
+    const junctionFields = [
+    ]
+
+    const items = await common.getDirectusData("barometer_countries");
+
+    console.log('COUNTRIES: ', items.data);
+
+    await items.data.forEach((item) => {
+      let i = item;
+      i.slug = common.slugify(i.name);
+
+
+      fs.writeFile(
+        dir + "/" + i.slug + ".json",
+        JSON.stringify(i),
+        function (err, result) {
+          if (err) console.log("error", err);
+        }
+      );
+      console.log("WRITING COUNTRIES: ", i.slug + ".json");
+    });
+  } catch (error) {
+    console.error('Error in objectContructor:', error);
+  }
+}
+
+export const getCountries = async () => {
+  const dir = "./content/countries";
+
+  try {
+    if (fs.existsSync(dir)) {
+      await rimraf(dir);
+    }
+
+    if (!fs.existsSync("./content")) {
+      fs.mkdirSync("./content");
+    }
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+
+    await objectContructor(dir, fs);
+  } catch (err) {
+    console.error('Error in getCountries:', err);
+  }
+}

@@ -18,19 +18,34 @@ export const useStatementStore = defineStore('statements', {
   getters: {
     getStatementBySlug: (state) => {
       return (slug) => {
-        const statement = state.statements.find(statement => statement.meta.countryCode === slug)
-        return statement?.meta || null
+        const item = state.statements.find(s => {
+          const code = s.countryCode ?? s.meta?.countryCode
+          const slugVal = s.slug ?? s.meta?.slug
+          return code === slug || slugVal === slug
+        })
+        return item ? (item.meta ?? item) : null
       }
     },
     getStatementsByCountry: (state) => {
       return (countryCode) => {
-        return state.statements.filter(statement => statement.country === countryCode)
+        return state.statements.filter(item => {
+          const code = item.countryCode ?? item.meta?.countryCode
+          return code === countryCode
+        })
       }
     },
     getStatementByTopic: (state) => {
       return (topicId, code) => {
-        const statement = state.statements.find(statement => statement.meta.countryCode === code)
-        return statement.meta.statements.find(statement => statement.topic === topicId) || null
+        const item = state.statements.find(s => {
+          const c = s.countryCode ?? s.meta?.countryCode
+          const slug = s.slug ?? s.meta?.slug
+          return c === code || slug === code
+        })
+        if (!item) return null
+        const data = item.meta ?? item
+        const list = data?.statements
+        if (!list || !Array.isArray(list)) return null
+        return list.find(s => s.topic === topicId || String(s.topic) === String(topicId)) ?? null
       }
     },
     getStatementByTopicAndCountryCode: (state) => {
@@ -60,18 +75,23 @@ export const useStatementStore = defineStore('statements', {
             statements: {}
           }
           countryCodes.forEach(code => {
-            const countryStatement = state.statements.find(statement => statement.meta.countryCode === code)
-            if (countryStatement) {
-              // Find the statement for this topic in this country
-              const matched = countryStatement.meta.statements.find(s => s.topic === topic.topicId)
-              if (matched) {
-                topicObj.statements[code] = matched
-              } else {
-                topicObj.statements[code] = null
-              }
-            } else {
+            const item = state.statements.find(s => {
+              const c = s.countryCode ?? s.meta?.countryCode
+              const slug = s.slug ?? s.meta?.slug
+              return c === code || slug === code
+            })
+            if (!item) {
               topicObj.statements[code] = null
+              return
             }
+            const data = item.meta ?? item
+            const list = data?.statements
+            if (!list || !Array.isArray(list)) {
+              topicObj.statements[code] = null
+              return
+            }
+            const matched = list.find(s => s.topic === topic.topicId || String(s.topic) === String(topic.topicId))
+            topicObj.statements[code] = matched ?? null
           })
           return topicObj
         })

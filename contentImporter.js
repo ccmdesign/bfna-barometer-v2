@@ -1,7 +1,13 @@
-const getStatements = require('./contentful/statements');
-const getTopics = require('./contentful/topicsv2');
-const getCountries = require('./contentful/countries');
+import { getTopics } from './directus/topics.js';
+import { getStatements } from './directus/statements.js';
+import { getCountries } from './directus/countries.js';
 
-getCountries()
-getStatements()
-getTopics()
+
+console.log('');
+console.log('Starting importing data from Directus...');
+console.log('');
+console.log('[ BAROMETER: TOPICS, STATEMENTS, COUNTRIES ]');
+
+getTopics();
+getStatements();
+getCountries();

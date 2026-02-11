@@ -69,7 +69,16 @@ const handleActiveTopic = async () => {
     return infographic.infographicValuesAsPercentage ? `${value}%` : value
   }
 
-  activeTopic.value = topics.value.find(topic => topic.active)
+  activeTopic.value = topics.value?.find(topic => topic.active)
+  if (!activeTopic.value) {
+    const first = topics.value?.[0]
+    if (first) {
+      handleSelectedTopic(first.topicId)
+      return
+    }
+    return
+  }
+
   statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
   
   if (!statement.value) {
@@ -178,7 +187,7 @@ watch(topics, (newTopics) => {
     <template #column_left>
       <hgroup class="stack">
         <bar-back-button />
-        <bar-flag v-if=statement.country :country="statement.country" size="small" />        
+        <bar-flag v-if=statement.country :country="statement.country" size="small" />
         <h1>{{ getCountryName(statement.country) }}</h1>
       </hgroup>
     </template>
