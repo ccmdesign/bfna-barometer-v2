@@ -10,7 +10,8 @@ const props = defineProps({
   }
 });
 
-const { europeanUnion, getCountryName } = useCountries()
+const { europeanUnion, getCountryName, getCountryCode } = useCountries()
+const chartWrapperRef = ref(null)
 const { isMobile } = useDevice()
 const scale = ref(1);
 const chartData = ref([]);
@@ -47,7 +48,9 @@ const setupChartData = () => {
   maximumValue.value = Math.max(...chartData.value.map(item => item.val));
 }
 
-
+const getEUvalue = (dataset) => {
+  return dataset.countries.find(item => item.country === 'eu')?.val;
+}
 
 const hoveredCountryName = ref('');
 const hoveredCountryValue = ref('');
@@ -96,47 +99,109 @@ const handleMouseLeave = () => {
 onMounted(() => {
   setupChartData();
 
+  const wrapper = chartWrapperRef.value
+  if (!wrapper) return
+
+  const map = wrapper.querySelector('#map-svg')
+  const mapContainer = wrapper.querySelector('.world-map--choropleth') || wrapper
+
   props.dataset.countries.forEach(item => {
-    const el = document.getElementById(item.country)
+    const countryCode = (item.country || '').toLowerCase()
+    const el = map?.querySelector(`#${CSS.escape(countryCode)}`) || wrapper.querySelector(`#${CSS.escape(countryCode)}`)
     if (el) {
       el.classList.add('hasStatement')
-      el.addEventListener('mousemove', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
+      el.addEventListener('mousemove', handleMouseEnter)
+      el.addEventListener('mouseleave', handleMouseLeave)
     }
   })
 
-  const mapContainer = document.querySelector('.world-map--choropleth');
-  const map = document.querySelector('#map-svg');
-
   
+
+  const highlightCodes = new Set(
+    (Array.isArray(props.highlight) ? props.highlight : [])
+      .map(rawId => {
+        let id = (typeof rawId === 'string' ? rawId : String(rawId || '')).toLowerCase()
+        if (!id) return null
+        if (id.length > 2) id = (getCountryCode(String(rawId).trim()) || id).toLowerCase()
+        return id
+      })
+      .filter(Boolean)
+  )
+
+  // When "eu" is in highlight, highlight all EU member countries. Otherwise, only the explicit codes.
+  const shouldHighlightEU = highlightCodes.has('eu')
+  const individualHighlightCodes = new Set([...highlightCodes].filter(c => c !== 'eu'))
+
+  const shouldHighlightCountry = (code) => {
+    if (code === 'eu') return false // EU is shown via member countries
+    if (shouldHighlightEU && europeanUnion.members.includes(code)) return true
+    return individualHighlightCodes.has(code)
+  }
 
   chartData.value.forEach(ch => {
     const chValue = Number(ch.val);
     if (!map) return;
-    const country = map.querySelector(`#${ch.country}`);
-    if (ch.country === 'eu') {
+    const countryCode = (ch.country || '').toLowerCase();
+    const country = map.querySelector(`#${CSS.escape(countryCode)}`);
+    const isHighlighted = shouldHighlightCountry(countryCode);
+    if (countryCode === 'eu') {
       europeanUnion.members.forEach(euCountry => {
-        const c = map.querySelector(`#${euCountry}`);
+        const c = map.querySelector(`#${CSS.escape(euCountry)}`);
         if (!c) return;
+        c.classList.remove('highlighted-country');
         c.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-        c.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+        if (shouldHighlightEU) {
+          c.classList.add('highlighted-country');
+          c.style.stroke = 'hsl(var(--accent-hsl))';
+          c.style.strokeWidth = '0.35';
+          c.style.fill = 'hsla(var(--accent-hsl), 0.5)';
+        } else {
+          c.style.stroke = 'hsla(var(--base-hsl), 0.3)';
+          c.style.strokeWidth = '0.2';
+          c.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+        }
       });
     } else if (country) {
+      country.classList.remove('highlighted-country');
       country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-      country.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+      if (isHighlighted) {
+        country.classList.add('highlighted-country');
+        country.style.stroke = 'hsl(var(--accent-hsl))';
+        country.style.strokeWidth = '0.35';
+        country.style.fill = 'hsla(var(--accent-hsl), 0.5)';
+      } else {
+        country.style.stroke = 'hsla(var(--base-hsl), 0.3)';
+        country.style.strokeWidth = '0.2';
+        country.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+      }
       const list = document.querySelector('.list');
       list?.classList.add('list--top');
     }
   });
 
-  // Highlight the country specified by the highlight prop
-  if (Array.isArray(props.highlight) && map) {
-    props.highlight.forEach(countryId => {
-      const highlighted = map.querySelector(`#${countryId}`);
-      if (highlighted) {
+  // Apply highlight to countries in props.highlight that aren't in chartData (edge case)
+  // Skip "eu" here – it's handled above via EU members. Only apply to individual country codes.
+  if (map) {
+    individualHighlightCodes.forEach(countryId => {
+      const highlighted = map.querySelector(`#${CSS.escape(countryId)}`);
+      if (highlighted && !highlighted.classList.contains('highlighted-country')) {
         highlighted.classList.add('highlighted-country');
+        highlighted.style.stroke = 'hsl(var(--accent-hsl))';
+        highlighted.style.strokeWidth = '0.35';
+        highlighted.style.fill = 'hsla(var(--accent-hsl), 0.5)';
       }
     });
+    if (shouldHighlightEU) {
+      europeanUnion.members.forEach(euCountry => {
+        const c = map.querySelector(`#${CSS.escape(euCountry)}`);
+        if (c && !c.classList.contains('highlighted-country')) {
+          c.classList.add('highlighted-country');
+          c.style.stroke = 'hsl(var(--accent-hsl))';
+          c.style.strokeWidth = '0.35';
+          c.style.fill = 'hsla(var(--accent-hsl), 0.5)';
+        }
+      });
+    }
   }
 
   const chartLegend = document.createElement('div');
@@ -160,9 +225,19 @@ onMounted(() => {
   maxValueText.prepend(maxValueLegend);
   
 
+  const europeanUnionText = document.createElement('p');
+  minValueText.className = 'chart-legend__text';
+  europeanUnionText.textContent = `${getEUvalue(props.dataset)}`;
+  const europeanUnionLegend = document.createElement('b');
+  europeanUnionLegend.textContent = 'European Union';
+  europeanUnionText.prepend(europeanUnionLegend);
+
+
+
   chartLegend.appendChild(legendContainer);
   chartLegend.appendChild(maxValueText);
   chartLegend.appendChild(minValueText);
+  chartLegend.appendChild(europeanUnionText);
 
   mapContainer?.appendChild(chartLegend);
 
@@ -212,8 +287,6 @@ svg {
 }
 
 path { fill: hsla(var(--base-hsl), .05); }
-
-
 
 .hasStatement {
   stroke-width: .2;
@@ -293,7 +366,7 @@ path { fill: hsla(var(--base-hsl), .05); }
 
 <template>
   <div id="choropleth" class="subgrid">
-    <div class="choropleth-infographic__chart-wrapper | world-map--choropleth">
+    <div ref="chartWrapperRef" class="choropleth-infographic__chart-wrapper | world-map--choropleth">
       <div 
         v-if="isHovering"
 
