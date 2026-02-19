@@ -49,7 +49,7 @@ export default defineNuxtConfig({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: "Transatlantic Barometer - Interactive Policy Platform" },
         { name: "twitter:description", content: "An interactive digital platform providing up-to-date information on pressing issues shaping the transatlantic relationship." },
-        { name: "twitter:image", content: `${siteUrl}/assets/logo.png` }       
+        { name: "twitter:image", content: `${siteUrl}/assets/logo.png` }
       ],
       link: [
         // DNS prefetch for external resources
@@ -67,9 +67,8 @@ export default defineNuxtConfig({
         { rel: "preconnect", href: "https://use.typekit.net", crossorigin: true },
         { rel: "preconnect", href: "https://p.typekit.net", crossorigin: true },
         { rel: "preload", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap", as: "style", onload: "this.onload=null;this.rel='stylesheet'" },
-        { rel: "noscript", innerHTML: "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap'>" },
         { rel: "preload", href: "/assets/barometer-logo.svg", as: "image", type: "image/svg+xml" },
-        { rel: "prefetch", href: "/assets/abstract.webp", as: "image" },
+        { rel: "preload", href: "/assets/abstract.webp", as: "image" },
         { rel: "preload", href: "/assets/barometer-footer.svg", as: "image", type: "image/svg+xml" },
         // Mobile favicon and app icons
         { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon.ico" },
