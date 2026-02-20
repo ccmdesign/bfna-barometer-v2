@@ -256,13 +256,19 @@ onMounted(() => {
   europeanUnionLegend.textContent = 'European Union';
   europeanUnionText.prepend(europeanUnionLegend);
 
-  // EU box: blue (tooltip color) with intensity proportional to max country value (100% = highest).
+  // EU box: when selected use navy (tooltip color); when not selected use choropleth proportional color.
   if (euValue != null && euValue !== '') {
     const euNum = Number(euValue);
     const maxCountryValue = Math.max(maximumValue.value, 1);
     const intensity = Math.max(0, Math.min(1, euNum / maxCountryValue));
-    const bgAlpha = 0.2 + 0.7 * intensity;
-    europeanUnionText.style.backgroundColor = `hsla(var(--navy-hsl), ${bgAlpha})`;
+    const proportionalAlpha = getProportionalValue(euNum) / 100;
+
+    if (shouldHighlightEU) {
+      const bgAlpha = 0.2 + 0.7 * intensity;
+      europeanUnionText.style.backgroundColor = `hsla(var(--navy-hsl), ${bgAlpha})`;
+    } else {
+      europeanUnionText.style.backgroundColor = `hsla(var(--choropleth-hsl), ${proportionalAlpha})`;
+    }
     europeanUnionText.style.color = intensity > 0.3 ? 'var(--white-color)' : 'var(--base-color)';
   }
 
