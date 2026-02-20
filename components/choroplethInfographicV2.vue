@@ -138,19 +138,28 @@ onMounted(() => {
     return individualHighlightCodes.has(code)
   }
 
+  const isZeroValue = (val) => val === 0 || val === '0' || Number(val) === 0;
+
   chartData.value.forEach(ch => {
     const chValue = Number(ch.val);
     if (!map) return;
     const countryCode = (ch.country || '').toLowerCase();
     const country = map.querySelector(`#${CSS.escape(countryCode)}`);
     const isHighlighted = shouldHighlightCountry(countryCode);
+    const isZero = isZeroValue(ch.val);
+
     if (countryCode === 'eu') {
       europeanUnion.members.forEach(euCountry => {
         const c = map.querySelector(`#${CSS.escape(euCountry)}`);
         if (!c) return;
         c.classList.remove('highlighted-country');
         c.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-        if (shouldHighlightEU) {
+        if (isZero) {
+          c.style.fill = 'hsla(var(--base-hsl), 0.15)';
+          c.style.stroke = isHighlighted && shouldHighlightEU ? 'hsl(var(--navy-hsl))' : 'hsla(var(--base-hsl), 0.3)';
+          c.style.strokeWidth = isHighlighted && shouldHighlightEU ? '0.35' : '0.2';
+          if (isHighlighted && shouldHighlightEU) c.classList.add('highlighted-country');
+        } else if (shouldHighlightEU) {
           c.classList.add('highlighted-country');
           c.style.stroke = 'hsl(var(--accent-hsl))';
           c.style.strokeWidth = '0.35';
@@ -164,7 +173,12 @@ onMounted(() => {
     } else if (country) {
       country.classList.remove('highlighted-country');
       country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-      if (isHighlighted) {
+      if (isZero) {
+        country.style.fill = 'hsla(var(--base-hsl), 0.15)';
+        country.style.stroke = isHighlighted ? 'hsl(var(--navy-hsl))' : 'hsla(var(--base-hsl), 0.3)';
+        country.style.strokeWidth = isHighlighted ? '0.20' : '0.2';
+        if (isHighlighted) country.classList.add('highlighted-country');
+      } else if (isHighlighted) {
         country.classList.add('highlighted-country');
         country.style.stroke = 'hsl(var(--accent-hsl))';
         country.style.strokeWidth = '0.35';
@@ -185,10 +199,19 @@ onMounted(() => {
     individualHighlightCodes.forEach(countryId => {
       const highlighted = map.querySelector(`#${CSS.escape(countryId)}`);
       if (highlighted && !highlighted.classList.contains('highlighted-country')) {
-        highlighted.classList.add('highlighted-country');
-        highlighted.style.stroke = 'hsl(var(--accent-hsl))';
-        highlighted.style.strokeWidth = '0.35';
-        highlighted.style.fill = 'hsla(var(--accent-hsl), 0.5)';
+        const ch = chartData.value.find(c => (c.country || '').toLowerCase() === countryId);
+        const isZero = ch && isZeroValue(ch.val);
+        if (isZero) {
+          highlighted.classList.add('highlighted-country');
+          highlighted.style.fill = 'hsla(var(--base-hsl), 0.15)';
+          highlighted.style.stroke = 'hsl(var(--navy-hsl))';
+          highlighted.style.strokeWidth = '0.35';
+        } else {
+          highlighted.classList.add('highlighted-country');
+          highlighted.style.stroke = 'hsl(var(--accent-hsl))';
+          highlighted.style.strokeWidth = '0.35';
+          highlighted.style.fill = 'hsla(var(--accent-hsl), 0.5)';
+        }
       }
     });
     if (shouldHighlightEU) {
