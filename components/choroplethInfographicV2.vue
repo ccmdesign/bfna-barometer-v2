@@ -24,8 +24,10 @@ const currentCountry = ref({});
 const getProportionalValue = (value) => {
   const newMin = 20;
   const newMax = 100;
-  const prop = ((value - minimumValue.value) / (maximumValue.value - minimumValue.value)) * (newMax - newMin) + newMin;
-  return prop;
+  const range = maximumValue.value - minimumValue.value;
+  if (range <= 0) return newMin;
+  const prop = ((value - minimumValue.value) / range) * (newMax - newMin) + newMin;
+  return Math.max(newMin, Math.min(newMax, prop));
 }
 
 const setupChartData = () => {
@@ -133,8 +135,8 @@ onMounted(() => {
   const individualHighlightCodes = new Set([...highlightCodes].filter(c => c !== 'eu'))
 
   const shouldHighlightCountry = (code) => {
-    if (code === 'eu') return false // EU is shown via member countries
-    if (shouldHighlightEU && europeanUnion.members.includes(code)) return true
+    if (code === 'eu') return false
+    // Do not treat EU members as a group; each country is highlighted only when individually selected.
     return individualHighlightCodes.has(code)
   }
 
@@ -148,28 +150,9 @@ onMounted(() => {
     const isHighlighted = shouldHighlightCountry(countryCode);
     const isZero = isZeroValue(ch.val);
 
+    // Skip "eu" – do not apply EU aggregate to member countries; each country uses its own value.
     if (countryCode === 'eu') {
-      europeanUnion.members.forEach(euCountry => {
-        const c = map.querySelector(`#${CSS.escape(euCountry)}`);
-        if (!c) return;
-        c.classList.remove('highlighted-country');
-        c.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
-        if (isZero) {
-          c.style.fill = 'hsla(var(--base-hsl), 0.15)';
-          c.style.stroke = isHighlighted && shouldHighlightEU ? 'hsl(var(--navy-hsl))' : 'hsla(var(--base-hsl), 0.3)';
-          c.style.strokeWidth = isHighlighted && shouldHighlightEU ? '0.35' : '0.2';
-          if (isHighlighted && shouldHighlightEU) c.classList.add('highlighted-country');
-        } else if (shouldHighlightEU) {
-          c.classList.add('highlighted-country');
-          c.style.stroke = 'hsl(var(--accent-hsl))';
-          c.style.strokeWidth = '0.35';
-          c.style.fill = 'hsla(var(--accent-hsl), 0.5)';
-        } else {
-          c.style.stroke = 'hsla(var(--base-hsl), 0.3)';
-          c.style.strokeWidth = '0.2';
-          c.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
-        }
-      });
+      // EU value is only used for the legend box, not for map fills.
     } else if (country) {
       country.classList.remove('highlighted-country');
       country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
@@ -214,17 +197,6 @@ onMounted(() => {
         }
       }
     });
-    if (shouldHighlightEU) {
-      europeanUnion.members.forEach(euCountry => {
-        const c = map.querySelector(`#${CSS.escape(euCountry)}`);
-        if (c && !c.classList.contains('highlighted-country')) {
-          c.classList.add('highlighted-country');
-          c.style.stroke = 'hsl(var(--accent-hsl))';
-          c.style.strokeWidth = '0.35';
-          c.style.fill = 'hsla(var(--accent-hsl), 0.5)';
-        }
-      });
-    }
   }
 
   const chartLegend = document.createElement('div');
