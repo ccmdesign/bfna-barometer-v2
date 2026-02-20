@@ -234,7 +234,7 @@ watch(topics, (newTopics) => {
         <treemap-infographic v-else-if="infgc.infographicType === 'treemapChart'" :dataset="infgc" />
         <custom-infographic v-else-if="infgc.infographicType === 'customInfographic'" :data="infgc" />
         <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
-        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
+        <choropleth-infographic-v2 v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
         <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="[infgc.highlight]" />
       </template>
     </ccm-tabs>

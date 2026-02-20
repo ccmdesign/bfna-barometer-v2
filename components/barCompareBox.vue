@@ -108,7 +108,7 @@ const getValidStatements = (statements) => {
         <h3 v-if="isCountryInInfographic(highlightCodes, infgc)" class="h4 padding-block:l text-align:center">{{ infgc.title }}</h3>
         <bar-infographic v-if="infgc.infographicType === 'barChart'" :title="infgc.title" :data="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
         <timeline-infographic v-else-if="infgc.infographicType === 'timelineChart' && isCountryInInfographic(highlightCodes, infgc)" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
-        <choropleth-infographic v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
+        <choropleth-infographic-v2 v-else-if="infgc.infographicType === 'choroplethChart'" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
         <ranking-infographic v-else-if="infgc.infographicType === 'rankingChart'" :dataset="infgc" :highlight="highlightCodes" @chart-ready="handleChartReady" />
       </div>
     </div>
