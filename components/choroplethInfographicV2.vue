@@ -72,10 +72,18 @@ const handleMouseEnter = (event) => {
 
   // Use hardcoded coordinates from countryCoords composable
   const coords = countryCoords[countryId];
+  const mapHeight = document.querySelector('#map-svg').getBoundingClientRect().height;
+  const mapWidth = document.querySelector('#map-svg').getBoundingClientRect().width;
+  
+  const getYCordFromPercentage = (coord) => {
+    if (!coord) return 0;
+    return mapHeight * coord.top
+  };
+
   if (coords) {
     hoveredCountryPosition.value = {
-      x: coords.percentLeft * window.innerWidth,
-      y: coords.top,
+      x: coords.percentLeft * mapWidth,
+      y: getYCordFromPercentage(coords),
     };
   } else {
     const countryRect = event.target.getBoundingClientRect();
