@@ -6,7 +6,7 @@
         <p class="font-weight:700">Governance & Democracy</p>
         <h1>{{ topic.title }}</h1>
         <p class="margin-bottom:m">Statements compiled in {{ topic.period }}</p>
-        <p>{{ topic.description }}</p>
+        <p v-html="topic.description"></p>
       </hgroup>
     </template>
     <template #column_right v-if="topic.video">

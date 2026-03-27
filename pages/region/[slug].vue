@@ -21,16 +21,27 @@ const archived = route.query?.archived === 'true'
 const { getCountryName } = useCountries()
 const showArchivedTopics = ref(archived)
 const statementStore = useStatementStore()
-const statement = ref(null)
+/** Full country payload from statements collection (slug / countryCode); never replaced by topic row lookup. */
+const countryDoc = ref(null)
+/** Single statements[] row for the active topic, or null if none matches. */
+const topicStatement = ref(null)
 const activeTopic = ref(null)
 
-statement.value = statementStore.getStatementBySlug(route.params.slug)
+const syncCountryDoc = () => {
+  countryDoc.value = statementStore.getStatementBySlug(route.params.slug)
+}
+
+syncCountryDoc()
 
 watch(() => statementStore.isLoaded, (loaded) => {
-  if (loaded && !statement.value) {
-    statement.value = statementStore.getStatementBySlug(route.params.slug)
+  if (loaded && !countryDoc.value) {
+    syncCountryDoc()
   }
 }, { immediate: true })
+
+watch(() => route.params.slug, () => {
+  syncCountryDoc()
+})
 
 // Fetch topics based on filters
 const { data: topics, refresh: refreshTopics, pending } = await useAsyncData('detail-topics', () => {
@@ -64,6 +75,7 @@ const infographicsByCountry = ref([])
 const data_cards = ref([])
 const handleActiveTopic = async () => {
   infographicsByCountry.value = []
+  data_cards.value = []
 
   const addPercentageSymbol = (infographic, value) => {
     return infographic.infographicValuesAsPercentage ? `${value}%` : value
@@ -79,20 +91,22 @@ const handleActiveTopic = async () => {
     return
   }
 
-  statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
-  
-  if (!statement.value) {
-    // Try to fetch if not found in store
+  topicStatement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
+
+  if (!topicStatement.value) {
     const { data: statements } = await useAsyncData('statements', () => queryCollection('statements').all())
-    statementStore.setStatements(statements.value);
-    statement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
+    statementStore.setStatements(statements.value)
+    topicStatement.value = statementStore.getStatementByTopic(activeTopic.value.topicId, route.params.slug)
   }
 
-  if (!statement.value) return;
+  if (!topicStatement.value) {
+    tabs.value = null
+    return
+  }
 
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
     if (infographic.infographicType !== 'customInfographic' && infographic.infographicType !== 'treemapChart') {
-      const country = infographic.countries.find(item => item.country === statement.value.country)
+      const country = infographic.countries.find(item => item.country === topicStatement.value.country)
       const scale = infographic.countries.reduce((max, item) => {
         const val = Number(item.val);
         return val > max ? val : max;
@@ -101,7 +115,7 @@ const handleActiveTopic = async () => {
       if (country?.val === undefined || country?.val === null) {
         return undefined;
       } else {
-        infographicsByCountry.value.unshift({...infographic, highlight: statement.value.country})
+        infographicsByCountry.value.unshift({...infographic, highlight: topicStatement.value.country})
       }
 
       if (infographic.infographicType === 'timelineChart' && country) {
@@ -182,13 +196,13 @@ watch(topics, (newTopics) => {
 
 </script>
 
-<template v-if="statement">
+<template v-if="countryDoc">
   <bar-hero>
     <template #column_left>
       <hgroup class="stack">
         <bar-back-button />
-        <bar-flag v-if=statement.country :country="statement.country" size="small" />
-        <h1>{{ getCountryName(statement.country) }}</h1>
+        <bar-flag v-if="countryDoc.countryCode" :country="countryDoc.countryCode" size="small" />
+        <h1>{{ getCountryName(countryDoc.country) }}</h1>
       </hgroup>
     </template>
     <template #column_right>
@@ -214,13 +228,13 @@ watch(topics, (newTopics) => {
   <bar-section color="faded">
     <div class="with-sidebar">
       <div class="main-content">
-        <h2>{{ getCountryName(statement.country) }} on {{ activeTopic?.title }}</h2>
-        <p>{{ statement.description }}</p>  
+        <h2>{{ getCountryName(countryDoc.country) }} on {{ activeTopic?.title }}</h2>
+        <p v-if="topicStatement" v-html="topicStatement.description"></p>
       </div>
-      <aside class="sidebar">
+      <aside v-if="topicStatement?.links?.length" class="sidebar">
         <h2>Sources</h2>
         <ul class="stack | margin-top:s">
-          <li v-for="(link, index) in statement.links" :key="link.label + index">
+          <li v-for="(link, index) in topicStatement.links" :key="link.label + index">
             <a :href="link.url" target="_blank">{{ link.label }}</a> <span class="icon" size="xs">open_in_new</span>
           </li>
           </ul>

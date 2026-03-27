@@ -10,9 +10,6 @@ const objectContructor = async (dir, fs) => {
     ]
 
     const items = await common.getDirectusData("barometer_countries");
-
-    console.log('COUNTRIES: ', items.data);
-
     await items.data.forEach((item) => {
       let i = item;
       i.slug = common.slugify(i.name);

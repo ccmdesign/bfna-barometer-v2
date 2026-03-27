@@ -169,10 +169,10 @@ const processInfographic = (infographic, infographicType) => {
   // Add type-specific fields
   if (type === 'barChart') {
     infographicObj.highestCountryValueAsScaleLimit = infographic.display_country_value_as_scale_limit || false;
-    infographicObj.infographicValuesAsPercentage = infographic.value_as_percentage || false;
+    infographicObj.infographicValuesAsPercentage = infographic.values_as_percentage || false;
   } else if (type === 'choroplethChart') {
     infographicObj.scaleLimit = infographic.scale_limit || null;
-    infographicObj.infographicValuesAsPercentage = infographic.value_as_percentage || false;
+    infographicObj.infographicValuesAsPercentage = infographic.values_as_percentage || false;
   }
   // timelineChart doesn't have these fields
 
