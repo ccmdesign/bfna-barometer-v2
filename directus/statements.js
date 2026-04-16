@@ -2,81 +2,101 @@ import fs from 'fs';
 import { rimraf } from 'rimraf';
 import * as common from './common.js';
 
+const countryNameToCode = {
+  'Austria': 'at',
+  'Belgium': 'be',
+  'Bulgaria': 'bg',
+  'Canada': 'ca',
+  'Croatia': 'hr',
+  'Cyprus': 'cy',
+  'Czechia': 'cz',
+  'Czech Republic': 'cz',
+  'Denmark': 'dk',
+  'Estonia': 'ee',
+  'European Union': 'eu',
+  'Finland': 'fi',
+  'France': 'fr',
+  'Germany': 'de',
+  'Greece': 'gr',
+  'Hungary': 'hu',
+  'Ireland': 'ie',
+  'Italy': 'it',
+  'Latvia': 'lv',
+  'Lithuania': 'lt',
+  'Luxembourg': 'lu',
+  'Malta': 'mt',
+  'Netherlands': 'nl',
+  'Poland': 'pl',
+  'Portugal': 'pt',
+  'Romania': 'ro',
+  'Slovakia': 'sk',
+  'Slovenia': 'si',
+  'Spain': 'es',
+  'Sweden': 'se',
+  'United Kingdom': 'gb',
+  'United States': 'us'
+};
+
+const getCountryCode = (countryNameOrCode) => {
+  if (!countryNameOrCode) return '';
+  if (countryNameOrCode.length === 2) {
+    return countryNameOrCode.toLowerCase();
+  }
+  return countryNameToCode[countryNameOrCode] || countryNameOrCode.toLowerCase();
+};
 
 const objectContructor = async (dir, fs) => {
   try {
-    // use this list to add fields from junction tables
-    const junctionFields = [
-      'topics.topic_id.*',
-      'country.*',
-    ]
-
-    const items = await common.getDirectusData("barometer_statements", junctionFields);
+    const items = await common.getDirectusData("barometer_topics");
 
     // Group statements by country
     const statementsByCountry = {};
 
     items.data.forEach((item) => {
-      // Get country information
-      const country = item.country;
-      if (!country) {
-        console.warn('Statement missing country:', item.id);
+      const topicId = item.id || '';
+      const statements = item.statements;
+
+      if (!statements || !Array.isArray(statements) || statements.length === 0) {
         return;
       }
 
-      const countryCode = country.code || '';
-      const countryName = country.name || '';
-      const countrySlug = common.slugify(countryName);
-
-      // Initialize country object if it doesn't exist
-      if (!(countryCode in statementsByCountry)) {
-        statementsByCountry[countryCode] = {
-          slug: countrySlug,
-          countryCode: countryCode,
-          country: countryName,
-          statements: [],
-          topicsByCountry: []
-        };
-      }
-
-      // Get topic ID from junction table
-      // The junction table structure: item.topics is an array, each element has topic_id which contains the topic object
-      let topicId = '';
-      if (item.topics && Array.isArray(item.topics) && item.topics.length > 0) {
-        // Get the first topic's topic_id
-        const firstTopic = item.topics[0];
-
-        if (firstTopic.barometer_topics_id) {
-          // topic_id might be an object with topicId field, or it might be the topicId directly
-          topicId = firstTopic.barometer_topics_id;
+      statements.forEach((entry) => {
+        const countryName = entry.country || '';
+        if (!countryName) {
+          console.warn('Statement entry missing country for topic:', topicId);
+          return;
         }
-      }
 
-      // Map Directus field names to expected output format
-      // Directus uses snake_case, but output uses camelCase
-      const furtherReading = item.further_readings || item.furtherReading || [];
-      const infographicBaseData = item.infographic_base_data !== undefined 
-        ? item.infographic_base_data 
-        : (item.infographicBaseData !== undefined ? item.infographicBaseData : 0);
+        const countryCode = getCountryCode(countryName);
+        const countrySlug = common.slugify(countryName);
 
-      // Build statement object matching the expected format
-      const statement = {
-        id: item.id || '',
-        slug: countrySlug,
-        topic: topicId,
-        country: countryCode,
-        description: item.description || '',
-        links: item.links || [],
-        furtherReading: furtherReading,
-        infographicBaseData: infographicBaseData
-      };
-      // Add statement to country
-      statementsByCountry[countryCode].statements.push(statement);
+        if (!(countryCode in statementsByCountry)) {
+          statementsByCountry[countryCode] = {
+            slug: countrySlug,
+            countryCode: countryCode,
+            country: countryName,
+            statements: [],
+            topicsByCountry: []
+          };
+        }
 
-      // Add topic to topicsByCountry if not already present (ensure uniqueness)
-      if (topicId && !statementsByCountry[countryCode].topicsByCountry.includes(topicId)) {
-        statementsByCountry[countryCode].topicsByCountry.push(topicId);
-      }
+        const statement = {
+          id: '',
+          slug: countrySlug,
+          topic: topicId,
+          country: countryCode,
+          description: entry.description || '',
+          links: entry.links || [],
+          furtherReading: [],
+          infographicBaseData: 0
+        };
+
+        statementsByCountry[countryCode].statements.push(statement);
+
+        if (topicId && !statementsByCountry[countryCode].topicsByCountry.includes(topicId)) {
+          statementsByCountry[countryCode].topicsByCountry.push(topicId);
+        }
+      });
     });
 
     // Write files for each country
