@@ -106,26 +106,28 @@ const handleMouseLeave = () => {
 
 };
 
-onMounted(() => {
-  setupChartData();
-
+const applyChartFills = () => {
   const wrapper = chartWrapperRef.value
   if (!wrapper) return
-
   const map = wrapper.querySelector('#map-svg')
   const mapContainer = wrapper.querySelector('.world-map--choropleth') || wrapper
+  if (!map) return
 
+  // Sync hasStatement class and event listeners with current dataset countries
+  map.querySelectorAll('.hasStatement').forEach(el => {
+    el.classList.remove('hasStatement')
+    el.removeEventListener('mousemove', handleMouseEnter)
+    el.removeEventListener('mouseleave', handleMouseLeave)
+  })
   props.dataset.countries.forEach(item => {
     const countryCode = (item.country || '').toLowerCase()
-    const el = map?.querySelector(`#${CSS.escape(countryCode)}`) || wrapper.querySelector(`#${CSS.escape(countryCode)}`)
+    const el = map.querySelector(`#${CSS.escape(countryCode)}`)
     if (el) {
       el.classList.add('hasStatement')
       el.addEventListener('mousemove', handleMouseEnter)
       el.addEventListener('mouseleave', handleMouseLeave)
     }
   })
-
-  
 
   const highlightCodes = new Set(
     (Array.isArray(props.highlight) ? props.highlight : [])
@@ -148,124 +150,132 @@ onMounted(() => {
     return individualHighlightCodes.has(code)
   }
 
-  const isZeroValue = (val) => val === 0 || val === '0' || Number(val) === 0;
+  const isZeroValue = (val) => val === 0 || val === '0' || Number(val) === 0
 
   chartData.value.forEach(ch => {
-    const chValue = Number(ch.val);
-    if (!map) return;
-    const countryCode = (ch.country || '').toLowerCase();
-    const country = map.querySelector(`#${CSS.escape(countryCode)}`);
-    const isHighlighted = shouldHighlightCountry(countryCode);
-    const isZero = isZeroValue(ch.val);
+    const chValue = Number(ch.val)
+    const countryCode = (ch.country || '').toLowerCase()
+    const country = map.querySelector(`#${CSS.escape(countryCode)}`)
+    const isHighlighted = shouldHighlightCountry(countryCode)
+    const isZero = isZeroValue(ch.val)
 
     // Skip "eu" – do not apply EU aggregate to member countries; each country uses its own value.
     if (countryCode === 'eu') {
       // EU value is only used for the legend box, not for map fills.
     } else if (country) {
-      country.classList.remove('highlighted-country');
-      country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`;
+      country.classList.remove('highlighted-country')
+      country.style.transition = `fill ${(getProportionalValue(chValue) / 100) * 5}s ease-out`
       if (isZero) {
-        country.style.fill = 'hsla(var(--base-hsl), 0.15)';
-        country.style.stroke = isHighlighted ? 'hsl(var(--navy-hsl))' : 'hsla(var(--base-hsl), 0.3)';
-        country.style.strokeWidth = isHighlighted ? '0.20' : '0.2';
-        if (isHighlighted) country.classList.add('highlighted-country');
+        country.style.fill = 'hsla(var(--base-hsl), 0.15)'
+        country.style.stroke = isHighlighted ? 'hsl(var(--navy-hsl))' : 'hsla(var(--base-hsl), 0.3)'
+        country.style.strokeWidth = isHighlighted ? '0.20' : '0.2'
+        if (isHighlighted) country.classList.add('highlighted-country')
       } else if (isHighlighted) {
-        country.classList.add('highlighted-country');
-        country.style.stroke = 'hsl(var(--accent-hsl))';
-        country.style.strokeWidth = '0.35';
-        country.style.fill = 'hsla(var(--accent-hsl), 0.5)';
+        country.classList.add('highlighted-country')
+        country.style.stroke = 'hsl(var(--accent-hsl))'
+        country.style.strokeWidth = '0.35'
+        country.style.fill = 'hsla(var(--accent-hsl), 0.5)'
       } else {
-        country.style.stroke = 'hsla(var(--base-hsl), 0.3)';
-        country.style.strokeWidth = '0.2';
-        country.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`;
+        country.style.stroke = 'hsla(var(--base-hsl), 0.3)'
+        country.style.strokeWidth = '0.2'
+        country.style.fill = `hsla(var(--choropleth-hsl),${getProportionalValue(chValue) / 100})`
       }
-      const list = document.querySelector('.list');
-      list?.classList.add('list--top');
+      const list = document.querySelector('.list')
+      list?.classList.add('list--top')
     }
-  });
+  })
 
   // Apply highlight to countries in props.highlight that aren't in chartData (edge case)
   // Skip "eu" here – it's handled above via EU members. Only apply to individual country codes.
-  if (map) {
-    individualHighlightCodes.forEach(countryId => {
-      const highlighted = map.querySelector(`#${CSS.escape(countryId)}`);
-      if (highlighted && !highlighted.classList.contains('highlighted-country')) {
-        const ch = chartData.value.find(c => (c.country || '').toLowerCase() === countryId);
-        const isZero = ch && isZeroValue(ch.val);
-        if (isZero) {
-          highlighted.classList.add('highlighted-country');
-          highlighted.style.fill = 'hsla(var(--base-hsl), 0.15)';
-          highlighted.style.stroke = 'hsl(var(--navy-hsl))';
-          highlighted.style.strokeWidth = '0.35';
-        } else {
-          highlighted.classList.add('highlighted-country');
-          highlighted.style.stroke = 'hsl(var(--accent-hsl))';
-          highlighted.style.strokeWidth = '0.35';
-          highlighted.style.fill = 'hsla(var(--accent-hsl), 0.5)';
-        }
+  individualHighlightCodes.forEach(countryId => {
+    const highlighted = map.querySelector(`#${CSS.escape(countryId)}`)
+    if (highlighted && !highlighted.classList.contains('highlighted-country')) {
+      const ch = chartData.value.find(c => (c.country || '').toLowerCase() === countryId)
+      const isZero = ch && isZeroValue(ch.val)
+      if (isZero) {
+        highlighted.classList.add('highlighted-country')
+        highlighted.style.fill = 'hsla(var(--base-hsl), 0.15)'
+        highlighted.style.stroke = 'hsl(var(--navy-hsl))'
+        highlighted.style.strokeWidth = '0.35'
+      } else {
+        highlighted.classList.add('highlighted-country')
+        highlighted.style.stroke = 'hsl(var(--accent-hsl))'
+        highlighted.style.strokeWidth = '0.35'
+        highlighted.style.fill = 'hsla(var(--accent-hsl), 0.5)'
       }
-    });
-  }
+    }
+  })
 
-  const chartLegend = document.createElement('div');
-  chartLegend.className = 'chart-legend';
+  // Remove stale legend and re-create with current min/max/EU values
+  mapContainer.querySelector('.chart-legend')?.remove()
 
-  const minValueText = document.createElement('p');
-  minValueText.className = 'chart-legend__text';
-  minValueText.textContent = `${minimumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
-  const minValueLegend = document.createElement('b');
-  minValueLegend.textContent = 'Lowest';
-  minValueText.prepend(minValueLegend);
+  const chartLegend = document.createElement('div')
+  chartLegend.className = 'chart-legend'
 
-  const legendContainer = document.createElement('div');
-  legendContainer.className = 'chart-legend__legend';
+  const minValueText = document.createElement('p')
+  minValueText.className = 'chart-legend__text'
+  minValueText.textContent = `${minimumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`
+  const minValueLegend = document.createElement('b')
+  minValueLegend.textContent = 'Lowest'
+  minValueText.prepend(minValueLegend)
 
-  const maxValueText = document.createElement('p');
-  maxValueText.className = 'chart-legend__text';
-  maxValueText.textContent = `${maximumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
-  const maxValueLegend = document.createElement('b');
-  maxValueLegend.textContent = 'Highest';
-  maxValueText.prepend(maxValueLegend);
-  
+  const legendContainer = document.createElement('div')
+  legendContainer.className = 'chart-legend__legend'
 
-  const europeanUnionText = document.createElement('p');
-  europeanUnionText.className = 'chart-legend__text chart-legend__text--eu';
-  const euValue = getEUvalue(props.dataset);
-  europeanUnionText.textContent = `${euValue}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`;
-  const europeanUnionLegend = document.createElement('b');
-  europeanUnionLegend.textContent = 'European Union';
-  europeanUnionText.prepend(europeanUnionLegend);
+  const maxValueText = document.createElement('p')
+  maxValueText.className = 'chart-legend__text'
+  maxValueText.textContent = `${maximumValue.value}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`
+  const maxValueLegend = document.createElement('b')
+  maxValueLegend.textContent = 'Highest'
+  maxValueText.prepend(maxValueLegend)
+
+  const europeanUnionText = document.createElement('p')
+  europeanUnionText.className = 'chart-legend__text chart-legend__text--eu'
+  const euValue = getEUvalue(props.dataset)
+  europeanUnionText.textContent = `${euValue}${props.dataset.infographicValuesAsPercentage ? '%' : ''}`
+  const europeanUnionLegend = document.createElement('b')
+  europeanUnionLegend.textContent = 'European Union'
+  europeanUnionText.prepend(europeanUnionLegend)
 
   // EU box: when selected use navy (tooltip color); when not selected use choropleth proportional color.
   if (euValue != null && euValue !== '') {
-    const euNum = Number(euValue);
-    const maxCountryValue = Math.max(maximumValue.value, 1);
-    const intensity = Math.max(0, Math.min(1, euNum / maxCountryValue));
-    const proportionalAlpha = getProportionalValue(euNum) / 100;
+    const euNum = Number(euValue)
+    const maxCountryValue = Math.max(maximumValue.value, 1)
+    const intensity = Math.max(0, Math.min(1, euNum / maxCountryValue))
+    const proportionalAlpha = getProportionalValue(euNum) / 100
 
     if (shouldHighlightEU) {
-      const bgAlpha = 0.2 + 0.7 * intensity;
-      europeanUnionText.style.backgroundColor = `hsla(var(--navy-hsl), ${bgAlpha})`;
+      const bgAlpha = 0.2 + 0.7 * intensity
+      europeanUnionText.style.backgroundColor = `hsla(var(--navy-hsl), ${bgAlpha})`
     } else {
-      europeanUnionText.style.backgroundColor = `hsla(var(--choropleth-hsl), ${proportionalAlpha})`;
+      europeanUnionText.style.backgroundColor = `hsla(var(--choropleth-hsl), ${proportionalAlpha})`
     }
-    europeanUnionText.style.color = intensity > 0.3 ? 'var(--white-color)' : 'var(--base-color)';
+    europeanUnionText.style.color = intensity > 0.3 ? 'var(--white-color)' : 'var(--base-color)'
   }
 
+  chartLegend.appendChild(legendContainer)
+  chartLegend.appendChild(maxValueText)
+  chartLegend.appendChild(minValueText)
+  chartLegend.appendChild(europeanUnionText)
 
+  mapContainer?.appendChild(chartLegend)
+}
 
-  chartLegend.appendChild(legendContainer);
-  chartLegend.appendChild(maxValueText);
-  chartLegend.appendChild(minValueText);
-  chartLegend.appendChild(europeanUnionText);
-
-  mapContainer?.appendChild(chartLegend);
-
-  // Emit chart-ready after all rendering is complete
+onMounted(() => {
+  setupChartData()
   nextTick(() => {
+    applyChartFills()
     emit('chart-ready')
   })
-});
+})
+
+watch(
+  () => props.dataset,
+  () => {
+    setupChartData()
+    nextTick(applyChartFills)
+  }
+)
 
 </script>
 
