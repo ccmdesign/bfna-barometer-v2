@@ -2,7 +2,7 @@
   <ccm-footer class="bar-footer">
     <div class="footer-content | subgrid | stack | text-align:center">
       <h2 class="h2">Subscribe for Updates</h2>
-      <p>Each month, we will spotlight trending transatlantic topics and find potential alignment between the U.S., the U.K., and the European Union. Sign up here for updates!</p>
+      <p>Follow us as we spotlight trending transatlantic topics and find potential alignment between the U.S., the UK, Canada and the European Union. Sign up here for updates!</p>
       <form @submit.prevent="handleSubmit" class="stack | text-align:center" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
         <div class="message" v-if="message" :class="{'message--success': success, 'message--failure': !success}">
           {{ message }}
