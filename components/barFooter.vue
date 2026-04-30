@@ -32,6 +32,7 @@
           <span class="icon">arrow_forward</span>
         </bar-button>
       </form>
+      <p class="contact">Questions? Email <a href="mailto:courtney.flynn.martino@bfna.org">courtney.flynn.martino@bfna.org</a></p>
       <div class="pb">
         <span>Powered by</span>
         <img src="/assets/bfna-logo.svg" alt="Bertelsmann Foundation">
@@ -151,6 +152,18 @@ const handleSubmit = async () => {
   justify-content: center;
   align-items: center;
   font-size: var(--size--2);
+}
+
+.contact {
+  font-size: var(--size--1);
+  text-align: center;
+  a {
+    color: inherit;
+    text-decoration: underline;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
 
 .message {
