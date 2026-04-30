@@ -12,7 +12,6 @@
 
 <style scoped>
 .footer {
-  background-color: green;
   display: grid;
   grid-column: full-start / full-end;
   z-index: 1;
