@@ -1,17 +1,17 @@
 <template>
-  <div class="subgrid">
+  <div v-if="data?.customInfographicFile?.url" class="subgrid">
     <div class="custom_infographic-card__wrapper">
-      <NuxtLink 
-        :to="data.customInfographicFile.url"
+      <NuxtLink
+        :to="data.customInfographicFile?.url"
         target="_blank">
         <div class="custom_infographic-card">
-          <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
+          <img :src="data.customInfographicFile?.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
           <div class="custom_infographic-card__content | cluster">
             <div class="custom_infographic-card__content-inner | text-align:left" split-right>
               <h3>{{ data.title }}</h3>
               <p>{{ data.infographicDescription }}</p>
             </div>
-            <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
+            <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile?.url" target="_blank">Download</bar-button>
           </div>
         </div>
       </NuxtLink>
