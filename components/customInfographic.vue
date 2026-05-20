@@ -1,20 +1,33 @@
 <template>
   <div class="subgrid">
     <div class="custom_infographic-card__wrapper">
-      <NuxtLink 
-        :to="data.customInfographicFile.url"
-        target="_blank">
+      <template v-if="data.customInfographicFile?.url">
+        <NuxtLink
+          :to="data.customInfographicFile.url"
+          target="_blank">
+          <div class="custom_infographic-card">
+            <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
+            <div class="custom_infographic-card__content | cluster">
+              <div class="custom_infographic-card__content-inner | text-align:left" split-right>
+                <h3>{{ data.title }}</h3>
+                <p>{{ data.infographicDescription }}</p>
+              </div>
+              <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
+            </div>
+          </div>
+        </NuxtLink>
+      </template>
+      <template v-else>
         <div class="custom_infographic-card">
-          <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
           <div class="custom_infographic-card__content | cluster">
             <div class="custom_infographic-card__content-inner | text-align:left" split-right>
               <h3>{{ data.title }}</h3>
               <p>{{ data.infographicDescription }}</p>
             </div>
-            <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
+            <div class="empty-state"><p>No image available for this infographic.</p></div>
           </div>
         </div>
-      </NuxtLink>
+      </template>
     </div>
   </div>
 </template>
@@ -46,6 +59,11 @@
 }
 
 .custom_infographic-card__content {
+  padding: var(--space-m);
+}
+
+.empty-state {
+  color: var(--base-color-50-tint);
   padding: var(--space-m);
 }
 </style>

@@ -1,5 +1,18 @@
 const main = require('../contentful/main')
 
+const ALLOWED_IMAGE_CONTENT_TYPES = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/gif',
+  'image/svg+xml'
+])
+
+const isAllowedImageAsset = (file) => {
+  const ct = file && file.fields && file.fields.file && file.fields.file.contentType
+  return typeof ct === 'string' && ALLOWED_IMAGE_CONTENT_TYPES.has(ct.toLowerCase())
+}
+
 const getMarker = (fields, infographicsList) => {
 
   const labelMarkers = ['customMarkerLabel1', 'customMarkerLabel2', 'customMarkerLabel3']
@@ -173,10 +186,21 @@ const getTopics = async () => {
           }),
           vizCountries: vizCountriesObj,
           vizMarkers: vizMarkersObj,
-          customInfographicFile: {
-            url: item.fields && item.fields.file && item.fields.file ? main.getImageAssetUrl(item.fields.file.fields.file.url) : '',
-            title: item.fields && item.fields.file && item.fields.file.fields ? item.fields.file.fields.title : ''
-          }
+          customInfographicFile: (() => {
+            const file = item.fields && item.fields.file
+            if (file && isAllowedImageAsset(file)) {
+              return {
+                url: main.getImageAssetUrl(file.fields.file.url),
+                title: file.fields.title || ''
+              }
+            }
+            if (file) {
+              console.warn(
+                `[BF-65] Rejecting non-image customInfographic asset for infographic ${item.sys.id}: contentType=${file.fields && file.fields.file && file.fields.file.contentType}`
+              )
+            }
+            return { url: '', title: (file && file.fields && file.fields.title) || '' }
+          })()
         }
       }) : []
     };
@@ -210,3 +234,6 @@ const getTopics = async () => {
 module.exports = async function () {
   return await getTopics();
 }
+
+module.exports.ALLOWED_IMAGE_CONTENT_TYPES = ALLOWED_IMAGE_CONTENT_TYPES
+module.exports.isAllowedImageAsset = isAllowedImageAsset
