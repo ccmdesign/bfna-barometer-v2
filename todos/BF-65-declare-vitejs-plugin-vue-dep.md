@@ -1,9 +1,17 @@
 # Declare `@vitejs/plugin-vue` as an explicit devDependency
 
 - **Severity:** P2 (should fix)
+- **Status:** resolved
 - **Files:**
   - `vitest.config.ts:2` — `import vue from '@vitejs/plugin-vue'`
   - `package.json` (devDependencies block)
+
+## Resolution
+
+Added `@vitejs/plugin-vue@^6.0.7` to `devDependencies` via
+`npm install --save-dev @vitejs/plugin-vue@^6.0.7`. `npx vitest run` confirmed
+green (10/10 passing). No longer relying on the hoisted transitive from
+`@nuxt/vite-builder`.
 
 ## Problem
 
