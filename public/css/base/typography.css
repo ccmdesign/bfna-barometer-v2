@@ -86,12 +86,18 @@
 
   /*
    * Links wrapping block-level typography (card-as-link, hero-as-link, etc.)
-   * should not underline their contents. Underline is a signal for inline
-   * text links — not for whole-region tap targets. Covers headings,
-   * paragraphs, and buttons inside any anchor.
+   * should not underline their contents and should not flip color on hover.
+   * Underline + hover color is a signal for inline text links — not for
+   * whole-region tap targets.
+   *
+   * Selectors chain `:not([class])` to beat the base `a:not([class])` rule
+   * (specificity 0,1,1). With `:not([class]):has(...)` we get 0,1,2, and
+   * the `:hover` variant gets 0,2,2 to beat the base hover rule (0,2,1).
    */
-  a:has(h1, h2, h3, h4, h5, h6, p, button) {
+  a:not([class]):has(h1, h2, h3, h4, h5, h6, p, button),
+  a:not([class]):has(h1, h2, h3, h4, h5, h6, p, button):hover {
     text-decoration: none;
+    color: inherit;
   }
 
   ul[class],
