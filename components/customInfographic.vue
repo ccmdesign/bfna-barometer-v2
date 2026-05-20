@@ -1,45 +1,45 @@
 <template>
   <div class="subgrid">
     <div class="custom_infographic-card__wrapper">
-      <template v-if="data.customInfographicFile?.url">
-        <NuxtLink
-          :to="data.customInfographicFile.url"
-          target="_blank">
-          <div class="custom_infographic-card">
-            <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
-            <div class="custom_infographic-card__content | cluster">
-              <div class="custom_infographic-card__content-inner | text-align:left" split-right>
-                <h3>{{ data.title }}</h3>
-                <p>{{ data.infographicDescription }}</p>
-              </div>
-              <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
-            </div>
-          </div>
-        </NuxtLink>
-      </template>
-      <template v-else>
+      <component
+        :is="hasFile ? 'NuxtLink' : 'div'"
+        :to="hasFile ? data.customInfographicFile.url : undefined"
+        :target="hasFile ? '_blank' : undefined">
         <div class="custom_infographic-card">
+          <img
+            v-if="hasFile"
+            :src="data.customInfographicFile.url"
+            :alt="data.title"
+            class="custom_infographic-card__image"
+            loading="lazy">
           <div class="custom_infographic-card__content | cluster">
             <div class="custom_infographic-card__content-inner | text-align:left" split-right>
               <h3>{{ data.title }}</h3>
               <p>{{ data.infographicDescription }}</p>
             </div>
-            <div class="empty-state"><p>No image available for this infographic.</p></div>
+            <bar-button
+              v-if="hasFile"
+              visual="primary" size="s" color="accent"
+              :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
+            <div v-else class="empty-state"><p>No image available for this infographic.</p></div>
           </div>
         </div>
-      </template>
+      </component>
     </div>
   </div>
 </template>
 
 <script setup>
-  const { data } = defineProps({
+  import { computed } from 'vue'
+
+  const props = defineProps({
     data: {
       type: Object,
       required: true
     }
   })
 
+  const hasFile = computed(() => !!props.data?.customInfographicFile?.url)
 </script>
 
 <style scoped lang="scss">

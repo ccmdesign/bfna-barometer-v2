@@ -1,7 +1,18 @@
 # Dedupe title + description markup across v-if/v-else in customInfographic.vue
 
 - **Severity:** P2 (should fix)
+- **Status:** resolved
 - **File:** `components/customInfographic.vue:8-29`
+
+## Resolution
+
+Collapsed the v-if/v-else into a single card shell rendered via
+`<component :is="hasFile ? 'NuxtLink' : 'div'">`. The card body, title (h3),
+and description (p) now have a single source of truth; only the `<img>` and
+the `<bar-button>`-vs-`empty-state` swap remain conditional. Added a small
+`hasFile` computed in `<script setup>` so the template stays readable.
+All three component specs (with image, with empty url, with no
+customInfographicFile) still pass.
 
 ## Problem
 
