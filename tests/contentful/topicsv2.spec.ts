@@ -153,6 +153,21 @@ describe('getTopics customInfographicFile mapping', () => {
     expect(infgc.customInfographicFile.title).toBe('')
     expect(warnSpy).not.toHaveBeenCalled()
   })
+
+  it('warns and sets url to empty string when contentType is missing on a present file', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const topic = await runMapper({
+      title: 'Mystery asset',
+      // contentType deliberately omitted — malformed-but-present asset shape.
+      file: { url: '//images.ctfassets.net/x/y/z' } as unknown as AssetFields['file']
+    })
+    expect(topic).not.toBeNull()
+    const infgc = topic!.infographics[0]
+    expect(infgc.customInfographicFile.url).toBe('')
+    expect(infgc.customInfographicFile.title).toBe('Mystery asset')
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('[BF-65]'))
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('contentType=undefined'))
+  })
 })
 
 // silence unused-import warning for Module (kept for clarity that we manipulate it)

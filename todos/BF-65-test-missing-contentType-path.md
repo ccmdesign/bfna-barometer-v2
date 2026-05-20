@@ -1,7 +1,16 @@
 # Add test for "file present but contentType missing" path
 
 - **Severity:** P3 (nice to have)
+- **Status:** resolved
 - **File:** `tests/contentful/topicsv2.spec.ts`
+
+## Resolution
+
+Added a fourth case to the `getTopics customInfographicFile mapping` describe
+block: feeds a present file with no `contentType` and asserts that the mapper
+warns with the `[BF-65]` tag + `contentType=undefined`, returns an empty url,
+and preserves `title`. Locks in the "loud on malformed asset" contract
+end-to-end through the mapper (not just the helper). Suite now 11/11 passing.
 
 ## Problem
 
