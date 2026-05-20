@@ -84,6 +84,16 @@
     color: var(--accent-color);
   }
 
+  /*
+   * Links wrapping block-level typography (card-as-link, hero-as-link, etc.)
+   * should not underline their contents. Underline is a signal for inline
+   * text links — not for whole-region tap targets. Covers headings,
+   * paragraphs, and buttons inside any anchor.
+   */
+  a:has(h1, h2, h3, h4, h5, h6, p, button) {
+    text-decoration: none;
+  }
+
   ul[class],
   ol[class] {
     list-style: none;
