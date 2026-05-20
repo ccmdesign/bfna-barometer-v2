@@ -163,6 +163,7 @@ const processInfographic = (infographic, infographicType) => {
     if (fileUrl) {
       infographicObj.customInfographicFile = {
         url: fileUrl,
+        type: infographic.fileMeta?.type ?? null,
         title: infographic.title,
         description: infographic.description
       }
@@ -198,6 +199,13 @@ const objectContructor = async (dir, fs) => {
     const items = await common.getDirectusData("barometer_topics", junctionFields);
     const rankingCountries = await common.getDirectusData("barometer_rankingchart", ['ranking.barometer_countries_id.*']);
     const treemapCells = await common.getDirectusData("barometer_treemapchart", ['cell.barometer_treemapcell_id.*']);
+
+    const customFileIds = items.data.flatMap((item) => (
+      Array.isArray(item.custom)
+        ? item.custom.map(c => c.barometer_custom_infographics_id?.file).filter(Boolean)
+        : []
+    ));
+    const customFilesMeta = await common.getFilesMetaMap(customFileIds);
 
     // Process all topics
     const topics = {};
@@ -262,7 +270,8 @@ const objectContructor = async (dir, fs) => {
       // Process custom infographics
       if (item.custom && Array.isArray(item.custom)) {
         item.custom.forEach(infographic => {
-          const processed = processInfographic(infographic.barometer_custom_infographics_id, 'customInfographic');
+          const raw = infographic.barometer_custom_infographics_id || {};
+          const processed = processInfographic({...raw, fileMeta: customFilesMeta.get(raw.file)}, 'customInfographic');
           infographics.push(processed);
           infographicsType2.push(infographic); // Keep raw data
         });

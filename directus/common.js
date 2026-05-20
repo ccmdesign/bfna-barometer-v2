@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { createDirectus, rest, readItems } from '@directus/sdk';
+import { createDirectus, rest, readItems, readFiles } from '@directus/sdk';
 
 dotenv.config();
 
@@ -19,6 +19,20 @@ export const getDirectusData = async (collectionName, junctionFields=undefined) 
   }));
 
   return { data: content };
+}
+
+// Fetch file metadata (id, type) for a list of UUIDs and return a Map<id, meta>.
+// Used to know the MIME type of an asset (e.g. application/pdf) since Directus
+// URLs like /assets/<uuid> carry no extension.
+export const getFilesMetaMap = async (ids) => {
+  const unique = [...new Set((ids || []).filter(id => typeof id === 'string' && id.trim()))];
+  if (!unique.length) return new Map();
+  const files = await client.request(readFiles({
+    filter: { id: { _in: unique } },
+    fields: ['id', 'type'],
+    limit: -1,
+  }));
+  return new Map(files.map(f => [f.id, f]));
 }
 
 // getImageUrl
