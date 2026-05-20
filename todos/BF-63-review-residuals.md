@@ -7,8 +7,24 @@ All findings are P3 / advisory. No P0, P1, or P2 findings. No `safe_auto` fixes
 were applied in-place — the diff is small, well-shaped, and matches the plan's
 R1-R8 and U1-U4 exactly.
 
+## Resolution summary (2026-05-19)
+
+All findings triaged. No code changes required — `tests/setup-env.js` already
+carries the explanatory header comment that the orchestrator suggested adding,
+and the remaining residuals are intentional/advisory per the plan.
+
+| Finding | Status   | Reason |
+|---------|----------|--------|
+| R-1     | resolved (ack, no code change) | Theoretical only; Directus never emits whitespace-padded ids. Changing to `trimmed` would silently alter behavior for any padded-id caller and would break the existing "does not mutate the id" passthrough test. Revisit only if a real regression surfaces. |
+| R-2     | resolved (ack, no code change) | Defense-in-depth against the legacy `{url:'',title:''}` shape still emitted by the Contentful path. Plan U3 mandates the optional chaining; cost is zero. Drop only after Contentful path is retired. |
+| R-3     | resolved (ack, no code change) | Contentful builders still emit the legacy `{url:'',title:''}` shape, but the new component v-if treats empty `url` as falsy and renders nothing. Out of scope per plan R7; track separately when Contentful path is decommissioned. |
+| R-4 / F-4 | deferred (follow-up) | Component-level Vitest spec for `customInfographic.vue` needs `@vue/test-utils` + jsdom + Nuxt test bridge setup. Plan explicitly defers this. Create a follow-up ticket when test bridge is stood up. |
+
+Verification: `npm test` → still 12/12 passing on this branch (no code touched).
+
 ## R-1: trim-vs-raw inconsistency in `directus/common.js#getImage`
 
+- **Status:** resolved — acknowledged, no code change (2026-05-19)
 - **Severity:** P3
 - **Class:** advisory (theoretical, no observed call site triggers it)
 - **File:** `directus/common.js:31-35`
@@ -31,6 +47,7 @@ R1-R8 and U1-U4 exactly.
 
 ## R-2: redundant optional chaining on bindings inside the v-if
 
+- **Status:** resolved — acknowledged, no code change (2026-05-19)
 - **Severity:** P3
 - **Class:** advisory (style / defense-in-depth tradeoff)
 - **File:** `components/customInfographic.vue:5, 8, 14`
@@ -49,6 +66,12 @@ R1-R8 and U1-U4 exactly.
 
 ## R-3: Contentful build path still writes legacy `{url:'',title:''}` shape
 
+- **Status:** resolved — acknowledged, no code change (2026-05-19; out of scope per plan R7)
+- **Note on `tests/setup-env.js` nit:** Orchestrator flagged a possible missing
+  header comment explaining why `BASE_URL` is stubbed. Verified the file
+  already contains a 3-line header comment (lines 1–3) explaining that
+  `directus/common.js` calls `createDirectus(process.env.BASE_URL)` at import
+  time and would throw "Invalid URL" without the stub. No code change needed.
 - **Severity:** P3
 - **Class:** advisory (out of scope per R7 guardrail)
 - **Files:** `contentful/topics.js:139-142`, `contentful/topicsv2.js:178-181`
@@ -65,6 +88,7 @@ R1-R8 and U1-U4 exactly.
 
 ## R-4: deferred — component-level Vitest spec for `customInfographic.vue`
 
+- **Status:** deferred — follow-up ticket required (2026-05-19)
 - **Severity:** P3
 - **Class:** testing-gap (acknowledged in plan)
 - **Plan section:** "Deferred to Follow-Up Work" line 273.
