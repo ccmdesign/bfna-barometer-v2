@@ -11,7 +11,8 @@
               <h3>{{ data.title }}</h3>
               <p>{{ data.infographicDescription }}</p>
             </div>
-            <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile?.url" target="_blank">Download</bar-button>
+            <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile?.url" target="_blank">Open new tab</bar-button>
+            <a visual="primary" size="s" color="accent" :href="data.customInfographicFile?.url+'?download'" download>Download</a>
           </div>
         </div>
       </NuxtLink>
