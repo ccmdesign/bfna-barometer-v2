@@ -1,32 +1,45 @@
 <template>
   <div class="subgrid">
     <div class="custom_infographic-card__wrapper">
-      <NuxtLink 
-        :to="data.customInfographicFile.url"
-        target="_blank">
+      <component
+        :is="hasFile ? 'NuxtLink' : 'div'"
+        :to="hasFile ? data.customInfographicFile.url : undefined"
+        :target="hasFile ? '_blank' : undefined">
         <div class="custom_infographic-card">
-          <img :src="data.customInfographicFile.url" :alt="data.title" class="custom_infographic-card__image" loading="lazy">
+          <img
+            v-if="hasFile"
+            :src="data.customInfographicFile.url"
+            :alt="data.title"
+            class="custom_infographic-card__image"
+            loading="lazy">
           <div class="custom_infographic-card__content | cluster">
             <div class="custom_infographic-card__content-inner | text-align:left" split-right>
               <h3>{{ data.title }}</h3>
               <p>{{ data.infographicDescription }}</p>
             </div>
-            <bar-button visual="primary" size="s" color="accent" :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
+            <bar-button
+              v-if="hasFile"
+              visual="primary" size="s" color="accent"
+              :to="data.customInfographicFile.url" target="_blank">Download</bar-button>
+            <div v-else class="empty-state"><p>No image available for this infographic.</p></div>
           </div>
         </div>
-      </NuxtLink>
+      </component>
     </div>
   </div>
 </template>
 
 <script setup>
-  const { data } = defineProps({
+  import { computed } from 'vue'
+
+  const props = defineProps({
     data: {
       type: Object,
       required: true
     }
   })
 
+  const hasFile = computed(() => !!props.data?.customInfographicFile?.url)
 </script>
 
 <style scoped lang="scss">
@@ -46,6 +59,11 @@
 }
 
 .custom_infographic-card__content {
+  padding: var(--space-m);
+}
+
+.empty-state {
+  color: var(--base-color-50-tint);
   padding: var(--space-m);
 }
 </style>
