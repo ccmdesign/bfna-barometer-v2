@@ -1,0 +1,80 @@
+│
+●  Nuxt 3.21.6 (with Nitro 2.13.4, Vite 7.3.3 and Vue 3.5.34)
+
+  ➜ Local:    http://localhost:3001/
+  ➜ Network:  use --host to expose
+
+  ➜ DevTools: press Shift + Option + D in the browser (v3.2.4)
+
+[@nuxt/content] ✔ Processed 4 collections and 0 files in 27.33ms (0 cached, 0 parsed)
+✔ Vite client built in 18ms
+✔ Vite server built in 216ms
+
+ WARN  [1m[33m[@vue/compiler-sfc][0m[33m defineProps is a compiler macro and no longer needs to be imported.[0m
+
+
+[nitro] ✔ Nuxt Nitro server built in 529ms
+ℹ Vite client warmed up in 1ms
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  [request error] [unhandled] [GET] http://localhost:3001/
+
+ 
+[31mℹ Error: Vite Node IPC socket path not configured.[39m
+
+ ⁃ [33m(node_modules/@nuxt/vite-builder/dist/vite-node.mjs:34:34)[39m
+ ⁃ at connectSocket [33m(node_modules/@nuxt/vite-builder/dist/vite-node.mjs:31:22)[39m
+ ⁃ at sendRequest [33m(node_modules/@nuxt/vite-builder/dist/vite-node.mjs:150:24)[39m
+ ⁃ [33m(async file://.nuxt/dev/index.mjs:5238:13)[39m
+ ⁃ at async renderRoute [33m(node_modules/@nuxt/nitro-server/dist/runtime/handlers/renderer.mjs:109:18)[39m
+ ⁃ at async Object.handler [33m(node_modules/nitropack/dist/runtime/internal/renderer.mjs:25:21)[39m
+ ⁃ [33m(async file://node_modules/h3/dist/index.mjs:2017:19)[39m
+ ⁃ at async Object.callAsync [33m(node_modules/unctx/dist/index.mjs:72:16)[39m
+ ⁃ at async Server.toNodeHandle [33m(node_modules/h3/dist/index.mjs:2316:7)[39m
+
+[31m[CAUSE][39m
+Error {
+  stack: 'Vite Node IPC socket path not configured.\n' +
+  'at ./node_modules/@nuxt/vite-builder/dist/vite-node.mjs:34:34)\n' +
+  'at connectSocket (./node_modules/@nuxt/vite-builder/dist/vite-node.mjs:31:22)\n' +
+  'at sendRequest (./node_modules/@nuxt/vite-builder/dist/vite-node.mjs:150:24)\n' +
+  'at async file://./.nuxt/dev/index.mjs:5238:13)\n' +
+  'at async renderRoute (./node_modules/@nuxt/nitro-server/dist/runtime/handlers/renderer.mjs:109:18)\n' +
+  'at async Object.handler (./node_modules/ni'... 524 more characters,
+  message: 'Vite Node IPC socket path not configured.',
+}
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  vite-node-shared: NUXT_VITE_NODE_OPTIONS.socketPath is not defined.
+ERROR  [request error] [unhandled] [GET] http://localhost:3001/
+
+ 
+[31mℹ Error: Vite Node IPC socket path not configured.[39m
+
+ ⁃ [33m(node_modules/@nuxt/vite-builder/dist/vite-node.mjs:34:34)[39m
+ ⁃ at connectSocket [33m(node_modules/@nuxt/vite-builder/dist/vite-node.mjs:31:22)[39m
+ ⁃ at sendRequest [33m(node_modules/@nuxt/vite-builder/dist/vite-node.mjs:150:24)[39m
+ ⁃ [33m(async file://.nuxt/dev/index.mjs:5238:13)[39m
+ ⁃ at async renderRoute [33m(node_modules/@nuxt/nitro-server/dist/runtime/handlers/renderer.mjs:109:18)[39m
+ ⁃ at async Object.handler [33m(node_modules/nitropack/dist/runtime/internal/renderer.mjs:25:21)[39m
+ ⁃ [33m(async file://node_modules/h3/dist/index.mjs:2017:19)[39m
+ ⁃ at async Object.callAsync [33m(node_modules/unctx/dist/index.mjs:72:16)[39m
+ ⁃ at async Server.toNodeHandle [33m(node_modules/h3/dist/index.mjs:2316:7)[39m
+
+[31m[CAUSE][39m
+Error {
+  stack: 'Vite Node IPC socket path not configured.\n' +
+  'at ./node_modules/@nuxt/vite-builder/dist/vite-node.mjs:34:34)\n' +
+  'at connectSocket (./node_modules/@nuxt/vite-builder/dist/vite-node.mjs:31:22)\n' +
+  'at sendRequest (./node_modules/@nuxt/vite-builder/dist/vite-node.mjs:150:24)\n' +
+  'at async file://./.nuxt/dev/index.mjs:5238:13)\n' +
+  'at async renderRoute (./node_modules/@nuxt/nitro-server/dist/runtime/handlers/renderer.mjs:109:18)\n' +
+  'at async Object.handler (./node_modules/ni'... 524 more characters,
+  message: 'Vite Node IPC socket path not configured.',
+}

@@ -1,0 +1,19 @@
+{
+  "error": true,
+  "url": "http://localhost:3001/",
+  "statusCode": 500,
+  "statusMessage": "Server Error",
+  "message": "Vite Node IPC socket path not configured.",
+  "stack": [
+    "Vite Node IPC socket path not configured.",
+    "at /Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/@nuxt/vite-builder/dist/vite-node.mjs:34:34)",
+    "at connectSocket (/Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/@nuxt/vite-builder/dist/vite-node.mjs:31:22)",
+    "at sendRequest (/Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/@nuxt/vite-builder/dist/vite-node.mjs:150:24)",
+    "at async file:///Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/.nuxt/dev/index.mjs:5238:13)",
+    "at async renderRoute (/Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/@nuxt/nitro-server/dist/runtime/handlers/renderer.mjs:109:18)",
+    "at async Object.handler (/Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/nitropack/dist/runtime/internal/renderer.mjs:25:21)",
+    "at async file:///Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/h3/dist/index.mjs:2017:19)",
+    "at async Object.callAsync (/Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/unctx/dist/index.mjs:72:16)",
+    "at async Server.toNodeHandle (/Users/claudiomendonca/Documents/GitHub/ccmdesign/ccm-clients/bfna/bfna-barometer-v2-wt/BF-65/node_modules/h3/dist/index.mjs:2316:7)"
+  ]
+}
