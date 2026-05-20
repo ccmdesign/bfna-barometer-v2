@@ -152,17 +152,20 @@ const processInfographic = (infographic, infographicType) => {
     }),
     vizCountries: vizCountries,
     vizMarkers: {},
-    customInfographicFile: {
-      url: '',
-      title: ''
-    }
+    customInfographicFile: null
   };
 
   if(type === 'customInfographic') {
-    infographicObj.customInfographicFile = {
-      url: common.getImage(infographic.file),
-      title: infographic.title,
-      description: infographic.description
+    // getImage returns null for missing/invalid file ids (BF-63). When null,
+    // leave customInfographicFile as null so the component can render nothing
+    // instead of a poisoned ".../assets/undefined" URL.
+    const fileUrl = common.getImage(infographic.file);
+    if (fileUrl) {
+      infographicObj.customInfographicFile = {
+        url: fileUrl,
+        title: infographic.title,
+        description: infographic.description
+      }
     }
   }
 

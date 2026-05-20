@@ -22,7 +22,16 @@ export const getDirectusData = async (collectionName, junctionFields=undefined) 
 }
 
 // getImageUrl
+// Returns null when the id is missing, blank, the literal strings
+// 'undefined' / 'null', or otherwise not UUID-shaped. This guards against
+// Netlify builds that fire mid-edit (Directus webhook) when a custom
+// infographic row has no file attached — see BF-63.
 export const getImage = (imageId) => {
+  if (typeof imageId !== 'string') return null;
+  const trimmed = imageId.trim();
+  if (!trimmed) return null;
+  if (trimmed === 'undefined' || trimmed === 'null') return null;
+  if (!/^[a-f0-9-]{8,}$/i.test(trimmed)) return null;
   return `${ process.env.BASE_URL }/assets/${ imageId }`;
 }
 
