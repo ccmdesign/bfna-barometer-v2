@@ -80,7 +80,7 @@ const getValidStatements = (statements) => {
           </template>
         </h4>
         <h2 class="h1">{{ topic.title }}</h2>
-        <p>{{ topic.description }}</p>
+        <p v-html="topic.description"></p>
       </hgroup>
       <bar-button id="print:btn-remove-topic" variant="link" color="base" size="small" @click="emit('removeTopic', topic)" class="print:hidden"><span class="icon">close</span></bar-button>
     </div>
@@ -90,7 +90,7 @@ const getValidStatements = (statements) => {
           <bar-flag :country="statement.country" size="small" class="compare-flag" />
           <div>
             <h3 class="h2">{{ getCountryName(statement.country) }}</h3>
-            <p>{{ statement.description }}</p>
+            <p v-html="statement.description"></p>
           </div>
           <bar-button id="print:btn-more-details" @click="handleMoreDetails(statement.country)" class="print:hidden">More details</bar-button>
         </template>
