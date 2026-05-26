@@ -2,7 +2,7 @@
   <div class="by-line | subgrid | cluster">
     <span>© {{ new Date().getFullYear() }} {{ siteName }}</span>
     <slot></slot>
-    <a href="#" split-left>by ccm.design</a>
+    <a href="https://ccmdesign.ca/" split-left>by ccm.design</a>
   </div>
 </template>
 
