@@ -107,10 +107,12 @@ const handleActiveTopic = async () => {
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
     if (infographic.infographicType !== 'customInfographic' && infographic.infographicType !== 'treemapChart') {
       const country = infographic.countries.find(item => item.country === topicStatement.value.country)
-      const scale = infographic.countries.reduce((max, item) => {
-        const val = Number(item.val);
-        return val > max ? val : max;
-      }, 0) + (infographic.infographicType === 'rankingChart' ? 1 : 0); // Ensure scale is at least 1 for ranking charts, because the value problably the first country is 0
+      const scale = infographic.infographicType === 'rankingChart'
+        ? infographic.countries.length // Total countries actually ranked, not the max sort value (which can go stale if a country is removed without renumbering)
+        : infographic.countries.reduce((max, item) => {
+          const val = Number(item.val);
+          return val > max ? val : max;
+        }, 0);
 
       if (country?.val === undefined || country?.val === null) {
         return undefined;
