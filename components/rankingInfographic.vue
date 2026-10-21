@@ -1,4 +1,5 @@
 <script setup>
+import { getRankedCountries } from '~/utils/ranking'
 const emit = defineEmits(['chart-ready'])
 const props = defineProps({
   dataset: {
@@ -7,18 +8,18 @@ const props = defineProps({
   },
   highlight: {
     type: Array,
-    default: null,
+    default: () => [],
   }
 });
 
 const { getCountryName } = useCountries()
 const rankingList = ref(null);
 
-const chartData = ref([]);
-const years = ref([]);
-const months = ref({});
-
-const countries = computed(() => props.dataset.countries);
+const countries = computed(() => getRankedCountries(props.dataset.countries));
+const chartData = computed(() => countries.value.map(country => ({
+  ...country,
+  country: country.country.toUpperCase(),
+})));
 const hiddenCountries = ref([])
 
 const isMarkerVisible = computed(() => props.dataset.vizMarkers);
@@ -85,11 +86,6 @@ const scrollCards = (direction) => {
 }
 
 onMounted(() => {
-  // Build chartData
-  chartData.value = props.dataset.countries.map((c, i) => ({
-    country: c.country.toUpperCase(),
-    ranking: i + 1
-  }));
   nextTick(() => {
     renderTimelineHeights()
     // Emit chart-ready after rendering is complete
