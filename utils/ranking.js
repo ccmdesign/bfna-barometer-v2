@@ -1,12 +1,20 @@
-// CMS sort values establish order, but can contain gaps after a country is removed.
-// Rank only the included countries with data; equal values share a competition rank.
+const hasSortValue = country =>
+  (typeof country.val === 'number' || typeof country.val === 'string') &&
+  String(country.val).trim() !== '' &&
+  Number.isFinite(Number(country.val))
+
+// A ranking entry is included even when its CMS sort metadata is missing.
+// Incomplete metadata cannot establish a numeric order: preserve the supplied
+// list order, as the chart did before, rather than coercing null to zero.
 export const getRankedCountries = (countries = []) => {
-  const included = countries.filter(country =>
-    country.country &&
-    (typeof country.val === 'number' || typeof country.val === 'string') &&
-    String(country.val).trim() !== '' &&
-    Number.isFinite(Number(country.val))
-  ).sort((a, b) => Number(a.val) - Number(b.val))
+  const included = countries.filter(country => country.country)
+  if (!included.every(hasSortValue)) {
+    return included.map((country, index) => ({ ...country, ranking: index + 1 }))
+  }
+
+  // Complete sort metadata can contain gaps after removals. Close those gaps
+  // while retaining equal values as competition ties.
+  included.sort((a, b) => Number(a.val) - Number(b.val))
 
   let rank = 0
   return included.map((country, index) => {

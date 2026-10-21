@@ -1,0 +1,647 @@
+{
+  "source": "https://deploy-preview-15--transatlantic-barometer.netlify.app/__nuxt_content/topics/sql_dump.txt",
+  "commit": "fe3f57e661d9916d6a27ab723f72e8beda7449b9",
+  "capturedAt": "2026-10-21",
+  "rankings": [
+    {
+      "topic": "Energy and Emissions",
+      "slug": "energy-and-emissions",
+      "archived": 0,
+      "title": "CCPI Rankings 2025",
+      "countries": [
+        {
+          "country": "sk",
+          "val": null
+        },
+        {
+          "country": "hu",
+          "val": null
+        },
+        {
+          "country": "cy",
+          "val": null
+        },
+        {
+          "country": "it",
+          "val": null
+        },
+        {
+          "country": "hr",
+          "val": null
+        },
+        {
+          "country": "fi",
+          "val": null
+        },
+        {
+          "country": "lv",
+          "val": null
+        },
+        {
+          "country": "be",
+          "val": null
+        },
+        {
+          "country": "mt",
+          "val": null
+        },
+        {
+          "country": "ro",
+          "val": null
+        },
+        {
+          "country": "si",
+          "val": null
+        },
+        {
+          "country": "ie",
+          "val": null
+        },
+        {
+          "country": "fr",
+          "val": null
+        },
+        {
+          "country": "at",
+          "val": null
+        },
+        {
+          "country": "gr",
+          "val": null
+        },
+        {
+          "country": "es",
+          "val": null
+        },
+        {
+          "country": "lt",
+          "val": null
+        },
+        {
+          "country": "de",
+          "val": null
+        },
+        {
+          "country": "pt",
+          "val": null
+        },
+        {
+          "country": "ee",
+          "val": null
+        },
+        {
+          "country": "lu",
+          "val": null
+        },
+        {
+          "country": "se",
+          "val": null
+        },
+        {
+          "country": "gb",
+          "val": null
+        },
+        {
+          "country": "nl",
+          "val": null
+        },
+        {
+          "country": "dk",
+          "val": null
+        },
+        {
+          "country": "ca",
+          "val": null
+        },
+        {
+          "country": "us",
+          "val": null
+        },
+        {
+          "country": "bg",
+          "val": null
+        },
+        {
+          "country": "cz",
+          "val": null
+        },
+        {
+          "country": "pl",
+          "val": null
+        }
+      ]
+    },
+    {
+      "topic": "Engagement with ASEAN",
+      "slug": "engagement-with-asean",
+      "archived": 0,
+      "title": "Top Barometer FDI Investors in ASEAN",
+      "countries": [
+        {
+          "country": "us",
+          "val": 1
+        },
+        {
+          "country": "ie",
+          "val": 2
+        },
+        {
+          "country": "nl",
+          "val": 3
+        },
+        {
+          "country": "gb",
+          "val": 4
+        },
+        {
+          "country": "ca",
+          "val": 5
+        },
+        {
+          "country": "dk",
+          "val": 6
+        },
+        {
+          "country": "se",
+          "val": 7
+        },
+        {
+          "country": "fr",
+          "val": 8
+        },
+        {
+          "country": "de",
+          "val": 9
+        },
+        {
+          "country": "pt",
+          "val": 10
+        },
+        {
+          "country": "be",
+          "val": 11
+        },
+        {
+          "country": "es",
+          "val": 12
+        },
+        {
+          "country": "at",
+          "val": 13
+        },
+        {
+          "country": "mt",
+          "val": 14
+        },
+        {
+          "country": "it",
+          "val": 15
+        },
+        {
+          "country": "ro",
+          "val": 16
+        },
+        {
+          "country": "cy",
+          "val": 17
+        },
+        {
+          "country": "gr",
+          "val": 18
+        },
+        {
+          "country": "lt",
+          "val": 19
+        },
+        {
+          "country": "cz",
+          "val": 20
+        },
+        {
+          "country": "sk",
+          "val": 21
+        },
+        {
+          "country": "ee",
+          "val": 22
+        },
+        {
+          "country": "bg",
+          "val": 23
+        },
+        {
+          "country": "hr",
+          "val": 24
+        },
+        {
+          "country": "lv",
+          "val": 25
+        },
+        {
+          "country": "pl",
+          "val": 26
+        },
+        {
+          "country": "hu",
+          "val": 27
+        },
+        {
+          "country": "si",
+          "val": 28
+        },
+        {
+          "country": "fi",
+          "val": 29
+        },
+        {
+          "country": "lu",
+          "val": 30
+        }
+      ]
+    },
+    {
+      "topic": "Migration",
+      "slug": "migration",
+      "archived": 0,
+      "title": "2025 MIPEX Ranking of EU Countries and Canada",
+      "countries": [
+        {
+          "country": "se",
+          "val": 1
+        },
+        {
+          "country": "fi",
+          "val": 2
+        },
+        {
+          "country": "pt",
+          "val": 3
+        },
+        {
+          "country": "ca",
+          "val": 4
+        },
+        {
+          "country": "be",
+          "val": 5
+        },
+        {
+          "country": "es",
+          "val": 6
+        },
+        {
+          "country": "lu",
+          "val": 7
+        },
+        {
+          "country": "ie",
+          "val": 8
+        },
+        {
+          "country": "de",
+          "val": 9
+        },
+        {
+          "country": "it",
+          "val": 10
+        },
+        {
+          "country": "nl",
+          "val": 11
+        },
+        {
+          "country": "fr",
+          "val": 12
+        },
+        {
+          "country": "eu",
+          "val": 13
+        },
+        {
+          "country": "si",
+          "val": 14
+        },
+        {
+          "country": "ro",
+          "val": 15
+        },
+        {
+          "country": "ee",
+          "val": 16
+        },
+        {
+          "country": "cz",
+          "val": 17
+        },
+        {
+          "country": "gr",
+          "val": 18
+        },
+        {
+          "country": "mt",
+          "val": 19
+        },
+        {
+          "country": "dk",
+          "val": 22
+        },
+        {
+          "country": "at",
+          "val": 23
+        },
+        {
+          "country": "pl",
+          "val": 24
+        },
+        {
+          "country": "hr",
+          "val": 25
+        },
+        {
+          "country": "cy",
+          "val": 26
+        },
+        {
+          "country": "hu",
+          "val": 27
+        },
+        {
+          "country": "sk",
+          "val": 28
+        },
+        {
+          "country": "bg",
+          "val": 29
+        },
+        {
+          "country": "lt",
+          "val": 30
+        },
+        {
+          "country": "lv",
+          "val": 31
+        }
+      ]
+    },
+    {
+      "topic": "Security and Defense",
+      "slug": "security-and-defense",
+      "archived": 0,
+      "title": "Absolute Military Expenditure",
+      "countries": [
+        {
+          "country": "us",
+          "val": 1
+        },
+        {
+          "country": "gb",
+          "val": 2
+        },
+        {
+          "country": "de",
+          "val": 3
+        },
+        {
+          "country": "fr",
+          "val": 4
+        },
+        {
+          "country": "it",
+          "val": 5
+        },
+        {
+          "country": "ca",
+          "val": 6
+        },
+        {
+          "country": "pl",
+          "val": 7
+        },
+        {
+          "country": "es",
+          "val": 8
+        },
+        {
+          "country": "nl",
+          "val": 9
+        },
+        {
+          "country": "se",
+          "val": 10
+        },
+        {
+          "country": "dk",
+          "val": 11
+        },
+        {
+          "country": "be",
+          "val": 12
+        },
+        {
+          "country": "gr",
+          "val": 13
+        },
+        {
+          "country": "fi",
+          "val": 14
+        },
+        {
+          "country": "ro",
+          "val": 15
+        },
+        {
+          "country": "cz",
+          "val": 16
+        },
+        {
+          "country": "at",
+          "val": 17
+        },
+        {
+          "country": "pt",
+          "val": 18
+        },
+        {
+          "country": "hu",
+          "val": 19
+        },
+        {
+          "country": "sk",
+          "val": 20
+        },
+        {
+          "country": "lt",
+          "val": 21
+        },
+        {
+          "country": "bg",
+          "val": 22
+        },
+        {
+          "country": "hr",
+          "val": 23
+        },
+        {
+          "country": "ie",
+          "val": 24
+        },
+        {
+          "country": "ee",
+          "val": 25
+        },
+        {
+          "country": "lv",
+          "val": 26
+        },
+        {
+          "country": "eu",
+          "val": 27
+        },
+        {
+          "country": "si",
+          "val": 28
+        },
+        {
+          "country": "lu",
+          "val": 29
+        },
+        {
+          "country": "cy",
+          "val": 30
+        },
+        {
+          "country": "mt",
+          "val": 31
+        }
+      ]
+    },
+    {
+      "topic": "Startups",
+      "slug": "startups",
+      "archived": 0,
+      "title": "StartupBlink Global Startup Ecosystem Index 2025 Ranking",
+      "countries": [
+        {
+          "country": "us",
+          "val": 1
+        },
+        {
+          "country": "gb",
+          "val": 2
+        },
+        {
+          "country": "ca",
+          "val": 3
+        },
+        {
+          "country": "se",
+          "val": 4
+        },
+        {
+          "country": "de",
+          "val": 5
+        },
+        {
+          "country": "fr",
+          "val": 6
+        },
+        {
+          "country": "nl",
+          "val": 7
+        },
+        {
+          "country": "ee",
+          "val": 8
+        },
+        {
+          "country": "es",
+          "val": 9
+        },
+        {
+          "country": "fi",
+          "val": 10
+        },
+        {
+          "country": "ie",
+          "val": 11
+        },
+        {
+          "country": "dk",
+          "val": 12
+        },
+        {
+          "country": "lt",
+          "val": 13
+        },
+        {
+          "country": "be",
+          "val": 14
+        },
+        {
+          "country": "at",
+          "val": 15
+        },
+        {
+          "country": "it",
+          "val": 16
+        },
+        {
+          "country": "pt",
+          "val": 17
+        },
+        {
+          "country": "cz",
+          "val": 18
+        },
+        {
+          "country": "lu",
+          "val": 19
+        },
+        {
+          "country": "pl",
+          "val": 20
+        },
+        {
+          "country": "cy",
+          "val": 21
+        },
+        {
+          "country": "bg",
+          "val": 22
+        },
+        {
+          "country": "gr",
+          "val": 23
+        },
+        {
+          "country": "ro",
+          "val": 24
+        },
+        {
+          "country": "lv",
+          "val": 25
+        },
+        {
+          "country": "hr",
+          "val": 26
+        },
+        {
+          "country": "hu",
+          "val": 27
+        },
+        {
+          "country": "si",
+          "val": 28
+        },
+        {
+          "country": "mt",
+          "val": 29
+        },
+        {
+          "country": "sk",
+          "val": 30
+        }
+      ]
+    }
+  ]
+}
