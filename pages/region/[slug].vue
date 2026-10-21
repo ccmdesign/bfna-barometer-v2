@@ -1,4 +1,5 @@
 <script setup>
+import { getRankingHighlight } from '~/utils/ranking'
 import { useStatementStore } from '~/stores/statements';
 definePageMeta({
   name: 'region-slug',
@@ -106,13 +107,23 @@ const handleActiveTopic = async () => {
 
   data_cards.value = (activeTopic.value.infographics?.map(infographic => {
     if (infographic.infographicType !== 'customInfographic' && infographic.infographicType !== 'treemapChart') {
+      if (infographic.infographicType === 'rankingChart') {
+        const ranking = getRankingHighlight(infographic.countries, topicStatement.value.country)
+        if (!ranking) return undefined
+        infographicsByCountry.value.unshift({...infographic, highlight: topicStatement.value.country})
+        return {
+          indicator: infographic.title,
+          ...ranking,
+          displayScaleLimit: true,
+          type: infographic.infographicType,
+        }
+      }
+
       const country = infographic.countries.find(item => item.country === topicStatement.value.country)
-      const scale = infographic.infographicType === 'rankingChart'
-        ? infographic.countries.length // Total countries actually ranked, not the max sort value (which can go stale if a country is removed without renumbering)
-        : infographic.countries.reduce((max, item) => {
-          const val = Number(item.val);
-          return val > max ? val : max;
-        }, 0);
+      const scale = infographic.countries.reduce((max, item) => {
+        const val = Number(item.val);
+        return val > max ? val : max;
+      }, 0);
 
       if (country?.val === undefined || country?.val === null) {
         return undefined;
@@ -136,7 +147,7 @@ const handleActiveTopic = async () => {
 
       return {
         indicator: infographic.title,
-        score: infographic.infographicValuesAsPercentage ? country?.val + `%` : infographic.infographicType === 'rankingChart' ? country?.val + 1: country?.val,
+        score: infographic.infographicValuesAsPercentage ? country?.val + `%` : country?.val,
         scale: infographic.scaleLimit ? addPercentageSymbol(infographic, infographic.scaleLimit) : addPercentageSymbol(infographic, scale),
         displayScaleLimit: infographic.infographicType === 'barChart' && highestCountryValueAsScaleLimit !== null ? highestCountryValueAsScaleLimit : true,
         type: infographic.infographicType,
